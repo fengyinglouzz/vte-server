@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<serviceGroup>  
+<service name="VTEService">  <!-- 指定服务名,随便定义 -->
+    <description>测试axis2webservices</description><!-- 服务的作用说明，可写可不写 -->
+       <parameter name="ServiceObjectSupplier">  
+          com.insight.axiswevservice.spring.SpringServletContextObjectSupplier  
+        </parameter>  
+        <parameter name="SpringBeanName">vteService</parameter>  
+		 <operation name="getPublicKey" mep="http://www.w3.org/ns/wsdl/in-out">
+			<messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+		</operation>
+		<operation name="batchSynPatient" mep="http://www.w3.org/ns/wsdl/in-out">
+			<messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+		</operation>
+		<operation name="batchSynAssessment" mep="http://www.w3.org/ns/wsdl/in-out">
+			<messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+		</operation>
+		<operation name="batchSynDoctorAdvice" mep="http://www.w3.org/ns/wsdl/in-out">
+			<messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+		</operation>
+		<operation name="batchSynAssessmentUrl" mep="http://www.w3.org/ns/wsdl/in-out">
+			<messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+		</operation>
+		<operation name="batchSynDoctorAdviceUrl" mep="http://www.w3.org/ns/wsdl/in-out">
+			<messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+		</operation>
+		<operation name="batchPrintCheck" mep="http://www.w3.org/ns/wsdl/in-out">
+			<messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+		</operation>
+		<operation name="batchPrintStatisticsData" mep="http://www.w3.org/ns/wsdl/in-out">
+			<messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+		</operation>
+		
+		<operation name="singleSignOn" mep="http://www.w3.org/ns/wsdl/in-out">
+			<messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+		</operation>
+		
+		
+		
+		<operation name="ssoUrl" mep="http://www.w3.org/ns/wsdl/in-out">
+			<messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+		</operation>
+				
+</service>
+</serviceGroup>
+<!-- http://localhost:8080/testaxis2webservice/services/VTEService?wsdl -->

@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.insight.wisehealth.vte.dao.TbVteDoctorAdviceDao">
+
+ <!-- 根据主键查询 -->	
+	<select id="selectByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbVteDoctorAdvice" parameterType="com.insight.wisehealth.vte.persistence.TbVteDoctorAdvice" >
+	    select 
+			        doctor_advice_id  doctorAdviceId,
+			        patient_hospit_id  patientHospitId,
+			        patient_code  patientCode,
+			        doctor_advice_result  doctorAdviceResult,
+			        doctor_advice_risk  doctorAdviceRisk,
+			        doctor_advice_cent  doctorAdviceCent,
+			        doctor_advice_from  doctorAdviceFrom,
+			        doctor_advice_is_temp  doctorAdviceIsTemp,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	    from tb_vte_doctor_advice
+	    where doctor_advice_id = #{doctorAdviceId}
+	</select>
+	
+	<!-- 根据主键查询 -->	
+	<select id="selectMapByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbVteDoctorAdvice" parameterType="map" >
+	   	select 
+			        doctor_advice_id  doctorAdviceId,
+			        patient_hospit_id  patientHospitId,
+			        patient_code  patientCode,
+			        doctor_advice_result  doctorAdviceResult,
+			        doctor_advice_risk  doctorAdviceRisk,
+			        doctor_advice_cent  doctorAdviceCent,
+			        doctor_advice_from  doctorAdviceFrom,
+			        doctor_advice_is_temp  doctorAdviceIsTemp,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+		from tb_vte_doctor_advice t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	    and doctor_advice_id = #{doctorAdviceId}
+	</select>
+	
+	<!-- 根据主键删除（假删除） -->		
+	<delete id="deleteByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbVteDoctorAdvice" >
+	    update tb_vte_doctor_advice set is_enable = 0, update_dt=#{updateDt},update_by=#{updateBy} 
+	    where doctor_advice_id = #{doctorAdviceId}
+	</delete>
+	
+	
+	<!-- 插入 -->	
+	<insert id="insert" parameterType="com.insight.wisehealth.vte.persistence.TbVteDoctorAdvice" >
+	    insert into tb_vte_doctor_advice (
+				doctor_advice_id,
+				patient_hospit_id,
+				patient_code,
+				doctor_advice_result,
+				doctor_advice_risk,
+				doctor_advice_cent,
+				doctor_advice_from,
+				doctor_advice_is_temp,
+				is_enable,
+				create_by,
+				create_dt,
+				update_by,
+				update_dt
+	    )
+	    values (
+				#{doctorAdviceId},
+				#{patientHospitId},
+				#{patientCode},
+				#{doctorAdviceResult},
+				#{doctorAdviceRisk},
+				#{doctorAdviceCent},
+				#{doctorAdviceFrom},
+				#{doctorAdviceIsTemp},
+				#{isEnable},
+				#{createBy},
+				#{createDt},
+				#{updateBy},
+				#{updateDt}
+	    )
+	    
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey> 
+	</insert>
+	
+	<!-- 选择插入 -->		
+	<insert id="insertSelective" parameterType="com.insight.wisehealth.vte.persistence.TbVteDoctorAdvice" >
+		    insert into tb_vte_doctor_advice
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="doctorAdviceId != null"> doctor_advice_id,</if>
+	  		<if test="patientHospitId != null"> patient_hospit_id,</if>
+	  		<if test="patientCode != null"> patient_code,</if>
+	  		<if test="doctorAdviceResult != null"> doctor_advice_result,</if>
+	  		<if test="doctorAdviceRisk != null"> doctor_advice_risk,</if>
+	  		<if test="doctorAdviceCent != null"> doctor_advice_cent,</if>
+	  		<if test="doctorAdviceFrom != null"> doctor_advice_from,</if>
+	  		<if test="doctorAdviceIsTemp != null"> doctor_advice_is_temp,</if>
+	  		<if test="isEnable != null"> is_enable,</if>
+	  		<if test="createBy != null"> create_by,</if>
+	  		<if test="createDt != null"> create_dt,</if>
+	  		<if test="updateBy != null"> update_by,</if>
+			<if test="updateDt != null"> update_dt,</if>
+		      )
+		</trim>
+		    values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="doctorAdviceId != null"> #{doctorAdviceId},</if>
+	  		<if test="patientHospitId != null"> #{patientHospitId},</if>
+	  		<if test="patientCode != null"> #{patientCode},</if>
+	  		<if test="doctorAdviceResult != null"> #{doctorAdviceResult},</if>
+	  		<if test="doctorAdviceRisk != null"> #{doctorAdviceRisk},</if>
+	  		<if test="doctorAdviceCent != null"> #{doctorAdviceCent},</if>
+	  		<if test="doctorAdviceFrom != null"> #{doctorAdviceFrom},</if>
+	  		<if test="doctorAdviceIsTemp != null"> #{doctorAdviceIsTemp},</if>
+	  		<if test="isEnable != null"> #{isEnable},</if>
+	  		<if test="createBy != null"> #{createBy},</if>
+	  		<if test="createDt != null"> #{createDt},</if>
+	  		<if test="updateBy != null"> #{updateBy},</if>
+			<if test="updateDt != null"> #{updateDt},</if>
+		      )
+		</trim>
+		
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey>		
+		
+		
+	</insert>
+	
+	
+	<!-- 根据主键选择性更新 -->	
+	<update id="updateByPrimaryKeySelective" parameterType="com.insight.wisehealth.vte.persistence.TbVteDoctorAdvice" >
+		    update tb_vte_doctor_advice
+		 <trim prefix="set" suffixOverrides=",">
+				<if test="patientHospitId != null and patientHospitId != ''">  patient_hospit_id = #{patientHospitId},</if>
+				<if test="patientCode != null and patientCode != ''">  patient_code = #{patientCode},</if>
+				<if test="doctorAdviceResult != null and doctorAdviceResult != ''">  doctor_advice_result = #{doctorAdviceResult},</if>
+				<if test="doctorAdviceRisk != null and doctorAdviceRisk != ''">  doctor_advice_risk = #{doctorAdviceRisk},</if>
+				<if test="doctorAdviceCent != null and doctorAdviceCent != ''">  doctor_advice_cent = #{doctorAdviceCent},</if>
+				<if test="doctorAdviceFrom != null and doctorAdviceFrom != ''">  doctor_advice_from = #{doctorAdviceFrom},</if>
+				<if test="doctorAdviceIsTemp != null and doctorAdviceIsTemp != ''">  doctor_advice_is_temp = #{doctorAdviceIsTemp},</if>
+				<if test="isEnable != null and isEnable != ''">  is_enable = #{isEnable},</if>
+				<if test="createBy != null and createBy != ''">  create_by = #{createBy},</if>
+				<if test="createDt != null and createDt != ''">  create_dt = #{createDt},</if>
+				<if test="updateBy != null and updateBy != ''">  update_by = #{updateBy},</if>
+				<if test="updateDt != null and updateDt != ''">  update_dt = #{updateDt},</if>
+		 </trim>
+		    where doctor_advice_id = #{doctorAdviceId}
+	</update>
+	
+	<!-- 根据主键更新 -->	
+	<update id="updateByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbVteDoctorAdvice" >
+		    update tb_vte_doctor_advice
+		    set 
+		        patient_hospit_id = #{patientHospitId},
+		        patient_code = #{patientCode},
+		        doctor_advice_result = #{doctorAdviceResult},
+		        doctor_advice_risk = #{doctorAdviceRisk},
+		        doctor_advice_cent = #{doctorAdviceCent},
+		        doctor_advice_from = #{doctorAdviceFrom},
+		        doctor_advice_is_temp = #{doctorAdviceIsTemp},
+		        is_enable = #{isEnable},
+		        create_by = #{createBy},
+		        create_dt = #{createDt},
+		        update_by = #{updateBy},
+				update_dt = #{updateDt}
+		    where doctor_advice_id = #{doctorAdviceId}
+	</update>
+	<!-- 根据Form传过来Map更新对应字段值 -->
+	<update id="updateByFormMap" parameterType="map" >
+	    update tb_vte_doctor_advice
+	    <trim prefix="set" suffixOverrides=",">
+			<if test="_parameter.containsKey('patientHospitId')">
+	   				<if test="patientHospitId != null and patientHospitId != ''">   patient_hospit_id = #{patientHospitId},</if>
+	   				<if test="patientHospitId == null or patientHospitId == ''">  patient_hospit_id = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientCode')">
+	   				<if test="patientCode != null and patientCode != ''">   patient_code = #{patientCode},</if>
+	   				<if test="patientCode == null or patientCode == ''">  patient_code = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('doctorAdviceResult')">
+	   				<if test="doctorAdviceResult != null and doctorAdviceResult != ''">   doctor_advice_result = #{doctorAdviceResult},</if>
+	   				<if test="doctorAdviceResult == null or doctorAdviceResult == ''">  doctor_advice_result = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('doctorAdviceRisk')">
+	   				<if test="doctorAdviceRisk != null and doctorAdviceRisk != ''">   doctor_advice_risk = #{doctorAdviceRisk},</if>
+	   				<if test="doctorAdviceRisk == null or doctorAdviceRisk == ''">  doctor_advice_risk = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('doctorAdviceCent')">
+	   				<if test="doctorAdviceCent != null and doctorAdviceCent != ''">   doctor_advice_cent = #{doctorAdviceCent},</if>
+	   				<if test="doctorAdviceCent == null or doctorAdviceCent == ''">  doctor_advice_cent = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('doctorAdviceFrom')">
+	   				<if test="doctorAdviceFrom != null and doctorAdviceFrom != ''">   doctor_advice_from = #{doctorAdviceFrom},</if>
+	   				<if test="doctorAdviceFrom == null or doctorAdviceFrom == ''">  doctor_advice_from = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('doctorAdviceIsTemp')">
+	   				<if test="doctorAdviceIsTemp != null and doctorAdviceIsTemp != ''">   doctor_advice_is_temp = #{doctorAdviceIsTemp},</if>
+	   				<if test="doctorAdviceIsTemp == null or doctorAdviceIsTemp == ''">  doctor_advice_is_temp = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('isEnable')">
+	   				<if test="isEnable != null and isEnable != ''">   is_enable = #{isEnable},</if>
+	   				<if test="isEnable == null or isEnable == ''">  is_enable = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createBy')">
+	   				<if test="createBy != null and createBy != ''">   create_by = #{createBy},</if>
+	   				<if test="createBy == null or createBy == ''">  create_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createDt')">
+	   				<if test="createDt != null and createDt != ''">   create_dt = #{createDt},</if>
+	   				<if test="createDt == null or createDt == ''">  create_dt = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateBy')">
+	   				<if test="updateBy != null and updateBy != ''">   update_by = #{updateBy},</if>
+	   				<if test="updateBy == null or updateBy == ''">  update_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateDt')">
+	   				<if test="updateDt != null and updateDt != ''">   update_dt = #{updateDt},</if>
+	   				<if test="updateDt == null or updateDt == ''">  update_dt = null,</if>
+	   		</if>
+		</trim>
+	    where doctor_advice_id = #{doctorAdviceId}
+	</update>
+	<!-- 默认分页 -->
+	<select id="queryAllVteDoctorAdvice" resultType="com.insight.wisehealth.vte.persistence.TbVteDoctorAdvice" parameterType="map">
+	   	select 
+			        doctor_advice_id  doctorAdviceId,
+			        patient_hospit_id  patientHospitId,
+			        patient_code  patientCode,
+			        doctor_advice_result  doctorAdviceResult,
+			        doctor_advice_risk  doctorAdviceRisk,
+			        doctor_advice_cent  doctorAdviceCent,
+			        doctor_advice_from  doctorAdviceFrom,
+			        doctor_advice_is_temp  doctorAdviceIsTemp,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	       from tb_vte_doctor_advice t
+	       where 
+	       IFNULL(t.is_enable,'0') = 1
+	  		<if test="doctorAdviceId != null and doctorAdviceId != ''"> 
+	       		and t.doctor_advice_id  =  #{doctorAdviceId}
+	       	</if>
+	  		<if test="patientHospitId != null and patientHospitId != ''"> 
+	       		and t.patient_hospit_id  =  #{patientHospitId}
+	       	</if>
+	  		<if test="patientCode != null and patientCode != ''"> 
+	       		and t.patient_code  =  #{patientCode}
+	       	</if>
+	  		<if test="doctorAdviceResult != null and doctorAdviceResult != ''"> 
+	       		and t.doctor_advice_result  =  #{doctorAdviceResult}
+	       	</if>
+	  		<if test="doctorAdviceRisk != null and doctorAdviceRisk != ''"> 
+	       		and t.doctor_advice_risk  =  #{doctorAdviceRisk}
+	       	</if>
+	  		<if test="doctorAdviceCent != null and doctorAdviceCent != ''"> 
+	       		and t.doctor_advice_cent  =  #{doctorAdviceCent}
+	       	</if>
+	  		<if test="doctorAdviceFrom != null and doctorAdviceFrom != ''"> 
+	       		and t.doctor_advice_from  =  #{doctorAdviceFrom}
+	       	</if>
+	  		<if test="doctorAdviceIsTemp != null and doctorAdviceIsTemp != ''"> 
+	       		and t.doctor_advice_is_temp  =  #{doctorAdviceIsTemp}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+		<if test="pageSort != null and pageSort != ''">
+			order by $pageSort$ 
+	     </if>
+			limit #{start},#{limit}
+	</select>
+  
+	<select id="countAllVteDoctorAdvice" resultType="int" parameterType="map">
+		select  count(*)  from tb_vte_doctor_advice t
+			where 
+				IFNULL(t.is_enable,'0') = 1
+	  		<if test="doctorAdviceId != null and doctorAdviceId != ''"> 
+	       		and t.doctor_advice_id  =  #{doctorAdviceId}
+	       	</if>
+	  		<if test="patientHospitId != null and patientHospitId != ''"> 
+	       		and t.patient_hospit_id  =  #{patientHospitId}
+	       	</if>
+	  		<if test="patientCode != null and patientCode != ''"> 
+	       		and t.patient_code  =  #{patientCode}
+	       	</if>
+	  		<if test="doctorAdviceResult != null and doctorAdviceResult != ''"> 
+	       		and t.doctor_advice_result  =  #{doctorAdviceResult}
+	       	</if>
+	  		<if test="doctorAdviceRisk != null and doctorAdviceRisk != ''"> 
+	       		and t.doctor_advice_risk  =  #{doctorAdviceRisk}
+	       	</if>
+	  		<if test="doctorAdviceCent != null and doctorAdviceCent != ''"> 
+	       		and t.doctor_advice_cent  =  #{doctorAdviceCent}
+	       	</if>
+	  		<if test="doctorAdviceFrom != null and doctorAdviceFrom != ''"> 
+	       		and t.doctor_advice_from  =  #{doctorAdviceFrom}
+	       	</if>
+	  		<if test="doctorAdviceIsTemp != null and doctorAdviceIsTemp != ''"> 
+	       		and t.doctor_advice_is_temp  =  #{doctorAdviceIsTemp}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+
+	<!-- 默认不分页 -->
+	<select id="queryAllVteDoctorAdviceNP" resultType="com.insight.wisehealth.vte.persistence.TbVteDoctorAdvice" parameterType="map">
+	   	select 
+		        doctor_advice_id  doctorAdviceId,
+		        patient_hospit_id  patientHospitId,
+		        patient_code  patientCode,
+		        doctor_advice_result  doctorAdviceResult,
+		        doctor_advice_risk  doctorAdviceRisk,
+		        doctor_advice_cent  doctorAdviceCent,
+		        doctor_advice_from  doctorAdviceFrom,
+		        doctor_advice_is_temp  doctorAdviceIsTemp,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_vte_doctor_advice t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="doctorAdviceId != null and doctorAdviceId != ''"> 
+	       		and t.doctor_advice_id  =  #{doctorAdviceId}
+	       	</if>
+	  		<if test="patientHospitId != null and patientHospitId != ''"> 
+	       		and t.patient_hospit_id  =  #{patientHospitId}
+	       	</if>
+	  		<if test="patientCode != null and patientCode != ''"> 
+	       		and t.patient_code  =  #{patientCode}
+	       	</if>
+	  		<if test="doctorAdviceResult != null and doctorAdviceResult != ''"> 
+	       		and t.doctor_advice_result  =  #{doctorAdviceResult}
+	       	</if>
+	  		<if test="doctorAdviceRisk != null and doctorAdviceRisk != ''"> 
+	       		and t.doctor_advice_risk  =  #{doctorAdviceRisk}
+	       	</if>
+	  		<if test="doctorAdviceCent != null and doctorAdviceCent != ''"> 
+	       		and t.doctor_advice_cent  =  #{doctorAdviceCent}
+	       	</if>
+	  		<if test="doctorAdviceFrom != null and doctorAdviceFrom != ''"> 
+	       		and t.doctor_advice_from  =  #{doctorAdviceFrom}
+	       	</if>
+	  		<if test="doctorAdviceIsTemp != null and doctorAdviceIsTemp != ''"> 
+	       		and t.doctor_advice_is_temp  =  #{doctorAdviceIsTemp}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+	
+	<!-- 默认不分页 -->
+	<select id="queryVteDoctorAdviceInfo" resultType="com.insight.wisehealth.vte.persistence.TbVteDoctorAdvice" parameterType="map">
+	   	select 
+		        doctor_advice_id  doctorAdviceId,
+		        patient_hospit_id  patientHospitId,
+		        patient_code  patientCode,
+		        doctor_advice_result  doctorAdviceResult,
+		        doctor_advice_risk  doctorAdviceRisk,
+		        doctor_advice_cent  doctorAdviceCent,
+		        doctor_advice_from  doctorAdviceFrom,
+		        doctor_advice_is_temp  doctorAdviceIsTemp,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_vte_doctor_advice t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="doctorAdviceId != null and doctorAdviceId != ''"> 
+	       		and t.doctor_advice_id  =  #{doctorAdviceId}
+	       	</if>
+	  		<if test="patientHospitId != null and patientHospitId != ''"> 
+	       		and t.patient_hospit_id  =  #{patientHospitId}
+	       	</if>
+	  		<if test="patientCode != null and patientCode != ''"> 
+	       		and t.patient_code  =  #{patientCode}
+	       	</if>
+	  		<if test="doctorAdviceResult != null and doctorAdviceResult != ''"> 
+	       		and t.doctor_advice_result  =  #{doctorAdviceResult}
+	       	</if>
+	  		<if test="doctorAdviceRisk != null and doctorAdviceRisk != ''"> 
+	       		and t.doctor_advice_risk  =  #{doctorAdviceRisk}
+	       	</if>
+	  		<if test="doctorAdviceCent != null and doctorAdviceCent != ''"> 
+	       		and t.doctor_advice_cent  =  #{doctorAdviceCent}
+	       	</if>
+	  		<if test="doctorAdviceFrom != null and doctorAdviceFrom != ''"> 
+	       		and t.doctor_advice_from  =  #{doctorAdviceFrom}
+	       	</if>
+	  		<if test="doctorAdviceIsTemp != null and doctorAdviceIsTemp != ''"> 
+	       		and t.doctor_advice_is_temp  =  #{doctorAdviceIsTemp}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	       	<if test="pageSort != null and pageSort != ''">
+				order by ${pageSort}
+	     	</if>
+	    limit 0,1
+	</select>
+	
+	<!-- 其他接口 -->	
+	<!-- 插入 -->	
+	<insert id="saveTbVteDoctorAdvice" parameterType="com.insight.wisehealth.vte.persistence.TbVteDoctorAdvice" >
+	    insert into tb_vte_doctor_advice (
+				doctor_advice_id,
+				patient_hospit_id,
+				patient_code,
+				doctor_advice_result,
+				doctor_advice_risk,
+				doctor_advice_cent,
+				doctor_advice_from,
+				doctor_advice_is_temp,
+				is_enable,
+				create_by,
+				create_dt,
+				update_by,
+				update_dt
+	    )
+	    values (
+				#{doctorAdviceId},
+				#{patientHospitId},
+				#{patientCode},
+				#{doctorAdviceResult},
+				#{doctorAdviceRisk},
+				#{doctorAdviceCent},
+				#{doctorAdviceFrom},
+				#{doctorAdviceIsTemp},
+				#{isEnable},
+				#{createBy},
+				#{createDt},
+				#{updateBy},
+				#{updateDt}
+	    )
+	    
+	    <selectKey resultType="int" keyProperty="doctorAdviceId" > 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey> 
+	</insert>
+	
+	
+	<insert id="vteDoctorAdviceAfterInsert" parameterType="java.util.HashMap"  statementType="CALLABLE" >
+       { call  vte_doctor_advice_after_insert ( 
+                             #{patientHospitId,jdbcType=INTEGER,mode=IN} )}
+    </insert>
+</mapper>

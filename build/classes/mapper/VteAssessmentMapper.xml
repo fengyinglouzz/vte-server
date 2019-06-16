@@ -1,0 +1,1000 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.insight.wisehealth.vte.dao.TbVteAssessmentDao">
+
+ <!-- 根据主键查询 -->	
+	<select id="selectByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbVteAssessment" parameterType="com.insight.wisehealth.vte.persistence.TbVteAssessment" >
+	    select 
+			        assessment_id  assessmentId,
+			        patient_hospit_id  patientHospitId,
+			        patient_code  patientCode,
+			        assessment_stage  assessmentStage,
+			        assessment_type  assessmentType,
+			        assessment_item  assessmentItem,
+			        assessment_result  assessmentResult,
+			        assessment_score  assessmentScore,
+			        assessment_select_data  assessmentSelectData,
+			        assessment_from  assessmentFrom,
+			        assessment_status  assessmentStatus,
+			        assessment_is_temp  assessmentIsTemp,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	    from tb_vte_assessment
+	    where assessment_id = #{assessmentId}
+	</select>
+	
+	<!-- 根据主键查询 -->	
+	<select id="selectMapByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbVteAssessment" parameterType="map" >
+	   	select 
+			        assessment_id  assessmentId,
+			        patient_hospit_id  patientHospitId,
+			        patient_code  patientCode,
+			        assessment_stage  assessmentStage,
+			        assessment_type  assessmentType,
+			        assessment_item  assessmentItem,
+			        assessment_result  assessmentResult,
+			        assessment_score  assessmentScore,
+			        assessment_select_data  assessmentSelectData,
+			        assessment_from  assessmentFrom,
+			        assessment_status  assessmentStatus,
+			        assessment_is_temp  assessmentIsTemp,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+		from tb_vte_assessment t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	    and assessment_id = #{assessmentId}
+	</select>
+	
+	<!-- 根据主键删除（假删除） -->		
+	<delete id="deleteByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbVteAssessment" >
+	    update tb_vte_assessment set is_enable = 0, update_dt=#{updateDt},update_by=#{updateBy} 
+	    where assessment_id = #{assessmentId}
+	</delete>
+	
+	
+	<!-- 插入 -->	
+	<insert id="insert" parameterType="com.insight.wisehealth.vte.persistence.TbVteAssessment" >
+	    insert into tb_vte_assessment (
+				assessment_id,
+				patient_hospit_id,
+				patient_code,
+				assessment_stage,
+				assessment_type,
+				assessment_item,
+				assessment_result,
+				assessment_score,
+				assessment_select_data,
+				assessment_from,
+				assessment_status,
+				assessment_is_temp,
+				is_enable,
+				create_by,
+				create_dt,
+				update_by,
+				update_dt
+	    )
+	    values (
+				#{assessmentId},
+				#{patientHospitId},
+				#{patientCode},
+				#{assessmentStage},
+				#{assessmentType},
+				#{assessmentItem},
+				#{assessmentResult},
+				#{assessmentScore},
+				#{assessmentSelectData},
+				#{assessmentFrom},
+				#{assessmentStatus},
+				#{assessmentIsTemp},
+				#{isEnable},
+				#{createBy},
+				#{createDt},
+				#{updateBy},
+				#{updateDt}
+	    )
+	    
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey> 
+	</insert>
+	
+	<!-- 选择插入 -->		
+	<insert id="insertSelective" parameterType="com.insight.wisehealth.vte.persistence.TbVteAssessment" >
+		    insert into tb_vte_assessment
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="assessmentId != null"> assessment_id,</if>
+	  		<if test="patientHospitId != null"> patient_hospit_id,</if>
+	  		<if test="patientCode != null"> patient_code,</if>
+	  		<if test="assessmentStage != null"> assessment_stage,</if>
+	  		<if test="assessmentType != null"> assessment_type,</if>
+	  		<if test="assessmentItem != null"> assessment_item,</if>
+	  		<if test="assessmentResult != null"> assessment_result,</if>
+	  		<if test="assessmentScore != null"> assessment_score,</if>
+	  		<if test="assessmentSelectData != null"> assessment_select_data,</if>
+	  		<if test="assessmentFrom != null"> assessment_from,</if>
+	  		<if test="assessmentStatus != null"> assessment_status,</if>
+	  		<if test="assessmentIsTemp != null"> assessment_is_temp,</if>
+	  		<if test="isEnable != null"> is_enable,</if>
+	  		<if test="createBy != null"> create_by,</if>
+	  		<if test="createDt != null"> create_dt,</if>
+	  		<if test="updateBy != null"> update_by,</if>
+			<if test="updateDt != null"> update_dt,</if>
+		      )
+		</trim>
+		    values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="assessmentId != null"> #{assessmentId},</if>
+	  		<if test="patientHospitId != null"> #{patientHospitId},</if>
+	  		<if test="patientCode != null"> #{patientCode},</if>
+	  		<if test="assessmentStage != null"> #{assessmentStage},</if>
+	  		<if test="assessmentType != null"> #{assessmentType},</if>
+	  		<if test="assessmentItem != null"> #{assessmentItem},</if>
+	  		<if test="assessmentResult != null"> #{assessmentResult},</if>
+	  		<if test="assessmentScore != null"> #{assessmentScore},</if>
+	  		<if test="assessmentSelectData != null"> #{assessmentSelectData},</if>
+	  		<if test="assessmentFrom != null"> #{assessmentFrom},</if>
+	  		<if test="assessmentStatus != null"> #{assessmentStatus},</if>
+	  		<if test="assessmentIsTemp != null"> #{assessmentIsTemp},</if>
+	  		<if test="isEnable != null"> #{isEnable},</if>
+	  		<if test="createBy != null"> #{createBy},</if>
+	  		<if test="createDt != null"> #{createDt},</if>
+	  		<if test="updateBy != null"> #{updateBy},</if>
+			<if test="updateDt != null"> #{updateDt},</if>
+		      )
+		</trim>
+		
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey>		
+		
+		
+	</insert>
+	
+	
+	<!-- 根据主键选择性更新 -->	
+	<update id="updateByPrimaryKeySelective" parameterType="com.insight.wisehealth.vte.persistence.TbVteAssessment" >
+		    update tb_vte_assessment
+		 <trim prefix="set" suffixOverrides=",">
+				<if test="patientHospitId != null and patientHospitId != ''">  patient_hospit_id = #{patientHospitId},</if>
+				<if test="patientCode != null and patientCode != ''">  patient_code = #{patientCode},</if>
+				<if test="assessmentStage != null and assessmentStage != ''">  assessment_stage = #{assessmentStage},</if>
+				<if test="assessmentType != null and assessmentType != ''">  assessment_type = #{assessmentType},</if>
+				<if test="assessmentItem != null and assessmentItem != ''">  assessment_item = #{assessmentItem},</if>
+				<if test="assessmentResult != null and assessmentResult != ''">  assessment_result = #{assessmentResult},</if>
+				<if test="assessmentScore != null and assessmentScore != ''">  assessment_score = #{assessmentScore},</if>
+				<if test="assessmentSelectData != null and assessmentSelectData != ''">  assessment_select_data = #{assessmentSelectData},</if>
+				<if test="assessmentFrom != null and assessmentFrom != ''">  assessment_from = #{assessmentFrom},</if>
+				<if test="assessmentStatus != null and assessmentStatus != ''">  assessment_status = #{assessmentStatus},</if>
+				<if test="assessmentIsTemp != null and assessmentIsTemp != ''">  assessment_is_temp = #{assessmentIsTemp},</if>
+				<if test="isEnable != null and isEnable != ''">  is_enable = #{isEnable},</if>
+				<if test="createBy != null and createBy != ''">  create_by = #{createBy},</if>
+				<if test="createDt != null and createDt != ''">  create_dt = #{createDt},</if>
+				<if test="updateBy != null and updateBy != ''">  update_by = #{updateBy},</if>
+				<if test="updateDt != null and updateDt != ''">  update_dt = #{updateDt},</if>
+		 </trim>
+		    where assessment_id = #{assessmentId}
+	</update>
+	
+	<!-- 根据主键更新 -->	
+	<update id="updateByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbVteAssessment" >
+		    update tb_vte_assessment
+		    set 
+		        patient_hospit_id = #{patientHospitId},
+		        patient_code = #{patientCode},
+		        assessment_stage = #{assessmentStage},
+		        assessment_type = #{assessmentType},
+		        assessment_item = #{assessmentItem},
+		        assessment_result = #{assessmentResult},
+		        assessment_score = #{assessmentScore},
+		        assessment_select_data = #{assessmentSelectData},
+		        assessment_from = #{assessmentFrom},
+		        assessment_status = #{assessmentStatus},
+		        assessment_is_temp = #{assessmentIsTemp},
+		        is_enable = #{isEnable},
+		        create_by = #{createBy},
+		        create_dt = #{createDt},
+		        update_by = #{updateBy},
+				update_dt = #{updateDt}
+		    where assessment_id = #{assessmentId}
+	</update>
+	<!-- 根据Form传过来Map更新对应字段值 -->
+	<update id="updateByFormMap" parameterType="map" >
+	    update tb_vte_assessment
+	    <trim prefix="set" suffixOverrides=",">
+			<if test="_parameter.containsKey('patientHospitId')">
+	   				<if test="patientHospitId != null and patientHospitId != ''">   patient_hospit_id = #{patientHospitId},</if>
+	   				<if test="patientHospitId == null or patientHospitId == ''">  patient_hospit_id = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientCode')">
+	   				<if test="patientCode != null and patientCode != ''">   patient_code = #{patientCode},</if>
+	   				<if test="patientCode == null or patientCode == ''">  patient_code = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('assessmentStage')">
+	   				<if test="assessmentStage != null and assessmentStage != ''">   assessment_stage = #{assessmentStage},</if>
+	   				<if test="assessmentStage == null or assessmentStage == ''">  assessment_stage = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('assessmentType')">
+	   				<if test="assessmentType != null and assessmentType != ''">   assessment_type = #{assessmentType},</if>
+	   				<if test="assessmentType == null or assessmentType == ''">  assessment_type = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('assessmentItem')">
+	   				<if test="assessmentItem != null and assessmentItem != ''">   assessment_item = #{assessmentItem},</if>
+	   				<if test="assessmentItem == null or assessmentItem == ''">  assessment_item = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('assessmentResult')">
+	   				<if test="assessmentResult != null and assessmentResult != ''">   assessment_result = #{assessmentResult},</if>
+	   				<if test="assessmentResult == null or assessmentResult == ''">  assessment_result = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('assessmentScore')">
+	   				<if test="assessmentScore != null and assessmentScore != ''">   assessment_score = #{assessmentScore},</if>
+	   				<if test="assessmentScore == null or assessmentScore == ''">  assessment_score = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('assessmentSelectData')">
+	   				<if test="assessmentSelectData != null and assessmentSelectData != ''">   assessment_select_data = #{assessmentSelectData},</if>
+	   				<if test="assessmentSelectData == null or assessmentSelectData == ''">  assessment_select_data = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('assessmentFrom')">
+	   				<if test="assessmentFrom != null and assessmentFrom != ''">   assessment_from = #{assessmentFrom},</if>
+	   				<if test="assessmentFrom == null or assessmentFrom == ''">  assessment_from = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('assessmentStatus')">
+	   				<if test="assessmentStatus != null and assessmentStatus != ''">   assessment_status = #{assessmentStatus},</if>
+	   				<if test="assessmentStatus == null or assessmentStatus == ''">  assessment_status = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('assessmentIsTemp')">
+	   				<if test="assessmentIsTemp != null and assessmentIsTemp != ''">   assessment_is_temp = #{assessmentIsTemp},</if>
+	   				<if test="assessmentIsTemp == null or assessmentIsTemp == ''">  assessment_is_temp = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('isEnable')">
+	   				<if test="isEnable != null and isEnable != ''">   is_enable = #{isEnable},</if>
+	   				<if test="isEnable == null or isEnable == ''">  is_enable = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createBy')">
+	   				<if test="createBy != null and createBy != ''">   create_by = #{createBy},</if>
+	   				<if test="createBy == null or createBy == ''">  create_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createDt')">
+	   				<if test="createDt != null and createDt != ''">   create_dt = #{createDt},</if>
+	   				<if test="createDt == null or createDt == ''">  create_dt = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateBy')">
+	   				<if test="updateBy != null and updateBy != ''">   update_by = #{updateBy},</if>
+	   				<if test="updateBy == null or updateBy == ''">  update_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateDt')">
+	   				<if test="updateDt != null and updateDt != ''">   update_dt = #{updateDt},</if>
+	   				<if test="updateDt == null or updateDt == ''">  update_dt = null,</if>
+	   		</if>
+		</trim>
+	    where assessment_id = #{assessmentId}
+	</update>
+	<!-- 默认分页 -->
+	<select id="queryAllVteAssessment" resultType="com.insight.wisehealth.vte.persistence.TbVteAssessment" parameterType="map">
+	   	select 
+			        assessment_id  assessmentId,
+			        patient_hospit_id  patientHospitId,
+			        patient_code  patientCode,
+			        assessment_stage  assessmentStage,
+			        assessment_type  assessmentType,
+			        assessment_item  assessmentItem,
+			        assessment_result  assessmentResult,
+			        assessment_score  assessmentScore,
+			        assessment_select_data  assessmentSelectData,
+			        assessment_from  assessmentFrom,
+			        assessment_status  assessmentStatus,
+			        assessment_is_temp  assessmentIsTemp,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	       from tb_vte_assessment t
+	       where 
+	       IFNULL(t.is_enable,'0') = 1
+	  		<if test="assessmentId != null and assessmentId != ''"> 
+	       		and t.assessment_id  =  #{assessmentId}
+	       	</if>
+	  		<if test="patientHospitId != null and patientHospitId != ''"> 
+	       		and t.patient_hospit_id  =  #{patientHospitId}
+	       	</if>
+	  		<if test="patientCode != null and patientCode != ''"> 
+	       		and t.patient_code  =  #{patientCode}
+	       	</if>
+	  		<if test="assessmentStage != null and assessmentStage != ''"> 
+	       		and t.assessment_stage  =  #{assessmentStage}
+	       	</if>
+	  		<if test="assessmentType != null and assessmentType != ''"> 
+	       		and t.assessment_type  =  #{assessmentType}
+	       	</if>
+	  		<if test="assessmentItem != null and assessmentItem != ''"> 
+	       		and t.assessment_item  =  #{assessmentItem}
+	       	</if>
+	  		<if test="assessmentResult != null and assessmentResult != ''"> 
+	       		and t.assessment_result  =  #{assessmentResult}
+	       	</if>
+	  		<if test="assessmentScore != null and assessmentScore != ''"> 
+	       		and t.assessment_score  =  #{assessmentScore}
+	       	</if>
+	  		<if test="assessmentSelectData != null and assessmentSelectData != ''"> 
+	       		and t.assessment_select_data  =  #{assessmentSelectData}
+	       	</if>
+	  		<if test="assessmentFrom != null and assessmentFrom != ''"> 
+	       		and t.assessment_from  =  #{assessmentFrom}
+	       	</if>
+	  		<if test="assessmentStatus != null and assessmentStatus != ''"> 
+	       		and t.assessment_status  =  #{assessmentStatus}
+	       	</if>
+	  		<if test="assessmentIsTemp != null and assessmentIsTemp != ''"> 
+	       		and t.assessment_is_temp  =  #{assessmentIsTemp}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+		<if test="pageSort != null and pageSort != ''">
+			order by $pageSort$ 
+	     </if>
+			limit #{start},#{limit}
+	</select>
+  
+	<select id="countAllVteAssessment" resultType="int" parameterType="map">
+		select  count(*)  from tb_vte_assessment t
+			where 
+				IFNULL(t.is_enable,'0') = 1
+	  		<if test="assessmentId != null and assessmentId != ''"> 
+	       		and t.assessment_id  =  #{assessmentId}
+	       	</if>
+	  		<if test="patientHospitId != null and patientHospitId != ''"> 
+	       		and t.patient_hospit_id  =  #{patientHospitId}
+	       	</if>
+	  		<if test="patientCode != null and patientCode != ''"> 
+	       		and t.patient_code  =  #{patientCode}
+	       	</if>
+	  		<if test="assessmentStage != null and assessmentStage != ''"> 
+	       		and t.assessment_stage  =  #{assessmentStage}
+	       	</if>
+	  		<if test="assessmentType != null and assessmentType != ''"> 
+	       		and t.assessment_type  =  #{assessmentType}
+	       	</if>
+	  		<if test="assessmentItem != null and assessmentItem != ''"> 
+	       		and t.assessment_item  =  #{assessmentItem}
+	       	</if>
+	  		<if test="assessmentResult != null and assessmentResult != ''"> 
+	       		and t.assessment_result  =  #{assessmentResult}
+	       	</if>
+	  		<if test="assessmentScore != null and assessmentScore != ''"> 
+	       		and t.assessment_score  =  #{assessmentScore}
+	       	</if>
+	  		<if test="assessmentSelectData != null and assessmentSelectData != ''"> 
+	       		and t.assessment_select_data  =  #{assessmentSelectData}
+	       	</if>
+	  		<if test="assessmentFrom != null and assessmentFrom != ''"> 
+	       		and t.assessment_from  =  #{assessmentFrom}
+	       	</if>
+	  		<if test="assessmentStatus != null and assessmentStatus != ''"> 
+	       		and t.assessment_status  =  #{assessmentStatus}
+	       	</if>
+	  		<if test="assessmentIsTemp != null and assessmentIsTemp != ''"> 
+	       		and t.assessment_is_temp  =  #{assessmentIsTemp}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+
+	<!-- 默认不分页 -->
+	<select id="queryAllVteAssessmentNP" resultType="com.insight.wisehealth.vte.persistence.TbVteAssessment" parameterType="map">
+	   	select 
+		        assessment_id  assessmentId,
+		        patient_hospit_id  patientHospitId,
+		        patient_code  patientCode,
+		        assessment_stage  assessmentStage,
+		        assessment_type  assessmentType,
+		        assessment_item  assessmentItem,
+		        assessment_result  assessmentResult,
+		        assessment_score  assessmentScore,
+		        assessment_select_data  assessmentSelectData,
+		        assessment_from  assessmentFrom,
+		        assessment_status  assessmentStatus,
+		        assessment_is_temp  assessmentIsTemp,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_vte_assessment t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="assessmentId != null and assessmentId != ''"> 
+	       		and t.assessment_id  =  #{assessmentId}
+	       	</if>
+	  		<if test="patientHospitId != null and patientHospitId != ''"> 
+	       		and t.patient_hospit_id  =  #{patientHospitId}
+	       	</if>
+	  		<if test="patientCode != null and patientCode != ''"> 
+	       		and t.patient_code  =  #{patientCode}
+	       	</if>
+	  		<if test="assessmentStage != null and assessmentStage != ''"> 
+	       		and t.assessment_stage  =  #{assessmentStage}
+	       	</if>
+	  		<if test="assessmentType != null and assessmentType != ''"> 
+	       		and t.assessment_type  =  #{assessmentType}
+	       	</if>
+	  		<if test="assessmentItem != null and assessmentItem != ''"> 
+	       		and t.assessment_item  =  #{assessmentItem}
+	       	</if>
+	  		<if test="assessmentResult != null and assessmentResult != ''"> 
+	       		and t.assessment_result  =  #{assessmentResult}
+	       	</if>
+	  		<if test="assessmentScore != null and assessmentScore != ''"> 
+	       		and t.assessment_score  =  #{assessmentScore}
+	       	</if>
+	  		<if test="assessmentSelectData != null and assessmentSelectData != ''"> 
+	       		and t.assessment_select_data  =  #{assessmentSelectData}
+	       	</if>
+	  		<if test="assessmentFrom != null and assessmentFrom != ''"> 
+	       		and t.assessment_from  =  #{assessmentFrom}
+	       	</if>
+	  		<if test="assessmentStatus != null and assessmentStatus != ''"> 
+	       		and t.assessment_status  =  #{assessmentStatus}
+	       	</if>
+	  		<if test="assessmentIsTemp != null and assessmentIsTemp != ''"> 
+	       		and t.assessment_is_temp  =  #{assessmentIsTemp}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+	
+	<!-- 默认不分页 -->
+	<select id="queryVteAssessmentInfo" resultType="com.insight.wisehealth.vte.persistencepojo.TbVteAssessmentPojo" parameterType="map">
+	   	select 
+		        assessment_id  assessmentId,
+		        patient_hospit_id  patientHospitId,
+		        patient_code  patientCode,
+		        assessment_stage  assessmentStage,
+		        assessment_type  assessmentType,
+		        assessment_item  assessmentItem,
+		        assessment_result  assessmentResult,
+		        assessment_score  assessmentScore,
+		        assessment_select_data  assessmentSelectData,
+		        assessment_from  assessmentFrom,
+		        assessment_status  assessmentStatus,
+		        assessment_is_temp  assessmentIsTemp,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_vte_assessment t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="assessmentId != null and assessmentId != ''"> 
+	       		and t.assessment_id  =  #{assessmentId}
+	       	</if>
+	  		<if test="patientHospitId != null and patientHospitId != ''"> 
+	       		and t.patient_hospit_id  =  #{patientHospitId}
+	       	</if>
+	  		<if test="patientCode != null and patientCode != ''"> 
+	       		and t.patient_code  =  #{patientCode}
+	       	</if>
+	  		<if test="assessmentStage != null and assessmentStage != ''"> 
+	       		and t.assessment_stage  =  #{assessmentStage}
+	       	</if>
+	  		<if test="assessmentType != null and assessmentType != ''"> 
+	       		and t.assessment_type  =  #{assessmentType}
+	       	</if>
+	  		<if test="assessmentItem != null and assessmentItem != ''"> 
+	       		and t.assessment_item  =  #{assessmentItem}
+	       	</if>
+	  		<if test="assessmentResult != null and assessmentResult != ''"> 
+	       		and t.assessment_result  =  #{assessmentResult}
+	       	</if>
+	  		<if test="assessmentScore != null and assessmentScore != ''"> 
+	       		and t.assessment_score  =  #{assessmentScore}
+	       	</if>
+	  		<if test="assessmentSelectData != null and assessmentSelectData != ''"> 
+	       		and t.assessment_select_data  =  #{assessmentSelectData}
+	       	</if>
+	  		<if test="assessmentFrom != null and assessmentFrom != ''"> 
+	       		and t.assessment_from  =  #{assessmentFrom}
+	       	</if>
+	  		<if test="assessmentStatus != null and assessmentStatus != ''"> 
+	       		and t.assessment_status  =  #{assessmentStatus}
+	       	</if>
+	  		<if test="assessmentIsTemp != null and assessmentIsTemp != ''"> 
+	       		and t.assessment_is_temp  =  #{assessmentIsTemp}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	       	<if test="pageSort != null and pageSort != ''">
+			order by ${pageSort}
+	     </if>
+	    limit 0,1
+	</select>
+	
+	<!-- 其他接口 -->	
+	
+	
+	<!-- 默认不分页 -->
+	<select id="queryPatientAssessmentInfo" resultType="com.insight.wisehealth.vte.pojo.VtePatientAssessmentPojo" parameterType="map">
+	   select 
+			info.patient_hospit_id  patientHospitId,
+			info.patient_code  patientCode,
+			info.patient_number  patientNumber,
+			info.patient_age  patientAge,
+			pa.patient_sex  patientSex,
+			pa.patient_name  patientName,
+			info.patient_department  patientDepartment,
+			info.patient_area  patientArea,
+			info.patient_bed  patientBed,
+			info.patient_doctor  patientDoctor,
+    		t.assessment_result  assessmentResult
+		from tb_vte_patient_hospit_info info 
+		INNER JOIN tb_vte_patient pa on info.patient_code = pa.patient_code 
+		LEFT JOIN  tb_vte_assessment t ON info.patient_hospit_id = t.patient_hospit_id and t.assessment_type = '1'
+		AND IFNULL(t.is_enable,'0') = 1
+		where 
+		IFNULL(info.is_enable,'0') = 1  and info.patient_hospit_id = #{patientHospitId}
+	    ORDER BY t.create_dt DESC limit 0,1
+	    
+	</select>
+	<select id="countAllVteAssessmentForDegree" resultType="int" parameterType="map">
+		select  count(*)  from tb_vte_assessment t
+			where 
+				IFNULL(t.is_enable,'0') = 1 and assessment_type = "" 
+	  		<if test="patientHospitId != null and patientHospitId != ''"> 
+	       		and t.patient_hospit_id  =  #{patientHospitId}
+	       	</if>
+	  		<if test="patientCode != null and patientCode != ''"> 
+	       		and t.patient_code  =  #{patientCode}
+	       	</if>
+	  		<if test="assessmentStage != null and assessmentStage != ''"> 
+	       		and t.assessment_stage  =  #{assessmentStage}
+	       	</if>
+	  		<if test="assessmentType != null and assessmentType != ''"> 
+	       		and t.assessment_type  =  #{assessmentType}
+	       	</if>
+	  		<if test="assessmentItem != null and assessmentItem != ''"> 
+	       		and t.assessment_item  =  #{assessmentItem}
+	       	</if>
+	  		<if test="assessmentResult != null and assessmentResult != ''"> 
+	       		and t.assessment_result  =  #{assessmentResult}
+	       	</if>
+	  		<if test="assessmentScore != null and assessmentScore != ''"> 
+	       		and t.assessment_score  =  #{assessmentScore}
+	       	</if>
+	  		<if test="assessmentSelectData != null and assessmentSelectData != ''"> 
+	       		and t.assessment_select_data  =  #{assessmentSelectData}
+	       	</if>
+	  		<if test="assessmentFrom != null and assessmentFrom != ''"> 
+	       		and t.assessment_from  =  #{assessmentFrom}
+	       	</if>
+	  		<if test="assessmentStatus != null and assessmentStatus != ''"> 
+	       		and t.assessment_status  =  #{assessmentStatus}
+	       	</if>
+	  		<if test="assessmentIsTemp != null and assessmentIsTemp != ''"> 
+	       		and t.assessment_is_temp  =  #{assessmentIsTemp}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+	
+	
+	<!-- 默认分页 -->
+	<select id="queryAllVteAssessmentWithAdvice" resultType="com.insight.wisehealth.vte.pojo.VteAssessmentAndAdvicePojo" parameterType="map">
+	   	
+	   	select * from (
+	   	
+	   	select 
+			        assessment_id  assessmentId,
+			        "assessment"  modelName,
+			        assessment_stage  assessmentStage,
+			        assessment_type  assessmentType,
+			        assessment_item  assessmentItem,
+			        assessment_result  assessmentResult,
+							""  doctorAdviceResult,
+							""  doctorAdviceRisk,
+			        assessment_score  assessmentScore,
+			        create_dt  createDt
+	       from tb_vte_assessment t
+	        where 
+	       IFNULL(t.is_enable,'0') = 1 and t.patient_hospit_id  =  #{patientHospitId}
+	       	
+	  		
+		UNION ALL
+			select 
+			        doctor_advice_id  assessmentId,
+			        "advice"  modelName,
+			        ""  assessmentStage,
+			        '6'  assessmentType,
+			        "10"  assessmentItem,
+							""  assessmentResult,
+			        doctor_advice_result  doctorAdviceResult,
+			        doctor_advice_risk doctorAdviceRisk,
+			        NULL  assessmentScore,
+			        create_dt  createDt
+	       from tb_vte_doctor_advice t
+	   	 where 
+	       IFNULL(t.is_enable,'0') = 1 and t.patient_hospit_id  =  #{patientHospitId}
+	   ) tt
+			order by tt.createDt desc 
+			limit #{start},#{limit}
+	</select>
+  
+	<select id="countAllVteAssessmentWithAdvice" resultType="int" parameterType="map">
+		select  count(*)  from  
+		(
+		select 
+			        assessment_id  assessmentId
+	       from tb_vte_assessment t
+	        where 
+	       IFNULL(t.is_enable,'0') = 1 and t.patient_hospit_id  =  #{patientHospitId}
+		UNION ALL
+			select 
+			        doctor_advice_id  assessmentId
+	       from tb_vte_doctor_advice t
+	   	 where 
+	       IFNULL(t.is_enable,'0') = 1 and t.patient_hospit_id  =  #{patientHospitId}
+		) tt
+	</select>
+	<!-- 默认分页 -->
+	<select id="queryAllVteOnlyAssessment" resultType="com.insight.wisehealth.vte.pojo.VteAssessmentAndAdvicePojo" parameterType="map">
+	   	select 
+			        assessment_id  assessmentId,
+			        "assessment"  modelName,
+			        assessment_stage  assessmentStage,
+			        assessment_type  assessmentType,
+			        assessment_item  assessmentItem,
+			        assessment_result  assessmentResult,
+			        ""  doctorAdviceResult,
+			        "" doctorAdviceRisk,
+			        assessment_score  assessmentScore,
+			        create_dt  createDt
+	       from tb_vte_assessment t
+	       where 
+	       IFNULL(t.is_enable,'0') = 1  and t.patient_hospit_id  =  #{patientHospitId}
+	  		<if test="assessmentStage != null and assessmentStage != ''"> 
+	       		and t.assessment_stage  =  #{assessmentStage}
+	       	</if>
+	  		<if test="assessmentType != null and assessmentType != ''"> 
+	       		and t.assessment_type  =  #{assessmentType}
+	       	</if>
+	  		<if test="assessmentItem != null and assessmentItem != ''"> 
+	       		and t.assessment_item  =  #{assessmentItem}
+	       	</if>
+			order by createDt desc
+			limit #{start},#{limit}
+	</select>
+  
+	<select id="countAllVteOnlyAssessment" resultType="int" parameterType="map">
+		select  count(*)  from tb_vte_assessment t
+			where 
+				IFNULL(t.is_enable,'0') = 1  and t.patient_hospit_id  =  #{patientHospitId}
+	  		<if test="assessmentStage != null and assessmentStage != ''"> 
+	       		and t.assessment_stage  =  #{assessmentStage}
+	       	</if>
+	  		<if test="assessmentType != null and assessmentType != ''"> 
+	       		and t.assessment_type  =  #{assessmentType}
+	       	</if>
+	  		<if test="assessmentItem != null and assessmentItem != ''"> 
+	       		and t.assessment_item  =  #{assessmentItem}
+	       	</if>
+	</select>
+	<!-- 默认分页 -->
+	<select id="queryAllVteOnlyAdvice" resultType="com.insight.wisehealth.vte.pojo.VteAssessmentAndAdvicePojo" parameterType="map">
+	   	select 
+			        doctor_advice_id  assessmentId,
+			        "advice"  modelName,
+			        ""  assessmentStage,
+			        '6'  assessmentType,
+			        "10"  assessmentItem,
+							""  assessmentResult,
+			        doctor_advice_result  doctorAdviceResult,
+			        doctor_advice_risk doctorAdviceRisk,
+			        NULL  assessmentScore,
+			        create_dt  createDt
+	       from tb_vte_doctor_advice t
+	   	 where 
+	       IFNULL(t.is_enable,'0') = 1  and t.patient_hospit_id  =  #{patientHospitId}
+	  
+			order by createDt desc 
+			limit #{start},#{limit}
+	</select>
+  
+	<select id="countAllVteOnlyAdvice" resultType="int" parameterType="map">
+		select  count(*)  from tb_vte_doctor_advice t
+			where 
+				IFNULL(t.is_enable,'0') = 1  and t.patient_hospit_id  =  #{patientHospitId}
+	</select>
+	
+	<!-- 默认不分页 -->
+	<select id="queryVteAssessmentTypePojoNP" resultType="com.insight.wisehealth.vte.pojo.VteAssessmentTypePojo" parameterType="java.util.List">
+		select tt.assessmentTypeCode,
+		tt.assessmentTypeExplain,
+		tt.assessmentTypeValue
+		 from (
+		<foreach separator="UNION ALL " collection="list"  index="index" item="c" >
+            SELECT 
+             #{c.assessmentTypeCode} assessmentTypeCode,
+             #{c.assessmentType} assessmentTypeExplain,
+             COUNT(*) assessmentTypeValue
+             FROM tb_vte_assessment 
+             WHERE IFNULL(is_enable,'0') = 1 
+             and  patient_hospit_id = #{c.patientHospitId} 
+             and assessment_type =  #{c.assessmentTypeCode}
+        </foreach>
+		) tt
+	</select>
+	<!-- 默认分页 -->
+	<select id="queryAllVteAssessmentWithAdviceForExport" resultType="java.util.Map" parameterType="map">
+	   	
+	   	select * from (
+	   	
+	   	select 
+			        assessment_id  assessmentId,
+			        "assessment"  modelName,
+			        assessment_stage  assessmentStage,
+			        assessment_type  assessmentType,
+			        assessment_item  assessmentItem,
+			        assessment_result  assessmentResult,
+							""  doctorAdviceResult,
+					"" doctorAdviceRisk,
+			        assessment_score  assessmentScore,
+			        DATE_FORMAT(create_dt,'%Y-%m-%d')  createDt
+	       from tb_vte_assessment t
+	        where 
+	       IFNULL(t.is_enable,'0') = 1 and t.patient_hospit_id  =  #{patientHospitId}
+	       	
+	  		
+		UNION ALL
+			select 
+			        doctor_advice_id  assessmentId,
+			        "advice"  modelName,
+			        ""  assessmentStage,
+			        '6'  assessmentType,
+			        "10"  assessmentItem,
+							""  assessmentResult,
+			        doctor_advice_result  doctorAdviceResult,
+			        doctor_advice_risk doctorAdviceRisk,
+			        ""  assessmentScore,
+			        DATE_FORMAT(create_dt,'%Y-%m-%d')  createDt
+	       from tb_vte_doctor_advice t
+	   	 where 
+	       IFNULL(t.is_enable,'0') = 1 and t.patient_hospit_id  =  #{patientHospitId}
+	   ) tt
+			order by tt.createDt desc 
+	</select>
+	
+	<select id="queryAllVteOnlyAssessmentForExport" resultType="java.util.Map" parameterType="map">
+	   	select 
+			        assessment_id  assessmentId,
+			        "assessment"  modelName,
+			        assessment_stage  assessmentStage,
+			        assessment_type  assessmentType,
+			        assessment_item  assessmentItem,
+			        assessment_result  assessmentResult,
+			        ""  doctorAdviceResult,
+			        "" doctorAdviceRisk,
+			        assessment_score  assessmentScore,
+			        DATE_FORMAT(create_dt,'%Y-%m-%d')  createDt
+	       from tb_vte_assessment t
+	       where 
+	       IFNULL(t.is_enable,'0') = 1  and t.patient_hospit_id  =  #{patientHospitId}
+	  		<if test="assessmentStage != null and assessmentStage != ''"> 
+	       		and t.assessment_stage  =  #{assessmentStage}
+	       	</if>
+	  		<if test="assessmentType != null and assessmentType != ''"> 
+	       		and t.assessment_type  =  #{assessmentType}
+	       	</if>
+	  		<if test="assessmentItem != null and assessmentItem != ''"> 
+	       		and t.assessment_item  =  #{assessmentItem}
+	       	</if>
+			order by createDt desc
+	</select>
+	<select id="queryAllVteOnlyAdviceForExport" resultType="java.util.Map" parameterType="map">
+	   	select 
+			        doctor_advice_id  assessmentId,
+			        "advice"  modelName,
+			        ""  assessmentStage,
+			        '6'  assessmentType,
+			        "10"  assessmentItem,
+							""  assessmentResult,
+			        doctor_advice_result  doctorAdviceResult,
+			        doctor_advice_risk doctorAdviceRisk,
+			        ""  assessmentScore,
+			        DATE_FORMAT(create_dt,'%Y-%m-%d')  createDt
+	       from tb_vte_doctor_advice t
+	   	 where 
+	       IFNULL(t.is_enable,'0') = 1  and t.patient_hospit_id  =  #{patientHospitId}
+			order by createDt desc 
+	</select>
+	   
+	<select id="queryAssessmentViewForAssessment" resultType="com.insight.wisehealth.vte.pojo.VteAssessmentAndListPojo" parameterType="map">
+	   	select 
+	   	
+	   			assessment_item  assessmentItem,
+	   			assessment_result  assessmentResult,
+	   			""  doctorAdviceResult,
+	   			"" doctorAdviceRisk,
+	   			"" doctorAdviceIsTemp,
+	   			assessment_score  assessmentScore,
+	   			assessment_select_data assessmentSelectData
+	       from tb_vte_assessment t
+	      	 where 
+	       IFNULL(t.is_enable,'0') = 1  and t.assessment_id  =  #{assessmentId}
+	  		limit 0,1
+	</select>
+	<select id="queryAssessmentViewForAdvice" resultType="com.insight.wisehealth.vte.pojo.VteAssessmentAndListPojo" parameterType="map">
+	   
+	   	select 
+	   			"10"  assessmentItem,
+	   			""  assessmentResult,
+	   			doctor_advice_result  doctorAdviceResult,
+	   			doctor_advice_risk doctorAdviceRisk,
+	   			doctor_advice_cent doctorAdviceCent,
+	   			""  assessmentScore,
+	   			"" assessmentSelectData
+	       from tb_vte_doctor_advice t
+	   	 where 
+	       IFNULL(t.is_enable,'0') = 1  and t.doctor_advice_id  =  #{assessmentId}
+			
+			limit 0,1
+	</select>
+	
+	<!-- 患者评估信息输出接口 -->
+	<select id="queryVteAssessmentAnalysisResults" resultType="java.util.HashMap" parameterType="map">
+	   SELECT
+	        va.assessment_stage  assessmentStage,
+	        va.assessment_type  assessmentType,
+	        va.assessment_item  assessmentItem,
+	        va.assessment_result  assessmentResult,
+	        (
+				SELECT
+					group_concat(tvad.assessment_dict_name) assessmentDictName
+				FROM
+					tb_vte_assessment_dict tvad
+				WHERE
+					 FIND_IN_SET (tvad.assessment_dict_id,va.assessment_select_data)>0
+			) assessmentSelectData,
+	        su.user_name  userName,
+	        va.create_dt  createDt
+		FROM
+			tb_vte_assessment va left join tb_system_user su on va.create_by=su.user_account
+		WHERE
+			IFNULL(va.is_enable, '0') = 1 and IFNULL(su.is_enable, '0') = 1 
+			and va.patient_hospit_id =#{patientHospitId}
+       		AND va.assessment_item = #{assessmentItem}
+       	ORDER BY va.create_dt desc LIMIT 0,1
+	</select>
+	
+	
+	<!-- 插入 -->	
+	<insert id="saveTbVteAssessment" parameterType="com.insight.wisehealth.vte.persistence.TbVteAssessment" >
+	    insert into tb_vte_assessment (
+				assessment_id,
+				patient_hospit_id,
+				patient_code,
+				assessment_stage,
+				assessment_type,
+				assessment_item,
+				assessment_result,
+				assessment_score,
+				assessment_select_data,
+				assessment_from,
+				assessment_status,
+				assessment_is_temp,
+				is_enable,
+				create_by,
+				create_dt,
+				update_by,
+				update_dt
+	    )
+	    values (
+				#{assessmentId},
+				#{patientHospitId},
+				#{patientCode},
+				#{assessmentStage},
+				#{assessmentType},
+				#{assessmentItem},
+				#{assessmentResult},
+				#{assessmentScore},
+				#{assessmentSelectData},
+				#{assessmentFrom},
+				#{assessmentStatus},
+				#{assessmentIsTemp},
+				#{isEnable},
+				#{createBy},
+				#{createDt},
+				#{updateBy},
+				#{updateDt}
+	    )
+	    
+	    <selectKey resultType="int" keyProperty="assessmentId"  > 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey> 
+	</insert>
+	
+	<insert id="saveVteAssessmentAfterInsert" parameterType="java.util.HashMap"  statementType="CALLABLE" >
+       {call vte_assessment_after_insert (
+                             #{patientHospitId,jdbcType=INTEGER,mode=IN},
+                             #{assessmentItem,jdbcType=VARCHAR,mode=IN},
+                             #{assessmentType,jdbcType=VARCHAR,mode=IN}  )}
+    </insert>
+	
+	
+</mapper>

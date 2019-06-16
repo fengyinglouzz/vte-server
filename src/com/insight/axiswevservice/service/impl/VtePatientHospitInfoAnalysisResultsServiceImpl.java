@@ -1,0 +1,382 @@
+package com.insight.axiswevservice.service.impl;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.insight.axiswevservice.service.VtePatientHospitInfoAnalysisResultsService;
+import com.insight.core.config.ExportConfig;
+import com.insight.wisehealth.vte.common.CachedDict;
+import com.insight.wisehealth.vte.common.ConstantsDict;
+import com.insight.wisehealth.vte.dao.TbVteAssessmentDao;
+import com.insight.wisehealth.vte.dao.TbVteDepartmentDao;
+import com.insight.wisehealth.vte.dao.TbVtePatientDao;
+import com.insight.wisehealth.vte.dao.TbVtePatientHospitInfoDao;
+import com.insight.wisehealth.vte.persistence.TbVteDepartment;
+import com.insight.wisehealth.vte.pojo.BatchPrintStatisticsDataPojo;
+import com.insight.wisehealth.vte.pojo.MediumHighRiskPatientsAnalysisResultsPojo;
+import com.insight.wisehealth.vte.pojo.MediumHighRiskPatientsCountPojo;
+import com.insight.wisehealth.vte.pojo.MediumHighRiskPatientsSubsetPojo;
+
+@Service
+public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatientHospitInfoAnalysisResultsService{
+	@Autowired
+	TbVtePatientDao vtePatientMapper;
+	@Autowired
+	TbVteAssessmentDao vteAssessmentMapper;
+	@Autowired
+	TbVtePatientHospitInfoDao vtePatientHospitInfoMapper;
+	@Autowired
+	TbVteDepartmentDao vteDepartmentMapper;
+	/**
+	 * 患者评估信息输出
+	 * @param map
+	 * @return 
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public List<MediumHighRiskPatientsAnalysisResultsPojo> batchPrintCheck(Map map) {
+		//各科室患者数
+		map.put("assessmentType", ConstantsDict.ASSESSMENT_TYPE_VTE1);
+		map.put("assessmentItem1", ConstantsDict.ASSESSMENT_ITEM_VTE1);
+		map.put("assessmentItem2", ConstantsDict.ASSESSMENT_ITEM_VTE2);
+		map.put("assessmentResult1", ConstantsDict.ASSESSMENT_RESULT_VTE2);
+		map.put("assessmentResult2", ConstantsDict.ASSESSMENT_RESULT_VTE3);
+		map.put("patientLastRiskDate", 1);
+		map.put("patientOutHospital", map.get("isInHospital"));
+		map.put("patientLastRisk", ExportConfig.patientLastRisk);
+		List<MediumHighRiskPatientsCountPojo> listDc=vtePatientMapper.queryMediumHighRiskPatientsDeptCount(map);
+		Map dictCodeFieldMap=new HashMap();
+		dictCodeFieldMap.put("assessment_stage", "assessmentStage");
+		dictCodeFieldMap.put("assessment_result", "assessmentResult");
+		MediumHighRiskPatientsAnalysisResultsPojo mediumHighRiskPatientsAnalysisResults=null;
+		List<MediumHighRiskPatientsAnalysisResultsPojo> listR=new ArrayList();
+		//患者信息
+		for(int n=0;n<listDc.size();n++){
+			mediumHighRiskPatientsAnalysisResults=new MediumHighRiskPatientsAnalysisResultsPojo();
+			map.put("patientDepartment", listDc.get(n).getPatientDepartment());
+			List<Map> list = vtePatientMapper.queryMediumHighRiskPatientsListNp(map);
+			List<MediumHighRiskPatientsSubsetPojo> listM=new ArrayList();
+			Map maplist=null;
+			Map mapA=new HashMap();
+			MediumHighRiskPatientsSubsetPojo mediumHighRiskPatientsSubset=null;
+			for(int i=0;i<list.size();i++){
+				mediumHighRiskPatientsSubset=new MediumHighRiskPatientsSubsetPojo();
+				maplist=(Map) list.get(i);
+				mediumHighRiskPatientsSubset.setPatientCode(maplist.get("patientCode")!=null?maplist.get("patientCode").toString():null);
+				mediumHighRiskPatientsSubset.setPatientName(maplist.get("patientName")!=null?maplist.get("patientName").toString():null);
+				mapA.put("patientHospitId", maplist.get("patientHospitId"));
+				mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE1);
+				Map mapC=vteAssessmentMapper.queryVteAssessmentAnalysisResults(mapA);
+				if(mapC!=null){
+					CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapC, dictCodeFieldMap);
+					mediumHighRiskPatientsSubset.setCaprinAssessmentUser(mapC.get("userName")!=null?mapC.get("userName").toString():null);
+					mediumHighRiskPatientsSubset.setCaprinAssessmentTime(mapC.get("createDt").toString());
+					mediumHighRiskPatientsSubset.setCaprinAssessmentStage(mapC.get("assessmentStageExplain")!=null?mapC.get("assessmentStageExplain").toString():null);
+					mediumHighRiskPatientsSubset.setCaprinAssessmentGrade(mapC.get("assessmentResultExplain")!=null?mapC.get("assessmentResultExplain").toString():null);
+					mediumHighRiskPatientsSubset.setCaprinAssessmentSdata(mapC.get("assessmentSelectData")!=null?mapC.get("assessmentSelectData").toString():null);
+				}
+				mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE2);
+				Map mapP=vteAssessmentMapper.queryVteAssessmentAnalysisResults(mapA);
+				if(mapP!=null){
+					CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapP, dictCodeFieldMap);
+					mediumHighRiskPatientsSubset.setPaduaAssessmentUser(mapP.get("userName")!=null?mapP.get("userName").toString():null);
+					mediumHighRiskPatientsSubset.setPaduaAssessmentTime(mapP.get("createDt").toString());
+					mediumHighRiskPatientsSubset.setPaduaAssessmentStage(mapP.get("assessmentStageExplain")!=null?mapP.get("assessmentStageExplain").toString():null);
+					mediumHighRiskPatientsSubset.setPaduaAssessmentGrade(mapP.get("assessmentResultExplain")!=null?mapP.get("assessmentResultExplain").toString():null);
+					mediumHighRiskPatientsSubset.setPaduaAssessmentSdata(mapP.get("assessmentSelectData")!=null?mapP.get("assessmentSelectData").toString():null);
+				}
+				mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE3);
+				Map mapW=vteAssessmentMapper.queryVteAssessmentAnalysisResults(mapA);
+				if(mapW!=null){
+					CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapW, dictCodeFieldMap);
+					mediumHighRiskPatientsSubset.setSurgicalHemorrhageAssessmentUser(mapW.get("userName")!=null?mapW.get("userName").toString():null);
+					mediumHighRiskPatientsSubset.setSurgicalHemorrhageAssessmentTime(mapW.get("createDt").toString());
+					mediumHighRiskPatientsSubset.setSurgicalHemorrhageAssessmentResult(mapW.get("assessmentResultExplain")!=null?mapW.get("assessmentResultExplain").toString():null);
+					mediumHighRiskPatientsSubset.setSurgicalHemorrhageAssessmentSdata(mapW.get("assessmentSelectData")!=null?mapW.get("assessmentSelectData").toString():null);
+				}
+				mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE4);
+				Map mapN=vteAssessmentMapper.queryVteAssessmentAnalysisResults(mapA);
+				if(mapN!=null){
+					CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapN, dictCodeFieldMap);
+					mediumHighRiskPatientsSubset.setMedicalBleedAssessmentUser(mapN.get("userName")!=null?mapN.get("userName").toString():null);
+					mediumHighRiskPatientsSubset.setMedicalBleedAssessmentTime(mapN.get("createDt").toString());
+					mediumHighRiskPatientsSubset.setMedicalBleedAssessmentResult(mapN.get("assessmentResultExplain")!=null?mapN.get("assessmentResultExplain").toString():null);
+					mediumHighRiskPatientsSubset.setMedicalBleedAssessmentSdata(mapN.get("assessmentSelectData")!=null?mapN.get("assessmentSelectData").toString():null);
+				}
+				mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE5);
+				Map mapY=vteAssessmentMapper.queryVteAssessmentAnalysisResults(mapA);
+				if(mapY!=null){
+					CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapY, dictCodeFieldMap);
+					mediumHighRiskPatientsSubset.setDrugAssessmentUser(mapY.get("userName")!=null?mapY.get("userName").toString():null);
+					mediumHighRiskPatientsSubset.setDrugAssessmentTime(mapY.get("createDt").toString());
+					mediumHighRiskPatientsSubset.setDrugAssessmentResult(mapY.get("assessmentResultExplain")!=null?mapY.get("assessmentResultExplain").toString():null);
+					mediumHighRiskPatientsSubset.setDrugAssessmentSdata(mapY.get("assessmentSelectData")!=null?mapY.get("assessmentSelectData").toString():null);
+				}
+				mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE6);
+				Map mapJ=vteAssessmentMapper.queryVteAssessmentAnalysisResults(mapA);
+				if(mapJ!=null){
+					CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapJ, dictCodeFieldMap);
+					mediumHighRiskPatientsSubset.setMachineAssessmentUser(mapJ.get("userName")!=null?mapJ.get("userName").toString():null);
+					mediumHighRiskPatientsSubset.setMachineAssessmentTime(mapJ.get("createDt").toString());
+					mediumHighRiskPatientsSubset.setMachineAssessmentResult(mapJ.get("assessmentResultExplain")!=null?mapJ.get("assessmentResultExplain").toString():null);
+					mediumHighRiskPatientsSubset.setMachineAssessmentSdata(mapJ.get("assessmentSelectData")!=null?mapJ.get("assessmentSelectData").toString():null);
+				}
+				listM.add(mediumHighRiskPatientsSubset);
+			}
+			mediumHighRiskPatientsAnalysisResults.setAssessmentNum(listDc.get(n).getCount());
+			mediumHighRiskPatientsAnalysisResults.setDepartmentName(listDc.get(n).getPatientDepartment());
+			mediumHighRiskPatientsAnalysisResults.setList(listM);
+			listR.add(mediumHighRiskPatientsAnalysisResults);
+		}
+		return listR;
+	}
+	
+	/**
+    * 质控分析输出
+	 * @return 
+    */
+	@Override
+	public List<BatchPrintStatisticsDataPojo> batchPrintStatisticsData(Map map) {
+		map.put("dateS", map.get("startDate"));
+		map.put("dateE", map.get("endDate"));
+		map.put("date", "1");
+		map.put("dateType", 3);
+		//患病人数
+		List<Map> mapNumberPatientList=vtePatientHospitInfoMapper.queryNumberPatient(map);
+		//VTE发病人数
+		map.put("doctorAdviceResult1", ConstantsDict.DOCTOR_ADVICE_RESULT1);
+		map.put("doctorAdviceResult2", ConstantsDict.DOCTOR_ADVICE_RESULT2);
+		List<Map> mapOnsetOfNumberPatientList=vtePatientHospitInfoMapper.queryOnsetOfNumberPatient(map);
+		//完成VTE风险评估患者人数
+		map.put("assessmentItem1", ConstantsDict.ASSESSMENT_ITEM_VTE1);
+		map.put("assessmentItem2", ConstantsDict.ASSESSMENT_ITEM_VTE2);
+		List<Map> mapVteRiskAssessmentPatientList=vtePatientHospitInfoMapper.queryVteRiskAssessmentPatient(map);
+		//出血风险评估人数
+		map.put("assessmentItem1", ConstantsDict.ASSESSMENT_ITEM_VTE3);
+		map.put("assessmentItem2", ConstantsDict.ASSESSMENT_ITEM_VTE4);
+		List<Map> mapBleedingRiskAssessmentPatientList=vtePatientHospitInfoMapper.queryVteRiskAssessmentPatient(map);
+		//Caprini中危人数
+		map.put("assessmentType", ConstantsDict.ASSESSMENT_TYPE_VTE1);
+		map.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE1);
+		map.put("assessmentResult", ConstantsDict.ASSESSMENT_RESULT_VTE2);
+		List<Map> capriniMiddleRiskList=vtePatientHospitInfoMapper.queryCapriniPaduaRiskList(map);
+		//Caprini高危人数
+		map.put("assessmentResult", ConstantsDict.ASSESSMENT_RESULT_VTE3);
+		List<Map> capriniHighRiskList=vtePatientHospitInfoMapper.queryCapriniPaduaRiskList(map);
+		//Padua高危人数
+		map.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE2);
+		List<Map> paduaHighRiskList=vtePatientHospitInfoMapper.queryCapriniPaduaRiskList(map);
+		//（中高危患者数）最近一次VTE风险评估为Caprini评分且结果为中危或高危的病案号数+最近一次VTE风险评估为Padua评分且结果为高危的病案号数（计算预防措施率，风险评估率）
+		map.put("assessmentItem1", ConstantsDict.ASSESSMENT_ITEM_VTE1);
+		map.put("assessmentItem2", ConstantsDict.ASSESSMENT_ITEM_VTE2);
+		map.put("assessmentResult1", ConstantsDict.ASSESSMENT_RESULT_VTE2);
+		map.put("assessmentResult2", ConstantsDict.ASSESSMENT_RESULT_VTE3);
+		List<Map> middleHighRiskList=vtePatientHospitInfoMapper.queryCapriniPaduaRiskSumList(map);
+		//各部门药物预防人数
+		map.put("doctorAdviceRisk", ConstantsDict.DOCTOR_ADVICE_RISK2);
+		List<Map> medicinePreventiveNumber=vtePatientHospitInfoMapper.queryPreventiveNumberList(map);
+		//各部门机械预防人数
+		map.put("doctorAdviceRisk", ConstantsDict.DOCTOR_ADVICE_RISK3);
+		List<Map> mechanicalPreventiveNumber=vtePatientHospitInfoMapper.queryPreventiveNumberList(map);
+		//入院24小时内完成VTE风险评估病案号数
+		map.put("createDtOneDay", "1");
+		List<Map> mapOneDayVteRiskAssessmentPatientList=vtePatientHospitInfoMapper.queryVteRiskAssessmentPatient(map);
+		//出血风险评估人数
+		map.put("assessmentItem1", ConstantsDict.ASSESSMENT_ITEM_VTE3);
+		map.put("assessmentItem2", ConstantsDict.ASSESSMENT_ITEM_VTE4);
+		map.put("createDtOneDay", "");
+		List<Map> mapBleedingList=vtePatientHospitInfoMapper.queryVteRiskAssessmentPatient(map);
+		//入院24内完成出血风险评估人数
+		map.put("createDtOneDay", "1");
+		List<Map> mapOneDayBleedingList=vtePatientHospitInfoMapper.queryVteRiskAssessmentPatient(map);
+		//最近一次出血风险评估为 外科出血风险评估且结果为 有 的病案号数+最近一次出血风险评估为 内科出血风险评估且结果为 有 的病案号数
+		map.put("assessmentType", ConstantsDict.ASSESSMENT_TYPE_VTE2);
+		map.put("assessmentResult", ConstantsDict.ASSESSMENT_RESULT_VTE4);
+		List<Map> mapRecentlyBleedingList=vtePatientHospitInfoMapper.queryRecentlyBleedingRiskSumList(map);
+		//外科出血风险高危人数
+		map.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE3);
+		List<Map> surgeryBleedingRiskList=vtePatientHospitInfoMapper.queryRecentlyBleedingRiskList(map);
+		//内科出血风险高危人数
+		map.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE4);
+		List<Map> medicineBleedingRiskList=vtePatientHospitInfoMapper.queryRecentlyBleedingRiskList(map);
+		//确诊DVT患者人数
+		map.put("doctorAdviceResult", ConstantsDict.DOCTOR_ADVICE_RESULT2);
+		List<Map> listDvt=vtePatientHospitInfoMapper.queryPrevalenceAssessment(map);
+		//确诊PTE患者人数
+		map.put("doctorAdviceResult", ConstantsDict.DOCTOR_ADVICE_RESULT1);
+		List<Map> listPte=vtePatientHospitInfoMapper.queryPrevalenceAssessment(map);
+		//确诊DVT+PTE患者人数
+		map.put("doctorAdviceResult1", ConstantsDict.DOCTOR_ADVICE_RESULT1);
+		map.put("doctorAdviceResult2", ConstantsDict.DOCTOR_ADVICE_RESULT2);
+		map.put("doctorAdviceResult", "");
+		List<Map> listVte=vtePatientHospitInfoMapper.queryPrevalenceAssessment(map);
+		//查询所有科室
+		List<TbVteDepartment> listD=vteDepartmentMapper.queryAllVteDepartmentNP(map);
+		BatchPrintStatisticsDataPojo batchPrintStatisticsData=null;
+		DecimalFormat df = new DecimalFormat("0.00");
+		List<BatchPrintStatisticsDataPojo> listM=new ArrayList();
+		for(int i=0;i<listD.size();i++){
+			batchPrintStatisticsData=new BatchPrintStatisticsDataPojo();
+			String departmentName=listD.get(i).getDepartmentName();
+			batchPrintStatisticsData.setDepartmentName(departmentName);
+			for(int n=0;n<mapNumberPatientList.size();n++){
+				if(departmentName.equals(mapNumberPatientList.get(n).get("patientDepartment"))){
+					batchPrintStatisticsData.setPatientNum(mapNumberPatientList.get(n).get("count").toString());
+					break;
+				}
+			}
+			for(int n=0;n<mapOnsetOfNumberPatientList.size();n++){
+				if(departmentName.equals(mapOnsetOfNumberPatientList.get(n).get("patientDepartment"))){
+					Double rate= (double)Integer.parseInt(mapOnsetOfNumberPatientList.get(n).get("count").toString())*100/(double)Integer.parseInt(batchPrintStatisticsData.getPatientNum());
+					batchPrintStatisticsData.setPatienRate(df.format(rate)+"%");
+					break;
+				}
+			}
+			for(int n=0;n<mapVteRiskAssessmentPatientList.size();n++){
+				if(departmentName.equals(mapVteRiskAssessmentPatientList.get(n).get("patientDepartment"))){
+					Double rate= (double)Integer.parseInt(mapVteRiskAssessmentPatientList.get(n).get("count").toString())*100/(double)Integer.parseInt(batchPrintStatisticsData.getPatientNum());
+					batchPrintStatisticsData.setVteAssessmentRate(df.format(rate)+"%");
+					batchPrintStatisticsData.setVteAssessmentNum(mapVteRiskAssessmentPatientList.get(n).get("count").toString());
+					break;
+				}
+			}
+			for(int n=0;n<mapBleedingRiskAssessmentPatientList.size();n++){
+				if(departmentName.equals(mapBleedingRiskAssessmentPatientList.get(n).get("patientDepartment"))){
+					Double rate= (double)Integer.parseInt(mapBleedingRiskAssessmentPatientList.get(n).get("count").toString())*100/(double)Integer.parseInt(batchPrintStatisticsData.getPatientNum());
+					batchPrintStatisticsData.setBleedAssessmentRate(df.format(rate)+"%");
+					batchPrintStatisticsData.setBleedAssessmentNum(mapBleedingRiskAssessmentPatientList.get(n).get("count").toString());
+					break;
+				}
+			}
+			for(int n=0;n<capriniMiddleRiskList.size();n++){
+				if(departmentName.equals(capriniMiddleRiskList.get(n).get("patientDepartment"))){
+					batchPrintStatisticsData.setCapriniMiddleNum(capriniMiddleRiskList.get(n).get("count").toString());
+					break;
+				}
+			}
+			for(int n=0;n<capriniHighRiskList.size();n++){
+				if(departmentName.equals(capriniHighRiskList.get(n).get("patientDepartment"))){
+					batchPrintStatisticsData.setCapriniHighNum(capriniHighRiskList.get(n).get("count").toString());
+					break;
+				}
+			}
+			for(int n=0;n<paduaHighRiskList.size();n++){
+				if(departmentName.equals(paduaHighRiskList.get(n).get("patientDepartment"))){
+					batchPrintStatisticsData.setPaduaHighNum(paduaHighRiskList.get(n).get("count").toString());
+					break;
+				}
+			}
+			//最近一次VTE风险评估为Caprini评分且结果为中危或高危的病案号数+最近一次VTE风险评估为Padua评分且结果为高危的病案号数
+			Double countRisk=0.00;
+			for(int n=0;n<middleHighRiskList.size();n++){
+				if(departmentName.equals(middleHighRiskList.get(n).get("patientDepartment"))){
+					countRisk=Double.valueOf(middleHighRiskList.get(n).get("count").toString());
+					break;
+				}
+			}
+			for(int n=0;n<medicinePreventiveNumber.size();n++){
+				if(departmentName.equals(medicinePreventiveNumber.get(n).get("patientDepartment"))){
+					batchPrintStatisticsData.setDrugPreventionNum(medicinePreventiveNumber.get(n).get("count").toString());
+					if(countRisk>0){
+						Double rate= (double)Integer.parseInt(medicinePreventiveNumber.get(n).get("count").toString())*100/(double)countRisk;
+						batchPrintStatisticsData.setDrugPreventionRate(df.format(rate)+"%");
+					}
+					break;
+				}
+			}
+			for(int n=0;n<mechanicalPreventiveNumber.size();n++){
+				if(departmentName.equals(mechanicalPreventiveNumber.get(n).get("patientDepartment"))){
+					batchPrintStatisticsData.setMachinePreventionNum(mechanicalPreventiveNumber.get(n).get("count").toString());
+					if(countRisk>0){
+						Double rate= (double)Integer.parseInt(mechanicalPreventiveNumber.get(n).get("count").toString())*100/(double)countRisk;
+						batchPrintStatisticsData.setMachinePreventionRate(df.format(rate)+"%");
+					}else{
+						batchPrintStatisticsData.setMachinePreventionRate(null);
+
+					}
+					break;
+				}
+			}
+			if(batchPrintStatisticsData.getVteAssessmentNum()!=null){
+				Double rate= countRisk*100/(double)Double.valueOf(batchPrintStatisticsData.getVteAssessmentNum());
+				batchPrintStatisticsData.setVteAssessmentRiskRate(df.format(rate)+"%");
+			}else{
+				batchPrintStatisticsData.setVteAssessmentRiskRate(null);
+			}
+			for(int n=0;n<mapOneDayVteRiskAssessmentPatientList.size();n++){
+				if(departmentName.equals(mapOneDayVteRiskAssessmentPatientList.get(n).get("patientDepartment"))){
+					if(batchPrintStatisticsData.getVteAssessmentNum()!=null){
+						Double rate= (double)Integer.parseInt(mapOneDayVteRiskAssessmentPatientList.get(n).get("count").toString())*100/(double)Double.valueOf(batchPrintStatisticsData.getVteAssessmentNum());
+						batchPrintStatisticsData.setVteAssessmentTimelyRate(df.format(rate)+"%");
+					}else{
+						batchPrintStatisticsData.setVteAssessmentTimelyRate(null);
+
+					}
+					break;
+				}
+			}
+			for(int n=0;n<mapRecentlyBleedingList.size();n++){
+				if(departmentName.equals(mapRecentlyBleedingList.get(n).get("patientDepartment"))){
+					if(batchPrintStatisticsData.getBleedAssessmentNum()!=null){
+						Double rate= (double)Integer.parseInt(mapRecentlyBleedingList.get(n).get("count").toString())*100/(double)Double.valueOf(batchPrintStatisticsData.getVteAssessmentNum());
+						batchPrintStatisticsData.setBleedAssessmentRate(df.format(rate)+"%");
+					}else{
+						batchPrintStatisticsData.setBleedAssessmentRate(null);
+					}
+					break;
+				}
+			}
+			for(int n=0;n<mapOneDayBleedingList.size();n++){
+				if(departmentName.equals(mapOneDayBleedingList.get(n).get("patientDepartment"))){
+					if(batchPrintStatisticsData.getBleedAssessmentNum()!=null){
+						Double rate= (double)Integer.parseInt(mapOneDayBleedingList.get(n).get("count").toString())*100/(double)Double.valueOf(batchPrintStatisticsData.getVteAssessmentNum());
+						batchPrintStatisticsData.setBleedAssessmentTimelyRate(df.format(rate)+"%");
+					}else{
+						batchPrintStatisticsData.setBleedAssessmentTimelyRate(null);
+					}
+					break;
+				}
+			}
+			for(int n=0;n<surgeryBleedingRiskList.size();n++){
+				if(departmentName.equals(surgeryBleedingRiskList.get(n).get("patientDepartment"))){
+					batchPrintStatisticsData.setSurgeryBleedAssessmentNum(surgeryBleedingRiskList.get(n).get("count").toString());
+					break;
+				}
+			}
+			for(int n=0;n<medicineBleedingRiskList.size();n++){
+				if(departmentName.equals(medicineBleedingRiskList.get(n).get("patientDepartment"))){
+					batchPrintStatisticsData.setInternalBleedAssessmentNum(medicineBleedingRiskList.get(n).get("count").toString());
+					break;
+				}
+			}
+			for(int n=0;n<listDvt.size();n++){
+				if(departmentName.equals(listDvt.get(n).get("patientDepartment"))){
+					batchPrintStatisticsData.setDvtPatientNum(listDvt.get(n).get("count").toString());
+					break;
+				}
+			}
+			for(int n=0;n<listPte.size();n++){
+				if(departmentName.equals(listPte.get(n).get("patientDepartment"))){
+					batchPrintStatisticsData.setPtePatientNum(listPte.get(n).get("count").toString());
+					break;
+				}
+			}
+			for(int n=0;n<listVte.size();n++){
+				if(departmentName.equals(listVte.get(n).get("patientDepartment"))){
+					batchPrintStatisticsData.setDvtandptePatientNum(listVte.get(n).get("count").toString());
+					break;
+				}
+			}
+			listM.add(batchPrintStatisticsData);
+		}
+		return listM;
+	}
+	
+}

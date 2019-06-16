@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.insight.wisehealth.vte.dao.TbSystemUserDao">
+
+ <!-- 根据主键查询 -->	
+	<select id="selectByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbSystemUser" parameterType="com.insight.wisehealth.vte.persistence.TbSystemUser" >
+	    select 
+			        user_id  userId,
+			        hospital_id  hospitalId,
+			        org_id  orgId,
+			        user_account  userAccount,
+			        user_password  userPassword,
+			        user_name  userName,
+			        user_code  userCode,
+			        user_form  userForm,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	    from tb_system_user
+	    where user_id = #{userId}
+	</select>
+	
+	<!-- 根据主键查询 -->	
+	<select id="selectMapByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbSystemUser" parameterType="map" >
+	   	select 
+			        user_id  userId,
+			        hospital_id  hospitalId,
+			        org_id  orgId,
+			        user_account  userAccount,
+			        user_password  userPassword,
+			        user_name  userName,
+			        user_code  userCode,
+			        user_form  userForm,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+		from tb_system_user t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	    and user_id = #{userId}
+	</select>
+	
+	<!-- 根据主键删除（假删除） -->		
+	<delete id="deleteByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbSystemUser" >
+	    update tb_system_user set is_enable = 0, update_dt=#{updateDt},update_by=#{updateBy} 
+	    where user_id = #{userId}
+	</delete>
+	
+	
+	<!-- 插入 -->	
+	<insert id="insert" parameterType="com.insight.wisehealth.vte.persistence.TbSystemUser" >
+	    insert into tb_system_user (
+				user_id,
+				hospital_id,
+				org_id,
+				user_account,
+				user_password,
+				user_name,
+				user_code,
+				user_form,
+				is_enable,
+				create_by,
+				create_dt,
+				update_by,
+				update_dt
+	    )
+	    values (
+				#{userId},
+				#{hospitalId},
+				#{orgId},
+				#{userAccount},
+				#{userPassword},
+				#{userName},
+				#{userCode},
+				#{userForm},
+				#{isEnable},
+				#{createBy},
+				#{createDt},
+				#{updateBy},
+				#{updateDt}
+	    )
+	    
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey> 
+	</insert>
+	
+	<!-- 选择插入 -->		
+	<insert id="insertSelective" parameterType="com.insight.wisehealth.vte.persistence.TbSystemUser" >
+		    insert into tb_system_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="userId != null"> user_id,</if>
+	  		<if test="hospitalId != null"> hospital_id,</if>
+	  		<if test="orgId != null"> org_id,</if>
+	  		<if test="userAccount != null"> user_account,</if>
+	  		<if test="userPassword != null"> user_password,</if>
+	  		<if test="userName != null"> user_name,</if>
+	  		<if test="userCode != null"> user_code,</if>
+	  		<if test="userForm != null"> user_form,</if>
+	  		<if test="isEnable != null"> is_enable,</if>
+	  		<if test="createBy != null"> create_by,</if>
+	  		<if test="createDt != null"> create_dt,</if>
+	  		<if test="updateBy != null"> update_by,</if>
+			<if test="updateDt != null"> update_dt,</if>
+		      )
+		</trim>
+		    values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="userId != null"> #{userId},</if>
+	  		<if test="hospitalId != null"> #{hospitalId},</if>
+	  		<if test="orgId != null"> #{orgId},</if>
+	  		<if test="userAccount != null"> #{userAccount},</if>
+	  		<if test="userPassword != null"> #{userPassword},</if>
+	  		<if test="userName != null"> #{userName},</if>
+	  		<if test="userCode != null"> #{userCode},</if>
+	  		<if test="userForm != null"> #{userForm},</if>
+	  		<if test="isEnable != null"> #{isEnable},</if>
+	  		<if test="createBy != null"> #{createBy},</if>
+	  		<if test="createDt != null"> #{createDt},</if>
+	  		<if test="updateBy != null"> #{updateBy},</if>
+			<if test="updateDt != null"> #{updateDt},</if>
+		      )
+		</trim>
+		
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey>		
+		
+		
+	</insert>
+	
+	
+	<!-- 根据主键选择性更新 -->	
+	<update id="updateByPrimaryKeySelective" parameterType="com.insight.wisehealth.vte.persistence.TbSystemUser" >
+		    update tb_system_user
+		 <trim prefix="set" suffixOverrides=",">
+				<if test="hospitalId != null and hospitalId != ''">  hospital_id = #{hospitalId},</if>
+				<if test="orgId != null and orgId != ''">  org_id = #{orgId},</if>
+				<if test="userAccount != null and userAccount != ''">  user_account = #{userAccount},</if>
+				<if test="userPassword != null and userPassword != ''">  user_password = #{userPassword},</if>
+				<if test="userName != null and userName != ''">  user_name = #{userName},</if>
+				<if test="userCode != null and userCode != ''">  user_code = #{userCode},</if>
+				<if test="userForm != null and userForm != ''">  user_form = #{userForm},</if>
+				<if test="isEnable != null and isEnable != ''">  is_enable = #{isEnable},</if>
+				<if test="createBy != null and createBy != ''">  create_by = #{createBy},</if>
+				<if test="createDt != null and createDt != ''">  create_dt = #{createDt},</if>
+				<if test="updateBy != null and updateBy != ''">  update_by = #{updateBy},</if>
+				<if test="updateDt != null and updateDt != ''">  update_dt = #{updateDt},</if>
+		 </trim>
+		    where user_id = #{userId}
+	</update>
+	
+	<!-- 根据主键更新 -->	
+	<update id="updateByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbSystemUser" >
+		    update tb_system_user
+		    set 
+		        hospital_id = #{hospitalId},
+		        org_id = #{orgId},
+		        user_account = #{userAccount},
+		        user_password = #{userPassword},
+		        user_name = #{userName},
+		        user_code = #{userCode},
+		        user_form = #{userForm},
+		        is_enable = #{isEnable},
+		        create_by = #{createBy},
+		        create_dt = #{createDt},
+		        update_by = #{updateBy},
+				update_dt = #{updateDt}
+		    where user_id = #{userId}
+	</update>
+	<!-- 根据Form传过来Map更新对应字段值 -->
+	<update id="updateByFormMap" parameterType="map" >
+	    update tb_system_user
+	    <trim prefix="set" suffixOverrides=",">
+			<if test="_parameter.containsKey('hospitalId')">
+	   				<if test="hospitalId != null and hospitalId != ''">   hospital_id = #{hospitalId},</if>
+	   				<if test="hospitalId == null or hospitalId == ''">  hospital_id = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('orgId')">
+	   				<if test="orgId != null and orgId != ''">   org_id = #{orgId},</if>
+	   				<if test="orgId == null or orgId == ''">  org_id = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('userAccount')">
+	   				<if test="userAccount != null and userAccount != ''">   user_account = #{userAccount},</if>
+	   				<if test="userAccount == null or userAccount == ''">  user_account = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('userPassword')">
+	   				<if test="userPassword != null and userPassword != ''">   user_password = #{userPassword},</if>
+	   				<if test="userPassword == null or userPassword == ''">  user_password = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('userName')">
+	   				<if test="userName != null and userName != ''">   user_name = #{userName},</if>
+	   				<if test="userName == null or userName == ''">  user_name = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('userCode')">
+	   				<if test="userCode != null and userCode != ''">   user_code = #{userCode},</if>
+	   				<if test="userCode == null or userCode == ''">  user_code = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('userForm')">
+	   				<if test="userForm != null and userForm != ''">   user_form = #{userForm},</if>
+	   				<if test="userForm == null or userForm == ''">  user_form = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('isEnable')">
+	   				<if test="isEnable != null and isEnable != ''">   is_enable = #{isEnable},</if>
+	   				<if test="isEnable == null or isEnable == ''">  is_enable = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createBy')">
+	   				<if test="createBy != null and createBy != ''">   create_by = #{createBy},</if>
+	   				<if test="createBy == null or createBy == ''">  create_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createDt')">
+	   				<if test="createDt != null and createDt != ''">   create_dt = #{createDt},</if>
+	   				<if test="createDt == null or createDt == ''">  create_dt = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateBy')">
+	   				<if test="updateBy != null and updateBy != ''">   update_by = #{updateBy},</if>
+	   				<if test="updateBy == null or updateBy == ''">  update_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateDt')">
+	   				<if test="updateDt != null and updateDt != ''">   update_dt = #{updateDt},</if>
+	   				<if test="updateDt == null or updateDt == ''">  update_dt = null,</if>
+	   		</if>
+		</trim>
+	    where user_id = #{userId}
+	</update>
+	<!-- 默认分页 -->
+	<select id="queryAllSystemUser" resultType="com.insight.wisehealth.vte.persistence.TbSystemUser" parameterType="map">
+	   	select 
+			        user_id  userId,
+			        hospital_id  hospitalId,
+			        org_id  orgId,
+			        user_account  userAccount,
+			        user_password  userPassword,
+			        user_name  userName,
+			        user_code  userCode,
+			        user_form  userForm,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	       from tb_system_user t
+	       where 
+	       IFNULL(t.is_enable,'0') = 1
+	  		<if test="userId != null and userId != ''"> 
+	       		and t.user_id  =  #{userId}
+	       	</if>
+	  		<if test="hospitalId != null and hospitalId != ''"> 
+	       		and t.hospital_id  =  #{hospitalId}
+	       	</if>
+	  		<if test="orgId != null and orgId != ''"> 
+	       		and t.org_id  =  #{orgId}
+	       	</if>
+	  		<if test="userAccount != null and userAccount != ''"> 
+	       		and t.user_account  =  #{userAccount}
+	       	</if>
+	  		<if test="userPassword != null and userPassword != ''"> 
+	       		and t.user_password  =  #{userPassword}
+	       	</if>
+	  		<if test="userName != null and userName != ''"> 
+	       		and t.user_name  =  #{userName}
+	       	</if>
+	  		<if test="userCode != null and userCode != ''"> 
+	       		and t.user_code  =  #{userCode}
+	       	</if>
+	  		<if test="userForm != null and userForm != ''"> 
+	       		and t.user_form  =  #{userForm}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+		<if test="pageSort != null and pageSort != ''">
+			order by $pageSort$ 
+	     </if>
+		<if test="start != null and start != ''">
+			limit #{start},#{limit}
+		</if>	
+	</select>
+  
+	<select id="countAllSystemUser" resultType="int" parameterType="map">
+		select  count(*)  from tb_system_user t
+			where 
+				IFNULL(t.is_enable,'0') = 1
+	  		<if test="userId != null and userId != ''"> 
+	       		and t.user_id  =  #{userId}
+	       	</if>
+	  		<if test="hospitalId != null and hospitalId != ''"> 
+	       		and t.hospital_id  =  #{hospitalId}
+	       	</if>
+	  		<if test="orgId != null and orgId != ''"> 
+	       		and t.org_id  =  #{orgId}
+	       	</if>
+	  		<if test="userAccount != null and userAccount != ''"> 
+	       		and t.user_account  =  #{userAccount}
+	       	</if>
+	  		<if test="userPassword != null and userPassword != ''"> 
+	       		and t.user_password  =  #{userPassword}
+	       	</if>
+	  		<if test="userName != null and userName != ''"> 
+	       		and t.user_name  =  #{userName}
+	       	</if>
+	  		<if test="userCode != null and userCode != ''"> 
+	       		and t.user_code  =  #{userCode}
+	       	</if>
+	  		<if test="userForm != null and userForm != ''"> 
+	       		and t.user_form  =  #{userForm}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+
+	<!-- 默认不分页 -->
+	<select id="queryAllSystemUserNP" resultType="com.insight.wisehealth.vte.persistence.TbSystemUser" parameterType="map">
+	   	select 
+		        user_id  userId,
+		        hospital_id  hospitalId,
+		        org_id  orgId,
+		        user_account  userAccount,
+		        user_password  userPassword,
+		        user_name  userName,
+		        user_code  userCode,
+		        user_form  userForm,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_system_user t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="userId != null and userId != ''"> 
+	       		and t.user_id  =  #{userId}
+	       	</if>
+	  		<if test="hospitalId != null and hospitalId != ''"> 
+	       		and t.hospital_id  =  #{hospitalId}
+	       	</if>
+	  		<if test="orgId != null and orgId != ''"> 
+	       		and t.org_id  =  #{orgId}
+	       	</if>
+	  		<if test="userAccount != null and userAccount != ''"> 
+	       		and t.user_account  =  #{userAccount}
+	       	</if>
+	  		<if test="userPassword != null and userPassword != ''"> 
+	       		and t.user_password  =  #{userPassword}
+	       	</if>
+	  		<if test="userName != null and userName != ''"> 
+	       		and t.user_name  =  #{userName}
+	       	</if>
+	  		<if test="userCode != null and userCode != ''"> 
+	       		and t.user_code  =  #{userCode}
+	       	</if>
+	  		<if test="userForm != null and userForm != ''"> 
+	       		and t.user_form  =  #{userForm}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+	
+	<!-- 默认不分页 -->
+	<select id="querySystemUserInfo" resultType="com.insight.wisehealth.vte.persistence.TbSystemUser" parameterType="map">
+	   	select 
+		        user_id  userId,
+		        hospital_id  hospitalId,
+		        org_id  orgId,
+		        user_account  userAccount,
+		        user_password  userPassword,
+		        user_name  userName,
+		        user_code  userCode,
+		        user_form  userForm,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_system_user t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="userId != null and userId != ''"> 
+	       		and t.user_id  =  #{userId}
+	       	</if>
+	  		<if test="hospitalId != null and hospitalId != ''"> 
+	       		and t.hospital_id  =  #{hospitalId}
+	       	</if>
+	  		<if test="orgId != null and orgId != ''"> 
+	       		and t.org_id  =  #{orgId}
+	       	</if>
+	  		<if test="userAccount != null and userAccount != ''"> 
+	       		and t.user_account  =  #{userAccount}
+	       	</if>
+	  		<if test="userPassword != null and userPassword != ''"> 
+	       		and t.user_password  =  #{userPassword}
+	       	</if>
+	  		<if test="userName != null and userName != ''"> 
+	       		and t.user_name  =  #{userName}
+	       	</if>
+	  		<if test="userCode != null and userCode != ''"> 
+	       		and t.user_code  =  #{userCode}
+	       	</if>
+	  		<if test="userForm != null and userForm != ''"> 
+	       		and t.user_form  =  #{userForm}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	    limit 0,1
+	</select>
+	
+	<!-- 其他接口 -->	
+		<select id="queryAllSystemUserPojo" resultType="com.insight.wisehealth.vte.persistencepojo.TbSystemUserPojo" parameterType="map">
+	   		select 
+		        user_id  userId,
+		        hospital_id  hospitalId,
+		        (select org_name from tb_system_org s where s.org_id=t.hospital_id) hospitalName,
+		        org_id  orgId,
+		         (select org_name from tb_system_org s where s.org_id=t.org_id) OrgName,
+		        user_account  userAccount,
+		        user_password  userPassword,
+		        user_name  userName,
+		        user_code  userCode,
+		        user_form  userForm,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_system_user t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+		<if test="userId != null and userId != ''"> 
+	       		and t.user_id  =  #{userId}
+	       	</if>
+	  		<if test="hospitalId != null and hospitalId != ''"> 
+	       		and t.hospital_id  =  #{hospitalId}
+	       	</if>
+	  		<if test="orgId != null and orgId != ''"> 
+	       		and t.org_id  =  #{orgId}
+	       	</if>
+	  		<if test="userAccount != null and userAccount != ''"> 
+	       		and t.user_account  =  #{userAccount}
+	       	</if>
+	  		<if test="userPassword != null and userPassword != ''"> 
+	       		and t.user_password  =  #{userPassword}
+	       	</if>
+	  		<if test="userName != null and userName != ''"> 
+	       		and t.user_name  =  #{userName}
+	       	</if>
+	  		<if test="userCode != null and userCode != ''"> 
+	       		and t.user_code  =  #{userCode}
+	       	</if>
+	  		<if test="userForm != null and userForm != ''"> 
+	       		and t.user_form  =  #{userForm}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+		<if test="pageSort != null and pageSort != ''">
+			order by $pageSort$ 
+	     </if>
+			limit #{start},#{limit}
+			
+	</select>
+	
+	
+	<!-- 插入 -->	
+	<insert id="saveTbSystemUser" parameterType="com.insight.wisehealth.vte.persistence.TbSystemUser" >
+	    insert into tb_system_user (
+				user_id,
+				hospital_id,
+				org_id,
+				user_account,
+				user_password,
+				user_name,
+				user_code,
+				user_form,
+				is_enable,
+				create_by,
+				create_dt,
+				update_by,
+				update_dt
+	    )
+	    values (
+				#{userId},
+				#{hospitalId},
+				#{orgId},
+				#{userAccount},
+				#{userPassword},
+				#{userName},
+				#{userCode},
+				#{userForm},
+				#{isEnable},
+				#{createBy},
+				#{createDt},
+				#{updateBy},
+				#{updateDt}
+	    )
+	    
+	    <selectKey resultType="int"  keyProperty="userId" > 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey> 
+	</insert>
+	
+</mapper>

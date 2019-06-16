@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.insight.wisehealth.vte.dao.TbVteModelDao">
+
+ <!-- 根据主键查询 -->	
+	<select id="selectByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbVteModel" parameterType="com.insight.wisehealth.vte.persistence.TbVteModel" >
+	    select 
+			        model_id  modelId,
+			        model_code  modelCode,
+			        model_name  modelName,
+			        model_allow_url  modelAllowUrl,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	    from tb_vte_model
+	    where model_id = #{modelId}
+	</select>
+	
+	<!-- 根据主键查询 -->	
+	<select id="selectMapByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbVteModel" parameterType="map" >
+	   	select 
+			        model_id  modelId,
+			        model_code  modelCode,
+			        model_name  modelName,
+			        model_allow_url  modelAllowUrl,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+		from tb_vte_model t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	    and model_id = #{modelId}
+	</select>
+	
+	<!-- 根据主键删除（假删除） -->		
+	<delete id="deleteByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbVteModel" >
+	    update tb_vte_model set is_enable = 0, update_dt=#{updateDt},update_by=#{updateBy} 
+	    where model_id = #{modelId}
+	</delete>
+	
+	
+	<!-- 插入 -->	
+	<insert id="insert" parameterType="com.insight.wisehealth.vte.persistence.TbVteModel" >
+	    insert into tb_vte_model (
+				model_id,
+				model_code,
+				model_name,
+				model_allow_url,
+				is_enable,
+				create_by,
+				create_dt,
+				update_by,
+				update_dt
+	    )
+	    values (
+				#{modelId},
+				#{modelCode},
+				#{modelName},
+				#{modelAllowUrl},
+				#{isEnable},
+				#{createBy},
+				#{createDt},
+				#{updateBy},
+				#{updateDt}
+	    )
+	    
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey> 
+	</insert>
+	
+	<!-- 选择插入 -->		
+	<insert id="insertSelective" parameterType="com.insight.wisehealth.vte.persistence.TbVteModel" >
+		    insert into tb_vte_model
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="modelId != null"> model_id,</if>
+	  		<if test="modelCode != null"> model_code,</if>
+	  		<if test="modelName != null"> model_name,</if>
+	  		<if test="modelAllowUrl != null"> model_allow_url,</if>
+	  		<if test="isEnable != null"> is_enable,</if>
+	  		<if test="createBy != null"> create_by,</if>
+	  		<if test="createDt != null"> create_dt,</if>
+	  		<if test="updateBy != null"> update_by,</if>
+			<if test="updateDt != null"> update_dt,</if>
+		      )
+		</trim>
+		    values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="modelId != null"> #{modelId},</if>
+	  		<if test="modelCode != null"> #{modelCode},</if>
+	  		<if test="modelName != null"> #{modelName},</if>
+	  		<if test="modelAllowUrl != null"> #{modelAllowUrl},</if>
+	  		<if test="isEnable != null"> #{isEnable},</if>
+	  		<if test="createBy != null"> #{createBy},</if>
+	  		<if test="createDt != null"> #{createDt},</if>
+	  		<if test="updateBy != null"> #{updateBy},</if>
+			<if test="updateDt != null"> #{updateDt},</if>
+		      )
+		</trim>
+		
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey>		
+		
+		
+	</insert>
+	
+	
+	<!-- 根据主键选择性更新 -->	
+	<update id="updateByPrimaryKeySelective" parameterType="com.insight.wisehealth.vte.persistence.TbVteModel" >
+		    update tb_vte_model
+		 <trim prefix="set" suffixOverrides=",">
+				<if test="modelCode != null and modelCode != ''">  model_code = #{modelCode},</if>
+				<if test="modelName != null and modelName != ''">  model_name = #{modelName},</if>
+				<if test="modelAllowUrl != null and modelAllowUrl != ''">  model_allow_url = #{modelAllowUrl},</if>
+				<if test="isEnable != null and isEnable != ''">  is_enable = #{isEnable},</if>
+				<if test="createBy != null and createBy != ''">  create_by = #{createBy},</if>
+				<if test="createDt != null and createDt != ''">  create_dt = #{createDt},</if>
+				<if test="updateBy != null and updateBy != ''">  update_by = #{updateBy},</if>
+				<if test="updateDt != null and updateDt != ''">  update_dt = #{updateDt},</if>
+		 </trim>
+		    where model_id = #{modelId}
+	</update>
+	
+	<!-- 根据主键更新 -->	
+	<update id="updateByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbVteModel" >
+		    update tb_vte_model
+		    set 
+		        model_code = #{modelCode},
+		        model_name = #{modelName},
+		        model_allow_url = #{modelAllowUrl},
+		        is_enable = #{isEnable},
+		        create_by = #{createBy},
+		        create_dt = #{createDt},
+		        update_by = #{updateBy},
+				update_dt = #{updateDt}
+		    where model_id = #{modelId}
+	</update>
+	<!-- 根据Form传过来Map更新对应字段值 -->
+	<update id="updateByFormMap" parameterType="map" >
+	    update tb_vte_model
+	    <trim prefix="set" suffixOverrides=",">
+			<if test="_parameter.containsKey('modelCode')">
+	   				<if test="modelCode != null and modelCode != ''">   model_code = #{modelCode},</if>
+	   				<if test="modelCode == null or modelCode == ''">  model_code = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('modelName')">
+	   				<if test="modelName != null and modelName != ''">   model_name = #{modelName},</if>
+	   				<if test="modelName == null or modelName == ''">  model_name = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('modelAllowUrl')">
+	   				<if test="modelAllowUrl != null and modelAllowUrl != ''">   model_allow_url = #{modelAllowUrl},</if>
+	   				<if test="modelAllowUrl == null or modelAllowUrl == ''">  model_allow_url = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('isEnable')">
+	   				<if test="isEnable != null and isEnable != ''">   is_enable = #{isEnable},</if>
+	   				<if test="isEnable == null or isEnable == ''">  is_enable = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createBy')">
+	   				<if test="createBy != null and createBy != ''">   create_by = #{createBy},</if>
+	   				<if test="createBy == null or createBy == ''">  create_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createDt')">
+	   				<if test="createDt != null and createDt != ''">   create_dt = #{createDt},</if>
+	   				<if test="createDt == null or createDt == ''">  create_dt = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateBy')">
+	   				<if test="updateBy != null and updateBy != ''">   update_by = #{updateBy},</if>
+	   				<if test="updateBy == null or updateBy == ''">  update_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateDt')">
+	   				<if test="updateDt != null and updateDt != ''">   update_dt = #{updateDt},</if>
+	   				<if test="updateDt == null or updateDt == ''">  update_dt = null,</if>
+	   		</if>
+		</trim>
+	    where model_id = #{modelId}
+	</update>
+	<!-- 默认分页 -->
+	<select id="queryAllVteModel" resultType="com.insight.wisehealth.vte.persistence.TbVteModel" parameterType="map">
+	   	select 
+			        model_id  modelId,
+			        model_code  modelCode,
+			        model_name  modelName,
+			        model_allow_url  modelAllowUrl,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	       from tb_vte_model t
+	       where 
+	       IFNULL(t.is_enable,'0') = 1
+	  		<if test="modelId != null and modelId != ''"> 
+	       		and t.model_id  =  #{modelId}
+	       	</if>
+	  		<if test="modelCode != null and modelCode != ''"> 
+	       		and t.model_code  =  #{modelCode}
+	       	</if>
+	  		<if test="modelName != null and modelName != ''"> 
+	       		and t.model_name  =  #{modelName}
+	       	</if>
+	  		<if test="modelAllowUrl != null and modelAllowUrl != ''"> 
+	       		and t.model_allow_url  =  #{modelAllowUrl}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+		<if test="pageSort != null and pageSort != ''">
+			order by  ${pageSort}
+	     </if>
+			limit #{start},#{limit}
+	</select>
+  
+	<select id="countAllVteModel" resultType="int" parameterType="map">
+		select  count(*)  from tb_vte_model t
+			where 
+				IFNULL(t.is_enable,'0') = 1
+	  		<if test="modelId != null and modelId != ''"> 
+	       		and t.model_id  =  #{modelId}
+	       	</if>
+	  		<if test="modelCode != null and modelCode != ''"> 
+	       		and t.model_code  =  #{modelCode}
+	       	</if>
+	  		<if test="modelName != null and modelName != ''"> 
+	       		and t.model_name  =  #{modelName}
+	       	</if>
+	  		<if test="modelAllowUrl != null and modelAllowUrl != ''"> 
+	       		and t.model_allow_url  =  #{modelAllowUrl}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+
+	<!-- 默认不分页 -->
+	<select id="queryAllVteModelNP" resultType="com.insight.wisehealth.vte.persistence.TbVteModel" parameterType="map">
+	   	select 
+		        model_id  modelId,
+		        model_code  modelCode,
+		        model_name  modelName,
+		        model_allow_url  modelAllowUrl,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_vte_model t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="modelId != null and modelId != ''"> 
+	       		and t.model_id  =  #{modelId}
+	       	</if>
+	  		<if test="modelCode != null and modelCode != ''"> 
+	       		and t.model_code  =  #{modelCode}
+	       	</if>
+	  		<if test="modelName != null and modelName != ''"> 
+	       		and t.model_name  =  #{modelName}
+	       	</if>
+	  		<if test="modelAllowUrl != null and modelAllowUrl != ''"> 
+	       		and t.model_allow_url  =  #{modelAllowUrl}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	       	order by t.model_code DESC 
+	</select>
+	
+	<!-- 默认不分页 -->
+	<select id="queryVteModelInfo" resultType="com.insight.wisehealth.vte.persistence.TbVteModel" parameterType="map">
+	   	select 
+		        model_id  modelId,
+		        model_code  modelCode,
+		        model_name  modelName,
+		        model_allow_url  modelAllowUrl,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_vte_model t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="modelId != null and modelId != ''"> 
+	       		and t.model_id  =  #{modelId}
+	       	</if>
+	  		<if test="modelCode != null and modelCode != ''"> 
+	       		and t.model_code  =  #{modelCode}
+	       	</if>
+	  		<if test="modelName != null and modelName != ''"> 
+	       		and t.model_name  =  #{modelName}
+	       	</if>
+	  		<if test="modelAllowUrl != null and modelAllowUrl != ''"> 
+	       		and t.model_allow_url  =  #{modelAllowUrl}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	    limit 0,1
+	</select>
+	
+	<!-- 其他接口 -->	
+	<select id="queryLoginModelPojoList" resultType="com.insight.wisehealth.vte.loginpojo.LoginModelPojo" parameterType="map">
+	    select 
+		      DISTINCT  t.model_id  modelId,
+		        t.model_code  modelCode,
+		        t.model_name  modelName
+		from tb_vte_model t INNER JOIN tb_vte_model tt 
+      		inner join tb_vte_role_model r
+			on r.model_id = tt.model_id
+			where 
+			IFNULL(t.is_enable,'0') = 1  
+			and IFNULL(r.is_enable,'0') = 1
+      		and IFNULL(tt.is_enable,'0') = 1
+       		<if test="roleId != null and roleId != ''"> 
+	       		and r.role_id  =  #{roleId}
+	       	</if>
+      		and tt.model_code REGEXP CONCAT("^",t.model_code,"[-[0-9]*]?$")
+			order by  t.model_code asc
+	</select>
+	
+	<select id="queryMaxCodeByPaCode" resultType="java.lang.String" parameterType="map">
+	   SELECT
+			MAX(model_code) modelCode
+		FROM
+			tb_vte_model t
+		WHERE
+			IFNULL(t.is_enable, '0') = 1
+			<if test="regexpStrng != null and regexpStrng != ''"> 
+	       		 and model_code REGEXP  #{regexpStrng}
+	       	</if>
+	    limit 0,1
+	</select>
+	
+	<select id="queryAllModelByRole" resultType="com.insight.wisehealth.vte.pojo.VteModelTreePojo" parameterType="map">
+	    select 
+		        t.model_id  modelId,
+		        t.model_code  modelCode,
+		        t.model_name  modelName
+		from tb_vte_model t 
+		where 
+		IFNULL(t.is_enable,'0') = 1
+		order by  t.model_code asc
+	</select>
+	
+	
+	<select id="queryAllowUrlList" resultType="java.lang.String" parameterType="map">
+	        select 
+		        DISTINCT   t.model_allow_url  modelAllowUrl
+		    from tb_vte_model t INNER JOIN tb_vte_model tt 
+      		inner join tb_vte_role_model r
+			on r.model_id = tt.model_id
+			where 
+			IFNULL(t.is_enable,'0') = 1  
+			and IFNULL(r.is_enable,'0') = 1
+      		and IFNULL(tt.is_enable,'0') = 1
+       		<if test="roleId != null and roleId != ''"> 
+	       		and r.role_id  =  #{roleId}
+	       	</if>
+      		and tt.model_code REGEXP CONCAT("^",t.model_code,"[-[0-9]*]?$")
+			order by  t.model_code asc
+	</select>
+	
+</mapper>

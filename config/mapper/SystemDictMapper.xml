@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.insight.wisehealth.vte.dao.TbSystemDictDao">
+
+ <!-- 根据主键查询 -->	
+	<select id="selectByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbSystemDict" parameterType="com.insight.wisehealth.vte.persistence.TbSystemDict" >
+	    select 
+			        dict_id  dictId,
+			        org_id  orgId,
+			        dict_name  dictName,
+			        dict_code  dictCode,
+			        dict_alias  dictAlias,
+			        dict_default_value  dictDefaultValue,
+			        dict_seq  dictSeq,
+			        dict_memo  dictMemo,
+			        dict_multiselect  dictMultiselect,
+			        dict_international  dictInternational,
+			        dict_version  dictVersion,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	    from tb_system_dict
+	    where dict_id = #{dictId}
+	</select>
+	
+	<!-- 根据主键查询 -->	
+	<select id="selectMapByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbSystemDict" parameterType="map" >
+	   	select 
+			        dict_id  dictId,
+			        org_id  orgId,
+			        dict_name  dictName,
+			        dict_code  dictCode,
+			        dict_alias  dictAlias,
+			        dict_default_value  dictDefaultValue,
+			        dict_seq  dictSeq,
+			        dict_memo  dictMemo,
+			        dict_multiselect  dictMultiselect,
+			        dict_international  dictInternational,
+			        dict_version  dictVersion,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+		from tb_system_dict t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	    and dict_id = #{dictId}
+	</select>
+	
+	<!-- 根据主键删除（假删除） -->		
+	<delete id="deleteByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbSystemDict" >
+	    update tb_system_dict set is_enable = 0, update_dt=#{updateDt},update_by=#{updateBy} 
+	    where dict_id = #{dictId}
+	</delete>
+	
+	
+	<!-- 插入 -->	
+	<insert id="insert" parameterType="com.insight.wisehealth.vte.persistence.TbSystemDict" >
+	    insert into tb_system_dict (
+				dict_id,
+				org_id,
+				dict_name,
+				dict_code,
+				dict_alias,
+				dict_default_value,
+				dict_seq,
+				dict_memo,
+				dict_multiselect,
+				dict_international,
+				dict_version,
+				is_enable,
+				create_by,
+				create_dt,
+				update_by,
+				update_dt
+	    )
+	    values (
+				#{dictId},
+				#{orgId},
+				#{dictName},
+				#{dictCode},
+				#{dictAlias},
+				#{dictDefaultValue},
+				#{dictSeq},
+				#{dictMemo},
+				#{dictMultiselect},
+				#{dictInternational},
+				#{dictVersion},
+				#{isEnable},
+				#{createBy},
+				#{createDt},
+				#{updateBy},
+				#{updateDt}
+	    )
+	    
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey> 
+	</insert>
+	
+	<!-- 选择插入 -->		
+	<insert id="insertSelective" parameterType="com.insight.wisehealth.vte.persistence.TbSystemDict" >
+		    insert into tb_system_dict
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="dictId != null"> dict_id,</if>
+	  		<if test="orgId != null"> org_id,</if>
+	  		<if test="dictName != null"> dict_name,</if>
+	  		<if test="dictCode != null"> dict_code,</if>
+	  		<if test="dictAlias != null"> dict_alias,</if>
+	  		<if test="dictDefaultValue != null"> dict_default_value,</if>
+	  		<if test="dictSeq != null"> dict_seq,</if>
+	  		<if test="dictMemo != null"> dict_memo,</if>
+	  		<if test="dictMultiselect != null"> dict_multiselect,</if>
+	  		<if test="dictInternational != null"> dict_international,</if>
+	  		<if test="dictVersion != null"> dict_version,</if>
+	  		<if test="isEnable != null"> is_enable,</if>
+	  		<if test="createBy != null"> create_by,</if>
+	  		<if test="createDt != null"> create_dt,</if>
+	  		<if test="updateBy != null"> update_by,</if>
+			<if test="updateDt != null"> update_dt,</if>
+		      )
+		</trim>
+		    values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="dictId != null"> #{dictId},</if>
+	  		<if test="orgId != null"> #{orgId},</if>
+	  		<if test="dictName != null"> #{dictName},</if>
+	  		<if test="dictCode != null"> #{dictCode},</if>
+	  		<if test="dictAlias != null"> #{dictAlias},</if>
+	  		<if test="dictDefaultValue != null"> #{dictDefaultValue},</if>
+	  		<if test="dictSeq != null"> #{dictSeq},</if>
+	  		<if test="dictMemo != null"> #{dictMemo},</if>
+	  		<if test="dictMultiselect != null"> #{dictMultiselect},</if>
+	  		<if test="dictInternational != null"> #{dictInternational},</if>
+	  		<if test="dictVersion != null"> #{dictVersion},</if>
+	  		<if test="isEnable != null"> #{isEnable},</if>
+	  		<if test="createBy != null"> #{createBy},</if>
+	  		<if test="createDt != null"> #{createDt},</if>
+	  		<if test="updateBy != null"> #{updateBy},</if>
+			<if test="updateDt != null"> #{updateDt},</if>
+		      )
+		</trim>
+		
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey>		
+		
+		
+	</insert>
+	
+	
+	<!-- 根据主键选择性更新 -->	
+	<update id="updateByPrimaryKeySelective" parameterType="com.insight.wisehealth.vte.persistence.TbSystemDict" >
+		    update tb_system_dict
+		 <trim prefix="set" suffixOverrides=",">
+				<if test="orgId != null and orgId != ''">  org_id = #{orgId},</if>
+				<if test="dictName != null and dictName != ''">  dict_name = #{dictName},</if>
+				<if test="dictCode != null and dictCode != ''">  dict_code = #{dictCode},</if>
+				<if test="dictAlias != null and dictAlias != ''">  dict_alias = #{dictAlias},</if>
+				<if test="dictDefaultValue != null and dictDefaultValue != ''">  dict_default_value = #{dictDefaultValue},</if>
+				<if test="dictSeq != null and dictSeq != ''">  dict_seq = #{dictSeq},</if>
+				<if test="dictMemo != null and dictMemo != ''">  dict_memo = #{dictMemo},</if>
+				<if test="dictMultiselect != null and dictMultiselect != ''">  dict_multiselect = #{dictMultiselect},</if>
+				<if test="dictInternational != null and dictInternational != ''">  dict_international = #{dictInternational},</if>
+				<if test="dictVersion != null and dictVersion != ''">  dict_version = #{dictVersion},</if>
+				<if test="isEnable != null and isEnable != ''">  is_enable = #{isEnable},</if>
+				<if test="createBy != null and createBy != ''">  create_by = #{createBy},</if>
+				<if test="createDt != null and createDt != ''">  create_dt = #{createDt},</if>
+				<if test="updateBy != null and updateBy != ''">  update_by = #{updateBy},</if>
+				<if test="updateDt != null and updateDt != ''">  update_dt = #{updateDt},</if>
+		 </trim>
+		    where dict_id = #{dictId}
+	</update>
+	
+	<!-- 根据主键更新 -->	
+	<update id="updateByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbSystemDict" >
+		    update tb_system_dict
+		    set 
+		        org_id = #{orgId},
+		        dict_name = #{dictName},
+		        dict_code = #{dictCode},
+		        dict_alias = #{dictAlias},
+		        dict_default_value = #{dictDefaultValue},
+		        dict_seq = #{dictSeq},
+		        dict_memo = #{dictMemo},
+		        dict_multiselect = #{dictMultiselect},
+		        dict_international = #{dictInternational},
+		        dict_version = #{dictVersion},
+		        is_enable = #{isEnable},
+		        create_by = #{createBy},
+		        create_dt = #{createDt},
+		        update_by = #{updateBy},
+				update_dt = #{updateDt}
+		    where dict_id = #{dictId}
+	</update>
+	<!-- 根据Form传过来Map更新对应字段值 -->
+	<update id="updateByFormMap" parameterType="map" >
+	    update tb_system_dict
+	    <trim prefix="set" suffixOverrides=",">
+			<if test="_parameter.containsKey('orgId')">
+	   				<if test="orgId != null and orgId != ''">   org_id = #{orgId},</if>
+	   				<if test="orgId == null or orgId == ''">  org_id = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('dictName')">
+	   				<if test="dictName != null and dictName != ''">   dict_name = #{dictName},</if>
+	   				<if test="dictName == null or dictName == ''">  dict_name = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('dictCode')">
+	   				<if test="dictCode != null and dictCode != ''">   dict_code = #{dictCode},</if>
+	   				<if test="dictCode == null or dictCode == ''">  dict_code = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('dictAlias')">
+	   				<if test="dictAlias != null and dictAlias != ''">   dict_alias = #{dictAlias},</if>
+	   				<if test="dictAlias == null or dictAlias == ''">  dict_alias = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('dictDefaultValue')">
+	   				<if test="dictDefaultValue != null and dictDefaultValue != ''">   dict_default_value = #{dictDefaultValue},</if>
+	   				<if test="dictDefaultValue == null or dictDefaultValue == ''">  dict_default_value = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('dictSeq')">
+	   				<if test="dictSeq != null and dictSeq != ''">   dict_seq = #{dictSeq},</if>
+	   				<if test="dictSeq == null or dictSeq == ''">  dict_seq = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('dictMemo')">
+	   				<if test="dictMemo != null and dictMemo != ''">   dict_memo = #{dictMemo},</if>
+	   				<if test="dictMemo == null or dictMemo == ''">  dict_memo = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('dictMultiselect')">
+	   				<if test="dictMultiselect != null and dictMultiselect != ''">   dict_multiselect = #{dictMultiselect},</if>
+	   				<if test="dictMultiselect == null or dictMultiselect == ''">  dict_multiselect = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('dictInternational')">
+	   				<if test="dictInternational != null and dictInternational != ''">   dict_international = #{dictInternational},</if>
+	   				<if test="dictInternational == null or dictInternational == ''">  dict_international = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('dictVersion')">
+	   				<if test="dictVersion != null and dictVersion != ''">   dict_version = #{dictVersion},</if>
+	   				<if test="dictVersion == null or dictVersion == ''">  dict_version = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('isEnable')">
+	   				<if test="isEnable != null and isEnable != ''">   is_enable = #{isEnable},</if>
+	   				<if test="isEnable == null or isEnable == ''">  is_enable = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createBy')">
+	   				<if test="createBy != null and createBy != ''">   create_by = #{createBy},</if>
+	   				<if test="createBy == null or createBy == ''">  create_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createDt')">
+	   				<if test="createDt != null and createDt != ''">   create_dt = #{createDt},</if>
+	   				<if test="createDt == null or createDt == ''">  create_dt = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateBy')">
+	   				<if test="updateBy != null and updateBy != ''">   update_by = #{updateBy},</if>
+	   				<if test="updateBy == null or updateBy == ''">  update_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateDt')">
+	   				<if test="updateDt != null and updateDt != ''">   update_dt = #{updateDt},</if>
+	   				<if test="updateDt == null or updateDt == ''">  update_dt = null,</if>
+	   		</if>
+		</trim>
+	    where dict_id = #{dictId}
+	</update>
+	<!-- 默认分页 -->
+	<select id="queryAllSystemDict" resultType="com.insight.wisehealth.vte.persistence.TbSystemDict" parameterType="map">
+	   	select 
+			        dict_id  dictId,
+			        org_id  orgId,
+			        dict_name  dictName,
+			        dict_code  dictCode,
+			        dict_alias  dictAlias,
+			        dict_default_value  dictDefaultValue,
+			        dict_seq  dictSeq,
+			        dict_memo  dictMemo,
+			        dict_multiselect  dictMultiselect,
+			        dict_international  dictInternational,
+			        dict_version  dictVersion,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	       from tb_system_dict t
+	       where 
+	       IFNULL(t.is_enable,'0') = 1
+	  		<if test="dictId != null and dictId != ''"> 
+	       		and t.dict_id  =  #{dictId}
+	       	</if>
+	  		<if test="orgId != null and orgId != ''"> 
+	       		and t.org_id  =  #{orgId}
+	       	</if>
+	  		<if test="dictName != null and dictName != ''"> 
+	       		and t.dict_name  =  #{dictName}
+	       	</if>
+	  		<if test="dictCode != null and dictCode != ''"> 
+	       		and t.dict_code  =  #{dictCode}
+	       	</if>
+	  		<if test="dictAlias != null and dictAlias != ''"> 
+	       		and t.dict_alias  =  #{dictAlias}
+	       	</if>
+	  		<if test="dictDefaultValue != null and dictDefaultValue != ''"> 
+	       		and t.dict_default_value  =  #{dictDefaultValue}
+	       	</if>
+	  		<if test="dictSeq != null and dictSeq != ''"> 
+	       		and t.dict_seq  =  #{dictSeq}
+	       	</if>
+	  		<if test="dictMemo != null and dictMemo != ''"> 
+	       		and t.dict_memo  =  #{dictMemo}
+	       	</if>
+	  		<if test="dictMultiselect != null and dictMultiselect != ''"> 
+	       		and t.dict_multiselect  =  #{dictMultiselect}
+	       	</if>
+	  		<if test="dictInternational != null and dictInternational != ''"> 
+	       		and t.dict_international  =  #{dictInternational}
+	       	</if>
+	  		<if test="dictVersion != null and dictVersion != ''"> 
+	       		and t.dict_version  =  #{dictVersion}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+		<if test="pageSort != null and pageSort != ''">
+			order by $pageSort$ 
+	     </if>
+			limit #{start},#{limit}
+	</select>
+  
+	<select id="countAllSystemDict" resultType="int" parameterType="map">
+		select  count(*)  from tb_system_dict t
+			where 
+				IFNULL(t.is_enable,'0') = 1
+	  		<if test="dictId != null and dictId != ''"> 
+	       		and t.dict_id  =  #{dictId}
+	       	</if>
+	  		<if test="orgId != null and orgId != ''"> 
+	       		and t.org_id  =  #{orgId}
+	       	</if>
+	  		<if test="dictName != null and dictName != ''"> 
+	       		and t.dict_name  =  #{dictName}
+	       	</if>
+	  		<if test="dictCode != null and dictCode != ''"> 
+	       		and t.dict_code  =  #{dictCode}
+	       	</if>
+	  		<if test="dictAlias != null and dictAlias != ''"> 
+	       		and t.dict_alias  =  #{dictAlias}
+	       	</if>
+	  		<if test="dictDefaultValue != null and dictDefaultValue != ''"> 
+	       		and t.dict_default_value  =  #{dictDefaultValue}
+	       	</if>
+	  		<if test="dictSeq != null and dictSeq != ''"> 
+	       		and t.dict_seq  =  #{dictSeq}
+	       	</if>
+	  		<if test="dictMemo != null and dictMemo != ''"> 
+	       		and t.dict_memo  =  #{dictMemo}
+	       	</if>
+	  		<if test="dictMultiselect != null and dictMultiselect != ''"> 
+	       		and t.dict_multiselect  =  #{dictMultiselect}
+	       	</if>
+	  		<if test="dictInternational != null and dictInternational != ''"> 
+	       		and t.dict_international  =  #{dictInternational}
+	       	</if>
+	  		<if test="dictVersion != null and dictVersion != ''"> 
+	       		and t.dict_version  =  #{dictVersion}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+
+	<!-- 默认不分页 -->
+	<select id="queryAllSystemDictNP" resultType="com.insight.wisehealth.vte.persistence.TbSystemDict" parameterType="map">
+	   	select 
+		        dict_id  dictId,
+		        org_id  orgId,
+		        dict_name  dictName,
+		        dict_code  dictCode,
+		        dict_alias  dictAlias,
+		        dict_default_value  dictDefaultValue,
+		        dict_seq  dictSeq,
+		        dict_memo  dictMemo,
+		        dict_multiselect  dictMultiselect,
+		        dict_international  dictInternational,
+		        dict_version  dictVersion,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_system_dict t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="dictId != null and dictId != ''"> 
+	       		and t.dict_id  =  #{dictId}
+	       	</if>
+	  		<if test="orgId != null and orgId != ''"> 
+	       		and t.org_id  =  #{orgId}
+	       	</if>
+	  		<if test="dictName != null and dictName != ''"> 
+	       		and t.dict_name  =  #{dictName}
+	       	</if>
+	  		<if test="dictCode != null and dictCode != ''"> 
+	       		and t.dict_code  =  #{dictCode}
+	       	</if>
+	  		<if test="dictAlias != null and dictAlias != ''"> 
+	       		and t.dict_alias  =  #{dictAlias}
+	       	</if>
+	  		<if test="dictDefaultValue != null and dictDefaultValue != ''"> 
+	       		and t.dict_default_value  =  #{dictDefaultValue}
+	       	</if>
+	  		<if test="dictSeq != null and dictSeq != ''"> 
+	       		and t.dict_seq  =  #{dictSeq}
+	       	</if>
+	  		<if test="dictMemo != null and dictMemo != ''"> 
+	       		and t.dict_memo  =  #{dictMemo}
+	       	</if>
+	  		<if test="dictMultiselect != null and dictMultiselect != ''"> 
+	       		and t.dict_multiselect  =  #{dictMultiselect}
+	       	</if>
+	  		<if test="dictInternational != null and dictInternational != ''"> 
+	       		and t.dict_international  =  #{dictInternational}
+	       	</if>
+	  		<if test="dictVersion != null and dictVersion != ''"> 
+	       		and t.dict_version  =  #{dictVersion}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+	
+	<!-- 默认不分页 -->
+	<select id="querySystemDictInfo" resultType="com.insight.wisehealth.vte.persistence.TbSystemDict" parameterType="map">
+	   	select 
+		        dict_id  dictId,
+		        org_id  orgId,
+		        dict_name  dictName,
+		        dict_code  dictCode,
+		        dict_alias  dictAlias,
+		        dict_default_value  dictDefaultValue,
+		        dict_seq  dictSeq,
+		        dict_memo  dictMemo,
+		        dict_multiselect  dictMultiselect,
+		        dict_international  dictInternational,
+		        dict_version  dictVersion,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_system_dict t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="dictId != null and dictId != ''"> 
+	       		and t.dict_id  =  #{dictId}
+	       	</if>
+	  		<if test="orgId != null and orgId != ''"> 
+	       		and t.org_id  =  #{orgId}
+	       	</if>
+	  		<if test="dictName != null and dictName != ''"> 
+	       		and t.dict_name  =  #{dictName}
+	       	</if>
+	  		<if test="dictCode != null and dictCode != ''"> 
+	       		and t.dict_code  =  #{dictCode}
+	       	</if>
+	  		<if test="dictAlias != null and dictAlias != ''"> 
+	       		and t.dict_alias  =  #{dictAlias}
+	       	</if>
+	  		<if test="dictDefaultValue != null and dictDefaultValue != ''"> 
+	       		and t.dict_default_value  =  #{dictDefaultValue}
+	       	</if>
+	  		<if test="dictSeq != null and dictSeq != ''"> 
+	       		and t.dict_seq  =  #{dictSeq}
+	       	</if>
+	  		<if test="dictMemo != null and dictMemo != ''"> 
+	       		and t.dict_memo  =  #{dictMemo}
+	       	</if>
+	  		<if test="dictMultiselect != null and dictMultiselect != ''"> 
+	       		and t.dict_multiselect  =  #{dictMultiselect}
+	       	</if>
+	  		<if test="dictInternational != null and dictInternational != ''"> 
+	       		and t.dict_international  =  #{dictInternational}
+	       	</if>
+	  		<if test="dictVersion != null and dictVersion != ''"> 
+	       		and t.dict_version  =  #{dictVersion}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	    limit 0,1
+	</select>
+	
+	<!-- 其他接口 -->	
+		<select id="queryLocalDictData" resultType="java.util.HashMap" parameterType="map">
+		
+			
+	   	
+				SELECT
+					dict_international dictInternational,
+					t.org_id orgId,
+					dict_name dictName,
+					dict_code dictCode,
+					dict_data_value dictDataValue,
+					dict_data_name dictDataName,
+					case when dict_data_memo is not null then dict_data_memo end  dictDataMemo
+				         
+				FROM
+					tb_system_dict t
+				INNER JOIN tb_system_dict_data t1
+				WHERE
+					t.dict_id = t1.dict_id
+				AND t.is_enable = 1
+				AND t1.is_enable = 1
+		
+		
+			
+		    <if test="orgId != null and orgId != ''"> 
+	       		and t.org_id  =  #{orgId}
+	       	</if>
+		     <if test="dictInternational != null and dictInternational != ''"> 
+	       		and t.dict_international  =  #{dictInternational}
+	       	</if>
+			 <if test="dictCode != null and dictCode != ''"> 
+	       		and t.dict_code  =  #{dictCode}
+	       	</if>
+			order by  t1.dict_data_seq asc
+		
+	</select>
+	
+		<select id="queryLocalDictCode" resultType="java.util.HashMap" parameterType="map">
+		
+				SELECT
+					dict_code dictCode,
+					dict_default_value dictDefaultValue
+				FROM
+					tb_system_dict t
+				WHERE
+				t.is_enable = 1
+
+	
+			
+				 <if test="orgId != null and orgId != ''"> 
+	       		and t.org_id  =  #{orgId}
+	       	</if>
+		     <if test="dictInternational != null and dictInternational != ''"> 
+	       		and t.dict_international  =  #{dictInternational}
+	       	</if>
+			
+				
+	</select>
+</mapper>

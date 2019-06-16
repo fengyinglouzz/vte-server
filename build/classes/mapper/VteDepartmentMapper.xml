@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.insight.wisehealth.vte.dao.TbVteDepartmentDao">
+
+ <!-- 根据主键查询 -->	
+	<select id="selectByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbVteDepartment" parameterType="com.insight.wisehealth.vte.persistence.TbVteDepartment" >
+	    select 
+			        department_id  departmentId,
+			        department_code  departmentCode,
+			        department_name  departmentName,
+			        department_monitor  departmentMonitor,
+			        department_qualitycontrol  departmentQualitycontrol,
+			        department_sort  departmentSort,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	    from tb_vte_department
+	    where department_id = #{departmentId}
+	</select>
+	
+	<!-- 根据主键查询 -->	
+	<select id="selectMapByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbVteDepartment" parameterType="map" >
+	   	select 
+			        department_id  departmentId,
+			        department_code  departmentCode,
+			        department_name  departmentName,
+			        department_monitor  departmentMonitor,
+			        department_qualitycontrol  departmentQualitycontrol,
+			        department_sort  departmentSort,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+		from tb_vte_department t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	    and department_id = #{departmentId}
+	</select>
+	
+	<!-- 根据主键删除（假删除） -->		
+	<delete id="deleteByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbVteDepartment" >
+	    update tb_vte_department set is_enable = 0, update_dt=#{updateDt},update_by=#{updateBy} 
+	    where department_id = #{departmentId}
+	</delete>
+	
+	
+	<!-- 插入 -->	
+	<insert id="insert" parameterType="com.insight.wisehealth.vte.persistence.TbVteDepartment" >
+	    insert into tb_vte_department (
+				department_id,
+				department_code,
+				department_name,
+				department_monitor,
+				department_qualitycontrol,
+				department_sort,
+				is_enable,
+				create_by,
+				create_dt,
+				update_by,
+				update_dt
+	    )
+	    values (
+				#{departmentId},
+				#{departmentCode},
+				#{departmentName},
+				#{departmentMonitor},
+				#{departmentQualitycontrol},
+				#{departmentSort},
+				#{isEnable},
+				#{createBy},
+				#{createDt},
+				#{updateBy},
+				#{updateDt}
+	    )
+	    
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey> 
+	</insert>
+	
+	<!-- 选择插入 -->		
+	<insert id="insertSelective" parameterType="com.insight.wisehealth.vte.persistence.TbVteDepartment" >
+		    insert into tb_vte_department
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="departmentId != null"> department_id,</if>
+	  		<if test="departmentCode != null"> department_code,</if>
+	  		<if test="departmentName != null"> department_name,</if>
+	  		<if test="departmentMonitor != null"> department_monitor,</if>
+	  		<if test="departmentQualitycontrol != null"> department_qualitycontrol,</if>
+	  		<if test="departmentSort != null"> department_sort,</if>
+	  		<if test="isEnable != null"> is_enable,</if>
+	  		<if test="createBy != null"> create_by,</if>
+	  		<if test="createDt != null"> create_dt,</if>
+	  		<if test="updateBy != null"> update_by,</if>
+			<if test="updateDt != null"> update_dt,</if>
+		      )
+		</trim>
+		    values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="departmentId != null"> #{departmentId},</if>
+	  		<if test="departmentCode != null"> #{departmentCode},</if>
+	  		<if test="departmentName != null"> #{departmentName},</if>
+	  		<if test="departmentMonitor != null"> #{departmentMonitor},</if>
+	  		<if test="departmentQualitycontrol != null"> #{departmentQualitycontrol},</if>
+	  		<if test="departmentSort != null"> #{departmentSort},</if>
+	  		<if test="isEnable != null"> #{isEnable},</if>
+	  		<if test="createBy != null"> #{createBy},</if>
+	  		<if test="createDt != null"> #{createDt},</if>
+	  		<if test="updateBy != null"> #{updateBy},</if>
+			<if test="updateDt != null"> #{updateDt},</if>
+		      )
+		</trim>
+		
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey>		
+		
+		
+	</insert>
+	
+	
+	<!-- 根据主键选择性更新 -->	
+	<update id="updateByPrimaryKeySelective" parameterType="com.insight.wisehealth.vte.persistence.TbVteDepartment" >
+		    update tb_vte_department
+		 <trim prefix="set" suffixOverrides=",">
+				<if test="departmentCode != null and departmentCode != ''">  department_code = #{departmentCode},</if>
+				<if test="departmentName != null and departmentName != ''">  department_name = #{departmentName},</if>
+				<if test="departmentMonitor != null and departmentMonitor != ''">  department_monitor = #{departmentMonitor},</if>
+				<if test="departmentQualitycontrol != null and departmentQualitycontrol != ''">  department_qualitycontrol = #{departmentQualitycontrol},</if>
+				<if test="departmentSort != null and departmentSort != ''">  department_sort = #{departmentSort},</if>
+				<if test="isEnable != null and isEnable != ''">  is_enable = #{isEnable},</if>
+				<if test="createBy != null and createBy != ''">  create_by = #{createBy},</if>
+				<if test="createDt != null and createDt != ''">  create_dt = #{createDt},</if>
+				<if test="updateBy != null and updateBy != ''">  update_by = #{updateBy},</if>
+				<if test="updateDt != null and updateDt != ''">  update_dt = #{updateDt},</if>
+		 </trim>
+		    where department_id = #{departmentId}
+	</update>
+	
+	<!-- 根据主键更新 -->	
+	<update id="updateByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbVteDepartment" >
+		    update tb_vte_department
+		    set 
+		        department_code = #{departmentCode},
+		        department_name = #{departmentName},
+		        department_monitor = #{departmentMonitor},
+		        department_qualitycontrol = #{departmentQualitycontrol},
+		        department_sort = #{departmentSort},
+		        is_enable = #{isEnable},
+		        create_by = #{createBy},
+		        create_dt = #{createDt},
+		        update_by = #{updateBy},
+				update_dt = #{updateDt}
+		    where department_id = #{departmentId}
+	</update>
+	<!-- 根据Form传过来Map更新对应字段值 -->
+	<update id="updateByFormMap" parameterType="map" >
+	    update tb_vte_department
+	    <trim prefix="set" suffixOverrides=",">
+			<if test="_parameter.containsKey('departmentCode')">
+	   				<if test="departmentCode != null and departmentCode != ''">   department_code = #{departmentCode},</if>
+	   				<if test="departmentCode == null or departmentCode == ''">  department_code = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('departmentName')">
+	   				<if test="departmentName != null and departmentName != ''">   department_name = #{departmentName},</if>
+	   				<if test="departmentName == null or departmentName == ''">  department_name = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('departmentMonitor')">
+	   				<if test="departmentMonitor != null and departmentMonitor != ''">   department_monitor = #{departmentMonitor},</if>
+	   				<if test="departmentMonitor == null or departmentMonitor == ''">  department_monitor = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('departmentQualitycontrol')">
+	   				<if test="departmentQualitycontrol != null and departmentQualitycontrol != ''">   department_qualitycontrol = #{departmentQualitycontrol},</if>
+	   				<if test="departmentQualitycontrol == null or departmentQualitycontrol == ''">  department_qualitycontrol = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('departmentSort')">
+	   				<if test="departmentSort != null and departmentSort != ''">   department_sort = #{departmentSort},</if>
+	   				<if test="departmentSort == null or departmentSort == ''">  department_sort = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('isEnable')">
+	   				<if test="isEnable != null and isEnable != ''">   is_enable = #{isEnable},</if>
+	   				<if test="isEnable == null or isEnable == ''">  is_enable = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createBy')">
+	   				<if test="createBy != null and createBy != ''">   create_by = #{createBy},</if>
+	   				<if test="createBy == null or createBy == ''">  create_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createDt')">
+	   				<if test="createDt != null and createDt != ''">   create_dt = #{createDt},</if>
+	   				<if test="createDt == null or createDt == ''">  create_dt = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateBy')">
+	   				<if test="updateBy != null and updateBy != ''">   update_by = #{updateBy},</if>
+	   				<if test="updateBy == null or updateBy == ''">  update_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateDt')">
+	   				<if test="updateDt != null and updateDt != ''">   update_dt = #{updateDt},</if>
+	   				<if test="updateDt == null or updateDt == ''">  update_dt = null,</if>
+	   		</if>
+		</trim>
+	    where department_id = #{departmentId}
+	</update>
+	<!-- 默认分页 -->
+	<select id="queryAllVteDepartment" resultType="com.insight.wisehealth.vte.persistence.TbVteDepartment" parameterType="map">
+	   	select 
+			        department_id  departmentId,
+			        department_code  departmentCode,
+			        department_name  departmentName,
+			        department_monitor  departmentMonitor,
+			        department_qualitycontrol  departmentQualitycontrol,
+			        department_sort  departmentSort,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	       from tb_vte_department t
+	       where 
+	       IFNULL(t.is_enable,'0') = 1
+	  		<if test="departmentId != null and departmentId != ''"> 
+	       		and t.department_id  =  #{departmentId}
+	       	</if>
+	  		<if test="departmentCode != null and departmentCode != ''"> 
+	       		and t.department_code  =  #{departmentCode}
+	       	</if>
+	  		<if test="departmentName != null and departmentName != ''"> 
+	       		and t.department_name  =  #{departmentName}
+	       	</if>
+	  		<if test="departmentMonitor != null and departmentMonitor != ''"> 
+	       		and t.department_monitor  =  #{departmentMonitor}
+	       	</if>
+	  		<if test="departmentQualitycontrol != null and departmentQualitycontrol != ''"> 
+	       		and t.department_qualitycontrol  =  #{departmentQualitycontrol}
+	       	</if>
+	  		<if test="departmentSort != null and departmentSort != ''"> 
+	       		and t.department_sort  =  #{departmentSort}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+		<if test="pageSort != null and pageSort != ''">
+			order by $pageSort$ 
+	     </if>
+			limit #{start},#{limit}
+	</select>
+  
+	<select id="countAllVteDepartment" resultType="int" parameterType="map">
+		select  count(*)  from tb_vte_department t
+			where 
+				IFNULL(t.is_enable,'0') = 1
+	  		<if test="departmentId != null and departmentId != ''"> 
+	       		and t.department_id  =  #{departmentId}
+	       	</if>
+	  		<if test="departmentCode != null and departmentCode != ''"> 
+	       		and t.department_code  =  #{departmentCode}
+	       	</if>
+	  		<if test="departmentName != null and departmentName != ''"> 
+	       		and t.department_name  =  #{departmentName}
+	       	</if>
+	  		<if test="departmentMonitor != null and departmentMonitor != ''"> 
+	       		and t.department_monitor  =  #{departmentMonitor}
+	       	</if>
+	  		<if test="departmentQualitycontrol != null and departmentQualitycontrol != ''"> 
+	       		and t.department_qualitycontrol  =  #{departmentQualitycontrol}
+	       	</if>
+	  		<if test="departmentSort != null and departmentSort != ''"> 
+	       		and t.department_sort  =  #{departmentSort}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+
+	<!-- 默认不分页 -->
+	<select id="queryAllVteDepartmentNP" resultType="com.insight.wisehealth.vte.persistence.TbVteDepartment" parameterType="map">
+	   	select 
+		        department_id  departmentId,
+		        department_code  departmentCode,
+		        department_name  departmentName,
+		        department_monitor  departmentMonitor,
+		        department_qualitycontrol  departmentQualitycontrol,
+		        department_sort  departmentSort,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_vte_department t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="departmentId != null and departmentId != ''"> 
+	       		and t.department_id  =  #{departmentId}
+	       	</if>
+	  		<if test="departmentCode != null and departmentCode != ''"> 
+	       		and t.department_code  =  #{departmentCode}
+	       	</if>
+	  		<if test="departmentName != null and departmentName != ''"> 
+	       		and t.department_name  =  #{departmentName}
+	       	</if>
+	  		<if test="departmentMonitor != null and departmentMonitor != ''"> 
+	       		and t.department_monitor  =  #{departmentMonitor}
+	       	</if>
+	  		<if test="departmentQualitycontrol != null and departmentQualitycontrol != ''"> 
+	       		and t.department_qualitycontrol  =  #{departmentQualitycontrol}
+	       	</if>
+	  		<if test="departmentSort != null and departmentSort != ''"> 
+	       		and t.department_sort  =  #{departmentSort}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+			order by t.department_sort
+	</select>
+	
+	<!-- 默认不分页 -->
+	<select id="queryVteDepartmentInfo" resultType="com.insight.wisehealth.vte.persistence.TbVteDepartment" parameterType="map">
+	   	select 
+		        department_id  departmentId,
+		        department_code  departmentCode,
+		        department_name  departmentName,
+		        department_monitor  departmentMonitor,
+		        department_qualitycontrol  departmentQualitycontrol,
+		        department_sort  departmentSort,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_vte_department t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="departmentId != null and departmentId != ''"> 
+	       		and t.department_id  =  #{departmentId}
+	       	</if>
+	  		<if test="departmentCode != null and departmentCode != ''"> 
+	       		and t.department_code  =  #{departmentCode}
+	       	</if>
+	  		<if test="departmentName != null and departmentName != ''"> 
+	       		and t.department_name  =  #{departmentName}
+	       	</if>
+	  		<if test="departmentMonitor != null and departmentMonitor != ''"> 
+	       		and t.department_monitor  =  #{departmentMonitor}
+	       	</if>
+	  		<if test="departmentQualitycontrol != null and departmentQualitycontrol != ''"> 
+	       		and t.department_qualitycontrol  =  #{departmentQualitycontrol}
+	       	</if>
+	  		<if test="departmentSort != null and departmentSort != ''"> 
+	       		and t.department_sort  =  #{departmentSort}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	    limit 0,1
+	</select>
+	
+	<!-- 其他接口 -->	
+	
+	<insert id="insertVteDepartmentByName" parameterType="map" >
+	    insert into tb_vte_department (
+				department_id,
+				department_code,
+				department_name,
+				is_enable,
+				create_by,
+				create_dt,
+				update_by,
+				update_dt
+	    )
+	    values (
+				#{departmentId},
+				(select org_code from tb_system_org o where IFNULL(o.is_enable,'0') = 1 and o.org_name = #{departmentName} limit 0,1),
+				#{departmentName},
+				#{isEnable},
+				#{createBy},
+				#{createDt},
+				#{updateBy},
+				#{updateDt}
+	    )
+	    <selectKey resultType="int" > 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey> 
+	</insert>
+	
+	<insert id="saveVteDepartmentByName" parameterType="map" >
+	    insert into tb_vte_department (
+				department_id,
+				department_code,
+				department_name,
+				is_enable,
+				create_by,
+				create_dt,
+				update_by,
+				update_dt
+	    )
+	    values (
+				#{departmentId},
+				(select org_code from tb_system_org o where IFNULL(o.is_enable,'0') = 1 and o.org_name = #{departmentName} limit 0,1),
+				#{departmentName},
+				#{isEnable},
+				#{createBy},
+				#{createDt},
+				#{updateBy},
+				#{updateDt}
+	    )
+	    <selectKey resultType="int"  keyProperty="departmentId"  > 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey> 
+	</insert>
+	
+	<!-- 默认不分页 -->
+	<select id="queryAllVteDepartmentOrg" resultType="java.util.HashMap" parameterType="map">
+	   	select 
+		        t.department_name  departmentName,
+		        tso.org_type orgType
+		from tb_vte_department t 
+		LEFT JOIN tb_system_org tso on t.department_code=tso.org_code
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="departmentId != null and departmentId != ''"> 
+	       		and t.department_id  =  #{departmentId}
+	       	</if>
+	  		<if test="departmentCode != null and departmentCode != ''"> 
+	       		and t.department_code  =  #{departmentCode}
+	       	</if>
+	  		<if test="departmentName != null and departmentName != ''"> 
+	       		and t.department_name  =  #{departmentName}
+	       	</if>
+	  		<if test="departmentMonitor != null and departmentMonitor != ''"> 
+	       		and t.department_monitor  =  #{departmentMonitor}
+	       	</if>
+	  		<if test="departmentQualitycontrol != null and departmentQualitycontrol != ''"> 
+	       		and t.department_qualitycontrol  =  #{departmentQualitycontrol}
+	       	</if>
+	  		<if test="departmentSort != null and departmentSort != ''"> 
+	       		and t.department_sort  =  #{departmentSort}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+			order by t.department_sort
+	</select>
+</mapper>

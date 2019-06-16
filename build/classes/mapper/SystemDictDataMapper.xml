@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.insight.wisehealth.vte.dao.TbSystemDictDataDao">
+
+ <!-- 根据主键查询 -->	
+	<select id="selectByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbSystemDictData" parameterType="com.insight.wisehealth.vte.persistence.TbSystemDictData" >
+	    select 
+			        dict_data_id  dictDataId,
+			        dict_id  dictId,
+			        dict_data_name  dictDataName,
+			        dict_data_value  dictDataValue,
+			        dict_data_memo  dictDataMemo,
+			        dict_data_seq  dictDataSeq,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	    from tb_system_dict_data
+	    where dict_data_id = #{dictDataId}
+	</select>
+	
+	<!-- 根据主键查询 -->	
+	<select id="selectMapByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbSystemDictData" parameterType="map" >
+	   	select 
+			        dict_data_id  dictDataId,
+			        dict_id  dictId,
+			        dict_data_name  dictDataName,
+			        dict_data_value  dictDataValue,
+			        dict_data_memo  dictDataMemo,
+			        dict_data_seq  dictDataSeq,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+		from tb_system_dict_data t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	    and dict_data_id = #{dictDataId}
+	</select>
+	
+	<!-- 根据主键删除（假删除） -->		
+	<delete id="deleteByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbSystemDictData" >
+	    update tb_system_dict_data set is_enable = 0, update_dt=#{updateDt},update_by=#{updateBy} 
+	    where dict_data_id = #{dictDataId}
+	</delete>
+	
+	
+	<!-- 插入 -->	
+	<insert id="insert" parameterType="com.insight.wisehealth.vte.persistence.TbSystemDictData" >
+	    insert into tb_system_dict_data (
+				dict_data_id,
+				dict_id,
+				dict_data_name,
+				dict_data_value,
+				dict_data_memo,
+				dict_data_seq,
+				is_enable,
+				create_by,
+				create_dt,
+				update_by,
+				update_dt
+	    )
+	    values (
+				#{dictDataId},
+				#{dictId},
+				#{dictDataName},
+				#{dictDataValue},
+				#{dictDataMemo},
+				#{dictDataSeq},
+				#{isEnable},
+				#{createBy},
+				#{createDt},
+				#{updateBy},
+				#{updateDt}
+	    )
+	    
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey> 
+	</insert>
+	
+	<!-- 选择插入 -->		
+	<insert id="insertSelective" parameterType="com.insight.wisehealth.vte.persistence.TbSystemDictData" >
+		    insert into tb_system_dict_data
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="dictDataId != null"> dict_data_id,</if>
+	  		<if test="dictId != null"> dict_id,</if>
+	  		<if test="dictDataName != null"> dict_data_name,</if>
+	  		<if test="dictDataValue != null"> dict_data_value,</if>
+	  		<if test="dictDataMemo != null"> dict_data_memo,</if>
+	  		<if test="dictDataSeq != null"> dict_data_seq,</if>
+	  		<if test="isEnable != null"> is_enable,</if>
+	  		<if test="createBy != null"> create_by,</if>
+	  		<if test="createDt != null"> create_dt,</if>
+	  		<if test="updateBy != null"> update_by,</if>
+			<if test="updateDt != null"> update_dt,</if>
+		      )
+		</trim>
+		    values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="dictDataId != null"> #{dictDataId},</if>
+	  		<if test="dictId != null"> #{dictId},</if>
+	  		<if test="dictDataName != null"> #{dictDataName},</if>
+	  		<if test="dictDataValue != null"> #{dictDataValue},</if>
+	  		<if test="dictDataMemo != null"> #{dictDataMemo},</if>
+	  		<if test="dictDataSeq != null"> #{dictDataSeq},</if>
+	  		<if test="isEnable != null"> #{isEnable},</if>
+	  		<if test="createBy != null"> #{createBy},</if>
+	  		<if test="createDt != null"> #{createDt},</if>
+	  		<if test="updateBy != null"> #{updateBy},</if>
+			<if test="updateDt != null"> #{updateDt},</if>
+		      )
+		</trim>
+		
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey>		
+		
+		
+	</insert>
+	
+	
+	<!-- 根据主键选择性更新 -->	
+	<update id="updateByPrimaryKeySelective" parameterType="com.insight.wisehealth.vte.persistence.TbSystemDictData" >
+		    update tb_system_dict_data
+		 <trim prefix="set" suffixOverrides=",">
+				<if test="dictId != null and dictId != ''">  dict_id = #{dictId},</if>
+				<if test="dictDataName != null and dictDataName != ''">  dict_data_name = #{dictDataName},</if>
+				<if test="dictDataValue != null and dictDataValue != ''">  dict_data_value = #{dictDataValue},</if>
+				<if test="dictDataMemo != null and dictDataMemo != ''">  dict_data_memo = #{dictDataMemo},</if>
+				<if test="dictDataSeq != null and dictDataSeq != ''">  dict_data_seq = #{dictDataSeq},</if>
+				<if test="isEnable != null and isEnable != ''">  is_enable = #{isEnable},</if>
+				<if test="createBy != null and createBy != ''">  create_by = #{createBy},</if>
+				<if test="createDt != null and createDt != ''">  create_dt = #{createDt},</if>
+				<if test="updateBy != null and updateBy != ''">  update_by = #{updateBy},</if>
+				<if test="updateDt != null and updateDt != ''">  update_dt = #{updateDt},</if>
+		 </trim>
+		    where dict_data_id = #{dictDataId}
+	</update>
+	
+	<!-- 根据主键更新 -->	
+	<update id="updateByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbSystemDictData" >
+		    update tb_system_dict_data
+		    set 
+		        dict_id = #{dictId},
+		        dict_data_name = #{dictDataName},
+		        dict_data_value = #{dictDataValue},
+		        dict_data_memo = #{dictDataMemo},
+		        dict_data_seq = #{dictDataSeq},
+		        is_enable = #{isEnable},
+		        create_by = #{createBy},
+		        create_dt = #{createDt},
+		        update_by = #{updateBy},
+				update_dt = #{updateDt}
+		    where dict_data_id = #{dictDataId}
+	</update>
+	<!-- 根据Form传过来Map更新对应字段值 -->
+	<update id="updateByFormMap" parameterType="map" >
+	    update tb_system_dict_data
+	    <trim prefix="set" suffixOverrides=",">
+			<if test="_parameter.containsKey('dictId')">
+	   				<if test="dictId != null and dictId != ''">   dict_id = #{dictId},</if>
+	   				<if test="dictId == null or dictId == ''">  dict_id = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('dictDataName')">
+	   				<if test="dictDataName != null and dictDataName != ''">   dict_data_name = #{dictDataName},</if>
+	   				<if test="dictDataName == null or dictDataName == ''">  dict_data_name = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('dictDataValue')">
+	   				<if test="dictDataValue != null and dictDataValue != ''">   dict_data_value = #{dictDataValue},</if>
+	   				<if test="dictDataValue == null or dictDataValue == ''">  dict_data_value = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('dictDataMemo')">
+	   				<if test="dictDataMemo != null and dictDataMemo != ''">   dict_data_memo = #{dictDataMemo},</if>
+	   				<if test="dictDataMemo == null or dictDataMemo == ''">  dict_data_memo = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('dictDataSeq')">
+	   				<if test="dictDataSeq != null and dictDataSeq != ''">   dict_data_seq = #{dictDataSeq},</if>
+	   				<if test="dictDataSeq == null or dictDataSeq == ''">  dict_data_seq = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('isEnable')">
+	   				<if test="isEnable != null and isEnable != ''">   is_enable = #{isEnable},</if>
+	   				<if test="isEnable == null or isEnable == ''">  is_enable = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createBy')">
+	   				<if test="createBy != null and createBy != ''">   create_by = #{createBy},</if>
+	   				<if test="createBy == null or createBy == ''">  create_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createDt')">
+	   				<if test="createDt != null and createDt != ''">   create_dt = #{createDt},</if>
+	   				<if test="createDt == null or createDt == ''">  create_dt = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateBy')">
+	   				<if test="updateBy != null and updateBy != ''">   update_by = #{updateBy},</if>
+	   				<if test="updateBy == null or updateBy == ''">  update_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateDt')">
+	   				<if test="updateDt != null and updateDt != ''">   update_dt = #{updateDt},</if>
+	   				<if test="updateDt == null or updateDt == ''">  update_dt = null,</if>
+	   		</if>
+		</trim>
+	    where dict_data_id = #{dictDataId}
+	</update>
+	<!-- 默认分页 -->
+	<select id="queryAllSystemDictData" resultType="com.insight.wisehealth.vte.persistence.TbSystemDictData" parameterType="map">
+	   	select 
+			        dict_data_id  dictDataId,
+			        dict_id  dictId,
+			        dict_data_name  dictDataName,
+			        dict_data_value  dictDataValue,
+			        dict_data_memo  dictDataMemo,
+			        dict_data_seq  dictDataSeq,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	       from tb_system_dict_data t
+	       where 
+	       IFNULL(t.is_enable,'0') = 1
+	  		<if test="dictDataId != null and dictDataId != ''"> 
+	       		and t.dict_data_id  =  #{dictDataId}
+	       	</if>
+	  		<if test="dictId != null and dictId != ''"> 
+	       		and t.dict_id  =  #{dictId}
+	       	</if>
+	  		<if test="dictDataName != null and dictDataName != ''"> 
+	       		and t.dict_data_name  =  #{dictDataName}
+	       	</if>
+	  		<if test="dictDataValue != null and dictDataValue != ''"> 
+	       		and t.dict_data_value  =  #{dictDataValue}
+	       	</if>
+	  		<if test="dictDataMemo != null and dictDataMemo != ''"> 
+	       		and t.dict_data_memo  =  #{dictDataMemo}
+	       	</if>
+	  		<if test="dictDataSeq != null and dictDataSeq != ''"> 
+	       		and t.dict_data_seq  =  #{dictDataSeq}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+		<if test="pageSort != null and pageSort != ''">
+			order by $pageSort$ 
+	     </if>
+			limit #{start},#{limit}
+	</select>
+  
+	<select id="countAllSystemDictData" resultType="int" parameterType="map">
+		select  count(*)  from tb_system_dict_data t
+			where 
+				IFNULL(t.is_enable,'0') = 1
+	  		<if test="dictDataId != null and dictDataId != ''"> 
+	       		and t.dict_data_id  =  #{dictDataId}
+	       	</if>
+	  		<if test="dictId != null and dictId != ''"> 
+	       		and t.dict_id  =  #{dictId}
+	       	</if>
+	  		<if test="dictDataName != null and dictDataName != ''"> 
+	       		and t.dict_data_name  =  #{dictDataName}
+	       	</if>
+	  		<if test="dictDataValue != null and dictDataValue != ''"> 
+	       		and t.dict_data_value  =  #{dictDataValue}
+	       	</if>
+	  		<if test="dictDataMemo != null and dictDataMemo != ''"> 
+	       		and t.dict_data_memo  =  #{dictDataMemo}
+	       	</if>
+	  		<if test="dictDataSeq != null and dictDataSeq != ''"> 
+	       		and t.dict_data_seq  =  #{dictDataSeq}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+
+	<!-- 默认不分页 -->
+	<select id="queryAllSystemDictDataNP" resultType="com.insight.wisehealth.vte.persistence.TbSystemDictData" parameterType="map">
+	   	select 
+		        dict_data_id  dictDataId,
+		        dict_id  dictId,
+		        dict_data_name  dictDataName,
+		        dict_data_value  dictDataValue,
+		        dict_data_memo  dictDataMemo,
+		        dict_data_seq  dictDataSeq,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_system_dict_data t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="dictDataId != null and dictDataId != ''"> 
+	       		and t.dict_data_id  =  #{dictDataId}
+	       	</if>
+	  		<if test="dictId != null and dictId != ''"> 
+	       		and t.dict_id  =  #{dictId}
+	       	</if>
+	  		<if test="dictDataName != null and dictDataName != ''"> 
+	       		and t.dict_data_name  =  #{dictDataName}
+	       	</if>
+	  		<if test="dictDataValue != null and dictDataValue != ''"> 
+	       		and t.dict_data_value  =  #{dictDataValue}
+	       	</if>
+	  		<if test="dictDataMemo != null and dictDataMemo != ''"> 
+	       		and t.dict_data_memo  =  #{dictDataMemo}
+	       	</if>
+	  		<if test="dictDataSeq != null and dictDataSeq != ''"> 
+	       		and t.dict_data_seq  =  #{dictDataSeq}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+	
+	<!-- 默认不分页 -->
+	<select id="querySystemDictDataInfo" resultType="com.insight.wisehealth.vte.persistence.TbSystemDictData" parameterType="map">
+	   	select 
+		        dict_data_id  dictDataId,
+		        dict_id  dictId,
+		        dict_data_name  dictDataName,
+		        dict_data_value  dictDataValue,
+		        dict_data_memo  dictDataMemo,
+		        dict_data_seq  dictDataSeq,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_system_dict_data t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="dictDataId != null and dictDataId != ''"> 
+	       		and t.dict_data_id  =  #{dictDataId}
+	       	</if>
+	  		<if test="dictId != null and dictId != ''"> 
+	       		and t.dict_id  =  #{dictId}
+	       	</if>
+	  		<if test="dictDataName != null and dictDataName != ''"> 
+	       		and t.dict_data_name  =  #{dictDataName}
+	       	</if>
+	  		<if test="dictDataValue != null and dictDataValue != ''"> 
+	       		and t.dict_data_value  =  #{dictDataValue}
+	       	</if>
+	  		<if test="dictDataMemo != null and dictDataMemo != ''"> 
+	       		and t.dict_data_memo  =  #{dictDataMemo}
+	       	</if>
+	  		<if test="dictDataSeq != null and dictDataSeq != ''"> 
+	       		and t.dict_data_seq  =  #{dictDataSeq}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	    limit 0,1
+	</select>
+	
+	<!-- 其他接口 -->	
+	
+</mapper>

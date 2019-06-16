@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.insight.wisehealth.vte.dao.TbVteAssessmentDictDao">
+
+ <!-- 根据主键查询 -->	
+	<select id="selectByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbVteAssessmentDict" parameterType="com.insight.wisehealth.vte.persistence.TbVteAssessmentDict" >
+	    select 
+			        assessment_dict_id  assessmentDictId,
+			        assessment_type  assessmentType,
+			        assessment_item  assessmentItem,
+			        assessment_dict_code  assessmentDictCode,
+			        assessment_dict_name  assessmentDictName,
+			        assessment_dict_score  assessmentDictScore,
+			        assessment_dict_mutex  assessmentDictMutex,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	    from tb_vte_assessment_dict
+	    where assessment_dict_id = #{assessmentDictId}
+	</select>
+	
+	<!-- 根据主键查询 -->	
+	<select id="selectMapByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbVteAssessmentDict" parameterType="map" >
+	   	select 
+			        assessment_dict_id  assessmentDictId,
+			        assessment_type  assessmentType,
+			        assessment_item  assessmentItem,
+			        assessment_dict_code  assessmentDictCode,
+			        assessment_dict_name  assessmentDictName,
+			        assessment_dict_score  assessmentDictScore,
+			        assessment_dict_mutex  assessmentDictMutex,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+		from tb_vte_assessment_dict t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	    and assessment_dict_id = #{assessmentDictId}
+	</select>
+	
+	<!-- 根据主键删除（假删除） -->		
+	<delete id="deleteByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbVteAssessmentDict" >
+	    update tb_vte_assessment_dict set is_enable = 0, update_dt=#{updateDt},update_by=#{updateBy} 
+	    where assessment_dict_id = #{assessmentDictId}
+	</delete>
+	
+	
+	<!-- 插入 -->	
+	<insert id="insert" parameterType="com.insight.wisehealth.vte.persistence.TbVteAssessmentDict" >
+	    insert into tb_vte_assessment_dict (
+				assessment_dict_id,
+				assessment_type,
+				assessment_item,
+				assessment_dict_code,
+				assessment_dict_name,
+				assessment_dict_score,
+				assessment_dict_mutex,
+				is_enable,
+				create_by,
+				create_dt,
+				update_by,
+				update_dt
+	    )
+	    values (
+				#{assessmentDictId},
+				#{assessmentType},
+				#{assessmentItem},
+				#{assessmentDictCode},
+				#{assessmentDictName},
+				#{assessmentDictScore},
+				#{assessmentDictMutex},
+				#{isEnable},
+				#{createBy},
+				#{createDt},
+				#{updateBy},
+				#{updateDt}
+	    )
+	    
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey> 
+	</insert>
+	
+	<!-- 选择插入 -->		
+	<insert id="insertSelective" parameterType="com.insight.wisehealth.vte.persistence.TbVteAssessmentDict" >
+		    insert into tb_vte_assessment_dict
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="assessmentDictId != null"> assessment_dict_id,</if>
+	  		<if test="assessmentType != null"> assessment_type,</if>
+	  		<if test="assessmentItem != null"> assessment_item,</if>
+	  		<if test="assessmentDictCode != null"> assessment_dict_code,</if>
+	  		<if test="assessmentDictName != null"> assessment_dict_name,</if>
+	  		<if test="assessmentDictScore != null"> assessment_dict_score,</if>
+	  		<if test="assessmentDictMutex != null"> assessment_dict_mutex,</if>
+	  		<if test="isEnable != null"> is_enable,</if>
+	  		<if test="createBy != null"> create_by,</if>
+	  		<if test="createDt != null"> create_dt,</if>
+	  		<if test="updateBy != null"> update_by,</if>
+			<if test="updateDt != null"> update_dt,</if>
+		      )
+		</trim>
+		    values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="assessmentDictId != null"> #{assessmentDictId},</if>
+	  		<if test="assessmentType != null"> #{assessmentType},</if>
+	  		<if test="assessmentItem != null"> #{assessmentItem},</if>
+	  		<if test="assessmentDictCode != null"> #{assessmentDictCode},</if>
+	  		<if test="assessmentDictName != null"> #{assessmentDictName},</if>
+	  		<if test="assessmentDictScore != null"> #{assessmentDictScore},</if>
+	  		<if test="assessmentDictMutex != null"> #{assessmentDictMutex},</if>
+	  		<if test="isEnable != null"> #{isEnable},</if>
+	  		<if test="createBy != null"> #{createBy},</if>
+	  		<if test="createDt != null"> #{createDt},</if>
+	  		<if test="updateBy != null"> #{updateBy},</if>
+			<if test="updateDt != null"> #{updateDt},</if>
+		      )
+		</trim>
+		
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey>		
+		
+		
+	</insert>
+	
+	
+	<!-- 根据主键选择性更新 -->	
+	<update id="updateByPrimaryKeySelective" parameterType="com.insight.wisehealth.vte.persistence.TbVteAssessmentDict" >
+		    update tb_vte_assessment_dict
+		 <trim prefix="set" suffixOverrides=",">
+				<if test="assessmentType != null and assessmentType != ''">  assessment_type = #{assessmentType},</if>
+				<if test="assessmentItem != null and assessmentItem != ''">  assessment_item = #{assessmentItem},</if>
+				<if test="assessmentDictCode != null and assessmentDictCode != ''">  assessment_dict_code = #{assessmentDictCode},</if>
+				<if test="assessmentDictName != null and assessmentDictName != ''">  assessment_dict_name = #{assessmentDictName},</if>
+				<if test="assessmentDictScore != null and assessmentDictScore != ''">  assessment_dict_score = #{assessmentDictScore},</if>
+				<if test="assessmentDictMutex != null and assessmentDictMutex != ''">  assessment_dict_mutex = #{assessmentDictMutex},</if>
+				<if test="isEnable != null and isEnable != ''">  is_enable = #{isEnable},</if>
+				<if test="createBy != null and createBy != ''">  create_by = #{createBy},</if>
+				<if test="createDt != null and createDt != ''">  create_dt = #{createDt},</if>
+				<if test="updateBy != null and updateBy != ''">  update_by = #{updateBy},</if>
+				<if test="updateDt != null and updateDt != ''">  update_dt = #{updateDt},</if>
+		 </trim>
+		    where assessment_dict_id = #{assessmentDictId}
+	</update>
+	
+	<!-- 根据主键更新 -->	
+	<update id="updateByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbVteAssessmentDict" >
+		    update tb_vte_assessment_dict
+		    set 
+		        assessment_type = #{assessmentType},
+		        assessment_item = #{assessmentItem},
+		        assessment_dict_code = #{assessmentDictCode},
+		        assessment_dict_name = #{assessmentDictName},
+		        assessment_dict_score = #{assessmentDictScore},
+		        assessment_dict_mutex = #{assessmentDictMutex},
+		        is_enable = #{isEnable},
+		        create_by = #{createBy},
+		        create_dt = #{createDt},
+		        update_by = #{updateBy},
+				update_dt = #{updateDt}
+		    where assessment_dict_id = #{assessmentDictId}
+	</update>
+	<!-- 根据Form传过来Map更新对应字段值 -->
+	<update id="updateByFormMap" parameterType="map" >
+	    update tb_vte_assessment_dict
+	    <trim prefix="set" suffixOverrides=",">
+			<if test="_parameter.containsKey('assessmentType')">
+	   				<if test="assessmentType != null and assessmentType != ''">   assessment_type = #{assessmentType},</if>
+	   				<if test="assessmentType == null or assessmentType == ''">  assessment_type = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('assessmentItem')">
+	   				<if test="assessmentItem != null and assessmentItem != ''">   assessment_item = #{assessmentItem},</if>
+	   				<if test="assessmentItem == null or assessmentItem == ''">  assessment_item = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('assessmentDictCode')">
+	   				<if test="assessmentDictCode != null and assessmentDictCode != ''">   assessment_dict_code = #{assessmentDictCode},</if>
+	   				<if test="assessmentDictCode == null or assessmentDictCode == ''">  assessment_dict_code = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('assessmentDictName')">
+	   				<if test="assessmentDictName != null and assessmentDictName != ''">   assessment_dict_name = #{assessmentDictName},</if>
+	   				<if test="assessmentDictName == null or assessmentDictName == ''">  assessment_dict_name = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('assessmentDictScore')">
+	   				<if test="assessmentDictScore != null and assessmentDictScore != ''">   assessment_dict_score = #{assessmentDictScore},</if>
+	   				<if test="assessmentDictScore == null or assessmentDictScore == ''">  assessment_dict_score = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('assessmentDictMutex')">
+	   				<if test="assessmentDictMutex != null and assessmentDictMutex != ''">   assessment_dict_mutex = #{assessmentDictMutex},</if>
+	   				<if test="assessmentDictMutex == null or assessmentDictMutex == ''">  assessment_dict_mutex = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('isEnable')">
+	   				<if test="isEnable != null and isEnable != ''">   is_enable = #{isEnable},</if>
+	   				<if test="isEnable == null or isEnable == ''">  is_enable = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createBy')">
+	   				<if test="createBy != null and createBy != ''">   create_by = #{createBy},</if>
+	   				<if test="createBy == null or createBy == ''">  create_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createDt')">
+	   				<if test="createDt != null and createDt != ''">   create_dt = #{createDt},</if>
+	   				<if test="createDt == null or createDt == ''">  create_dt = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateBy')">
+	   				<if test="updateBy != null and updateBy != ''">   update_by = #{updateBy},</if>
+	   				<if test="updateBy == null or updateBy == ''">  update_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateDt')">
+	   				<if test="updateDt != null and updateDt != ''">   update_dt = #{updateDt},</if>
+	   				<if test="updateDt == null or updateDt == ''">  update_dt = null,</if>
+	   		</if>
+		</trim>
+	    where assessment_dict_id = #{assessmentDictId}
+	</update>
+	<!-- 默认分页 -->
+	<select id="queryAllVteAssessmentDict" resultType="com.insight.wisehealth.vte.persistencepojo.TbVteAssessmentDictPojo" parameterType="map">
+	   	select 
+			        assessment_dict_id  assessmentDictId,
+			        assessment_type  assessmentType,
+			        assessment_item  assessmentItem,
+			        assessment_dict_code  assessmentDictCode,
+			        assessment_dict_name  assessmentDictName,
+			        assessment_dict_score  assessmentDictScore,
+			        assessment_dict_mutex  assessmentDictMutex,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	       from tb_vte_assessment_dict t
+	       where 
+	       IFNULL(t.is_enable,'0') = 1
+	  		<if test="assessmentDictId != null and assessmentDictId != ''"> 
+	       		and t.assessment_dict_id  =  #{assessmentDictId}
+	       	</if>
+	  		<if test="assessmentType != null and assessmentType != ''"> 
+	       		and t.assessment_type  =  #{assessmentType}
+	       	</if>
+	  		<if test="assessmentItem != null and assessmentItem != ''"> 
+	       		and t.assessment_item  =  #{assessmentItem}
+	       	</if>
+	  		<if test="assessmentDictCode != null and assessmentDictCode != ''"> 
+	       		and t.assessment_dict_code  =  #{assessmentDictCode}
+	       	</if>
+	  		<if test="assessmentDictName != null and assessmentDictName != ''"> 
+	       		and t.assessment_dict_name  =  #{assessmentDictName}
+	       	</if>
+	  		<if test="assessmentDictScore != null and assessmentDictScore != ''"> 
+	       		and t.assessment_dict_score  =  #{assessmentDictScore}
+	       	</if>
+	  		<if test="assessmentDictMutex != null and assessmentDictMutex != ''"> 
+	       		and t.assessment_dict_mutex  =  #{assessmentDictMutex}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+		<if test="pageSort != null and pageSort != ''">
+			order by $pageSort$ 
+	     </if>
+			limit #{start},#{limit}
+	</select>
+  
+	<select id="countAllVteAssessmentDict" resultType="int" parameterType="map">
+		select  count(*)  from tb_vte_assessment_dict t
+			where 
+				IFNULL(t.is_enable,'0') = 1
+	  		<if test="assessmentDictId != null and assessmentDictId != ''"> 
+	       		and t.assessment_dict_id  =  #{assessmentDictId}
+	       	</if>
+	  		<if test="assessmentType != null and assessmentType != ''"> 
+	       		and t.assessment_type  =  #{assessmentType}
+	       	</if>
+	  		<if test="assessmentItem != null and assessmentItem != ''"> 
+	       		and t.assessment_item  =  #{assessmentItem}
+	       	</if>
+	  		<if test="assessmentDictCode != null and assessmentDictCode != ''"> 
+	       		and t.assessment_dict_code  =  #{assessmentDictCode}
+	       	</if>
+	  		<if test="assessmentDictName != null and assessmentDictName != ''"> 
+	       		and t.assessment_dict_name  =  #{assessmentDictName}
+	       	</if>
+	  		<if test="assessmentDictScore != null and assessmentDictScore != ''"> 
+	       		and t.assessment_dict_score  =  #{assessmentDictScore}
+	       	</if>
+	  		<if test="assessmentDictMutex != null and assessmentDictMutex != ''"> 
+	       		and t.assessment_dict_mutex  =  #{assessmentDictMutex}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+
+	<!-- 默认不分页 -->
+	<select id="queryAllVteAssessmentDictNP" resultType="com.insight.wisehealth.vte.persistence.TbVteAssessmentDict" parameterType="map">
+	   	select 
+		        assessment_dict_id  assessmentDictId,
+		        assessment_type  assessmentType,
+		        assessment_item  assessmentItem,
+		        assessment_dict_code  assessmentDictCode,
+		        assessment_dict_name  assessmentDictName,
+		        assessment_dict_score  assessmentDictScore,
+		        assessment_dict_mutex  assessmentDictMutex,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_vte_assessment_dict t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="assessmentDictId != null and assessmentDictId != ''"> 
+	       		and t.assessment_dict_id  =  #{assessmentDictId}
+	       	</if>
+	  		<if test="assessmentType != null and assessmentType != ''"> 
+	       		and t.assessment_type  =  #{assessmentType}
+	       	</if>
+	  		<if test="assessmentItem != null and assessmentItem != ''"> 
+	       		and t.assessment_item  =  #{assessmentItem}
+	       	</if>
+	  		<if test="assessmentDictCode != null and assessmentDictCode != ''"> 
+	       		and t.assessment_dict_code  =  #{assessmentDictCode}
+	       	</if>
+	  		<if test="assessmentDictName != null and assessmentDictName != ''"> 
+	       		and t.assessment_dict_name  =  #{assessmentDictName}
+	       	</if>
+	  		<if test="assessmentDictScore != null and assessmentDictScore != ''"> 
+	       		and t.assessment_dict_score  =  #{assessmentDictScore}
+	       	</if>
+	  		<if test="assessmentDictMutex != null and assessmentDictMutex != ''"> 
+	       		and t.assessment_dict_mutex  =  #{assessmentDictMutex}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+	
+	<!-- 默认不分页 -->
+	<select id="queryVteAssessmentDictInfo" resultType="com.insight.wisehealth.vte.persistence.TbVteAssessmentDict" parameterType="map">
+	   	select 
+		        assessment_dict_id  assessmentDictId,
+		        assessment_type  assessmentType,
+		        assessment_item  assessmentItem,
+		        assessment_dict_code  assessmentDictCode,
+		        assessment_dict_name  assessmentDictName,
+		        assessment_dict_score  assessmentDictScore,
+		        assessment_dict_mutex  assessmentDictMutex,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_vte_assessment_dict t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="assessmentDictId != null and assessmentDictId != ''"> 
+	       		and t.assessment_dict_id  =  #{assessmentDictId}
+	       	</if>
+	  		<if test="assessmentType != null and assessmentType != ''"> 
+	       		and t.assessment_type  =  #{assessmentType}
+	       	</if>
+	  		<if test="assessmentItem != null and assessmentItem != ''"> 
+	       		and t.assessment_item  =  #{assessmentItem}
+	       	</if>
+	  		<if test="assessmentDictCode != null and assessmentDictCode != ''"> 
+	       		and t.assessment_dict_code  =  #{assessmentDictCode}
+	       	</if>
+	  		<if test="assessmentDictName != null and assessmentDictName != ''"> 
+	       		and t.assessment_dict_name  =  #{assessmentDictName}
+	       	</if>
+	  		<if test="assessmentDictScore != null and assessmentDictScore != ''"> 
+	       		and t.assessment_dict_score  =  #{assessmentDictScore}
+	       	</if>
+	  		<if test="assessmentDictMutex != null and assessmentDictMutex != ''"> 
+	       		and t.assessment_dict_mutex  =  #{assessmentDictMutex}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	    limit 0,1
+	</select>
+	
+	<!-- 其他接口 -->	
+	<select id="queryLoginAssessmentDictPojoList" resultType="com.insight.wisehealth.vte.loginpojo.LoginAssessmentDictPojo" parameterType="map">
+	   	select 
+		        t.assessment_dict_id  assessmentDictId,
+		        t.assessment_type  assessmentType,
+		        t.assessment_item  assessmentItem,
+		        t.assessment_dict_code  assessmentDictCode,
+		        t.assessment_dict_name  assessmentDictName,
+		        t.assessment_dict_score  assessmentDictScore,
+		        t.assessment_dict_mutex  assessmentDictMutex
+		from tb_vte_assessment_dict t inner join tb_vte_assessment_dict_role r
+			on r.assessment_dict_id = t.assessment_dict_id
+			where 
+			IFNULL(t.is_enable,'0') = 1  
+			and IFNULL(r.is_enable,'0') = 1
+	  	   <if test="roleId != null and roleId != ''"> 
+	       		and r.role_id  =  #{roleId}
+	       	</if>
+	</select>
+	
+	<select id="queryAllVteAssessmentDictPojo" resultType="com.insight.wisehealth.vte.pojo.VteAssessmentDictPojo" parameterType="map">
+	   	select 
+		        t.assessment_dict_id  assessmentDictId,
+		        t.assessment_type  assessmentType,
+		        t.assessment_item  assessmentItem,
+		        t.assessment_dict_code  assessmentDictCode,
+		        t.assessment_dict_name  assessmentDictName,
+		        t.assessment_dict_score  assessmentDictScore,
+		        t.assessment_dict_mutex  assessmentDictMutex
+		from tb_vte_assessment_dict t 
+		where 
+		IFNULL(t.is_enable,'0') = 1 order by t.assessment_dict_id asc
+	</select>
+</mapper>

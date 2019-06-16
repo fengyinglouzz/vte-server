@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.insight.wisehealth.vte.dao.TbVteRiskScoreDao">
+
+ <!-- 根据主键查询 -->	
+	<select id="selectByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbVteRiskScore" parameterType="com.insight.wisehealth.vte.persistence.TbVteRiskScore" >
+	    select 
+			        risk_score_id  riskScoreId,
+			        risk_score_name  riskScoreName,
+			        risk_score_code  riskScoreCode,
+			        risk_score_show_text  riskScoreShowText,
+			        risk_score_min_value  riskScoreMinValue,
+			        risk_score_max_value  riskScoreMaxValue,
+			        risk_score_rate  riskScoreRate,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	    from tb_vte_risk_score
+	    where risk_score_id = #{riskScoreId}
+	</select>
+	
+	<!-- 根据主键查询 -->	
+	<select id="selectMapByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbVteRiskScore" parameterType="map" >
+	   	select 
+			        risk_score_id  riskScoreId,
+			        risk_score_name  riskScoreName,
+			        risk_score_code  riskScoreCode,
+			        risk_score_show_text  riskScoreShowText,
+			        risk_score_min_value  riskScoreMinValue,
+			        risk_score_max_value  riskScoreMaxValue,
+			        risk_score_rate  riskScoreRate,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+		from tb_vte_risk_score t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	    and risk_score_id = #{riskScoreId}
+	</select>
+	
+	<!-- 根据主键删除（假删除） -->		
+	<delete id="deleteByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbVteRiskScore" >
+	    update tb_vte_risk_score set is_enable = 0, update_dt=#{updateDt},update_by=#{updateBy} 
+	    where risk_score_id = #{riskScoreId}
+	</delete>
+	
+	
+	<!-- 插入 -->	
+	<insert id="insert" parameterType="com.insight.wisehealth.vte.persistence.TbVteRiskScore" >
+	    insert into tb_vte_risk_score (
+				risk_score_id,
+				risk_score_name,
+				risk_score_code,
+				risk_score_show_text,
+				risk_score_min_value,
+				risk_score_max_value,
+				risk_score_rate,
+				is_enable,
+				create_by,
+				create_dt,
+				update_by,
+				update_dt
+	    )
+	    values (
+				#{riskScoreId},
+				#{riskScoreName},
+				#{riskScoreCode},
+				#{riskScoreShowText},
+				#{riskScoreMinValue},
+				#{riskScoreMaxValue},
+				#{riskScoreRate},
+				#{isEnable},
+				#{createBy},
+				#{createDt},
+				#{updateBy},
+				#{updateDt}
+	    )
+	    
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey> 
+	</insert>
+	
+	<!-- 选择插入 -->		
+	<insert id="insertSelective" parameterType="com.insight.wisehealth.vte.persistence.TbVteRiskScore" >
+		    insert into tb_vte_risk_score
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="riskScoreId != null"> risk_score_id,</if>
+	  		<if test="riskScoreName != null"> risk_score_name,</if>
+	  		<if test="riskScoreCode != null"> risk_score_code,</if>
+	  		<if test="riskScoreShowText != null"> risk_score_show_text,</if>
+	  		<if test="riskScoreMinValue != null"> risk_score_min_value,</if>
+	  		<if test="riskScoreMaxValue != null"> risk_score_max_value,</if>
+	  		<if test="riskScoreRate != null"> risk_score_rate,</if>
+	  		<if test="isEnable != null"> is_enable,</if>
+	  		<if test="createBy != null"> create_by,</if>
+	  		<if test="createDt != null"> create_dt,</if>
+	  		<if test="updateBy != null"> update_by,</if>
+			<if test="updateDt != null"> update_dt,</if>
+		      )
+		</trim>
+		    values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="riskScoreId != null"> #{riskScoreId},</if>
+	  		<if test="riskScoreName != null"> #{riskScoreName},</if>
+	  		<if test="riskScoreCode != null"> #{riskScoreCode},</if>
+	  		<if test="riskScoreShowText != null"> #{riskScoreShowText},</if>
+	  		<if test="riskScoreMinValue != null"> #{riskScoreMinValue},</if>
+	  		<if test="riskScoreMaxValue != null"> #{riskScoreMaxValue},</if>
+	  		<if test="riskScoreRate != null"> #{riskScoreRate},</if>
+	  		<if test="isEnable != null"> #{isEnable},</if>
+	  		<if test="createBy != null"> #{createBy},</if>
+	  		<if test="createDt != null"> #{createDt},</if>
+	  		<if test="updateBy != null"> #{updateBy},</if>
+			<if test="updateDt != null"> #{updateDt},</if>
+		      )
+		</trim>
+		
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey>		
+		
+		
+	</insert>
+	
+	
+	<!-- 根据主键选择性更新 -->	
+	<update id="updateByPrimaryKeySelective" parameterType="com.insight.wisehealth.vte.persistence.TbVteRiskScore" >
+		    update tb_vte_risk_score
+		 <trim prefix="set" suffixOverrides=",">
+				<if test="riskScoreName != null and riskScoreName != ''">  risk_score_name = #{riskScoreName},</if>
+				<if test="riskScoreCode != null and riskScoreCode != ''">  risk_score_code = #{riskScoreCode},</if>
+				<if test="riskScoreShowText != null and riskScoreShowText != ''">  risk_score_show_text = #{riskScoreShowText},</if>
+				<if test="riskScoreMinValue != null and riskScoreMinValue != ''">  risk_score_min_value = #{riskScoreMinValue},</if>
+				<if test="riskScoreMaxValue != null and riskScoreMaxValue != ''">  risk_score_max_value = #{riskScoreMaxValue},</if>
+				<if test="riskScoreRate != null and riskScoreRate != ''">  risk_score_rate = #{riskScoreRate},</if>
+				<if test="isEnable != null and isEnable != ''">  is_enable = #{isEnable},</if>
+				<if test="createBy != null and createBy != ''">  create_by = #{createBy},</if>
+				<if test="createDt != null and createDt != ''">  create_dt = #{createDt},</if>
+				<if test="updateBy != null and updateBy != ''">  update_by = #{updateBy},</if>
+				<if test="updateDt != null and updateDt != ''">  update_dt = #{updateDt},</if>
+		 </trim>
+		    where risk_score_id = #{riskScoreId}
+	</update>
+	
+	<!-- 根据主键更新 -->	
+	<update id="updateByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbVteRiskScore" >
+		    update tb_vte_risk_score
+		    set 
+		        risk_score_name = #{riskScoreName},
+		        risk_score_code = #{riskScoreCode},
+		        risk_score_show_text = #{riskScoreShowText},
+		        risk_score_min_value = #{riskScoreMinValue},
+		        risk_score_max_value = #{riskScoreMaxValue},
+		        risk_score_rate = #{riskScoreRate},
+		        is_enable = #{isEnable},
+		        create_by = #{createBy},
+		        create_dt = #{createDt},
+		        update_by = #{updateBy},
+				update_dt = #{updateDt}
+		    where risk_score_id = #{riskScoreId}
+	</update>
+	<!-- 根据Form传过来Map更新对应字段值 -->
+	<update id="updateByFormMap" parameterType="map" >
+	    update tb_vte_risk_score
+	    <trim prefix="set" suffixOverrides=",">
+			<if test="_parameter.containsKey('riskScoreName')">
+	   				<if test="riskScoreName != null and riskScoreName != ''">   risk_score_name = #{riskScoreName},</if>
+	   				<if test="riskScoreName == null or riskScoreName == ''">  risk_score_name = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('riskScoreCode')">
+	   				<if test="riskScoreCode != null and riskScoreCode != ''">   risk_score_code = #{riskScoreCode},</if>
+	   				<if test="riskScoreCode == null or riskScoreCode == ''">  risk_score_code = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('riskScoreShowText')">
+	   				<if test="riskScoreShowText != null and riskScoreShowText != ''">   risk_score_show_text = #{riskScoreShowText},</if>
+	   				<if test="riskScoreShowText == null or riskScoreShowText == ''">  risk_score_show_text = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('riskScoreMinValue')">
+	   				<if test="riskScoreMinValue != null and riskScoreMinValue != ''">   risk_score_min_value = #{riskScoreMinValue},</if>
+	   				<if test="riskScoreMinValue == null or riskScoreMinValue == ''">  risk_score_min_value = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('riskScoreMaxValue')">
+	   				<if test="riskScoreMaxValue != null and riskScoreMaxValue != ''">   risk_score_max_value = #{riskScoreMaxValue},</if>
+	   				<if test="riskScoreMaxValue == null or riskScoreMaxValue == ''">  risk_score_max_value = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('riskScoreRate')">
+	   				<if test="riskScoreRate != null and riskScoreRate != ''">   risk_score_rate = #{riskScoreRate},</if>
+	   				<if test="riskScoreRate == null or riskScoreRate == ''">  risk_score_rate = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('isEnable')">
+	   				<if test="isEnable != null and isEnable != ''">   is_enable = #{isEnable},</if>
+	   				<if test="isEnable == null or isEnable == ''">  is_enable = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createBy')">
+	   				<if test="createBy != null and createBy != ''">   create_by = #{createBy},</if>
+	   				<if test="createBy == null or createBy == ''">  create_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createDt')">
+	   				<if test="createDt != null and createDt != ''">   create_dt = #{createDt},</if>
+	   				<if test="createDt == null or createDt == ''">  create_dt = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateBy')">
+	   				<if test="updateBy != null and updateBy != ''">   update_by = #{updateBy},</if>
+	   				<if test="updateBy == null or updateBy == ''">  update_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateDt')">
+	   				<if test="updateDt != null and updateDt != ''">   update_dt = #{updateDt},</if>
+	   				<if test="updateDt == null or updateDt == ''">  update_dt = null,</if>
+	   		</if>
+		</trim>
+	    where risk_score_id = #{riskScoreId}
+	</update>
+	<!-- 默认分页 -->
+	<select id="queryAllVteRiskScore" resultType="com.insight.wisehealth.vte.persistence.TbVteRiskScore" parameterType="map">
+	   	select 
+			        risk_score_id  riskScoreId,
+			        risk_score_name  riskScoreName,
+			        risk_score_code  riskScoreCode,
+			        risk_score_show_text  riskScoreShowText,
+			        risk_score_min_value  riskScoreMinValue,
+			        risk_score_max_value  riskScoreMaxValue,
+			        risk_score_rate  riskScoreRate,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	       from tb_vte_risk_score t
+	       where 
+	       IFNULL(t.is_enable,'0') = 1
+	  		<if test="riskScoreId != null and riskScoreId != ''"> 
+	       		and t.risk_score_id  =  #{riskScoreId}
+	       	</if>
+	  		<if test="riskScoreName != null and riskScoreName != ''"> 
+	       		and t.risk_score_name  =  #{riskScoreName}
+	       	</if>
+	  		<if test="riskScoreCode != null and riskScoreCode != ''"> 
+	       		and t.risk_score_code  =  #{riskScoreCode}
+	       	</if>
+	  		<if test="riskScoreShowText != null and riskScoreShowText != ''"> 
+	       		and t.risk_score_show_text  =  #{riskScoreShowText}
+	       	</if>
+	  		<if test="riskScoreMinValue != null and riskScoreMinValue != ''"> 
+	       		and t.risk_score_min_value  =  #{riskScoreMinValue}
+	       	</if>
+	  		<if test="riskScoreMaxValue != null and riskScoreMaxValue != ''"> 
+	       		and t.risk_score_max_value  =  #{riskScoreMaxValue}
+	       	</if>
+	  		<if test="riskScoreRate != null and riskScoreRate != ''"> 
+	       		and t.risk_score_rate  =  #{riskScoreRate}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+		<if test="pageSort != null and pageSort != ''">
+			order by $pageSort$ 
+	     </if>
+			limit #{start},#{limit}
+	</select>
+  
+	<select id="countAllVteRiskScore" resultType="int" parameterType="map">
+		select  count(*)  from tb_vte_risk_score t
+			where 
+				IFNULL(t.is_enable,'0') = 1
+	  		<if test="riskScoreId != null and riskScoreId != ''"> 
+	       		and t.risk_score_id  =  #{riskScoreId}
+	       	</if>
+	  		<if test="riskScoreName != null and riskScoreName != ''"> 
+	       		and t.risk_score_name  =  #{riskScoreName}
+	       	</if>
+	  		<if test="riskScoreCode != null and riskScoreCode != ''"> 
+	       		and t.risk_score_code  =  #{riskScoreCode}
+	       	</if>
+	  		<if test="riskScoreShowText != null and riskScoreShowText != ''"> 
+	       		and t.risk_score_show_text  =  #{riskScoreShowText}
+	       	</if>
+	  		<if test="riskScoreMinValue != null and riskScoreMinValue != ''"> 
+	       		and t.risk_score_min_value  =  #{riskScoreMinValue}
+	       	</if>
+	  		<if test="riskScoreMaxValue != null and riskScoreMaxValue != ''"> 
+	       		and t.risk_score_max_value  =  #{riskScoreMaxValue}
+	       	</if>
+	  		<if test="riskScoreRate != null and riskScoreRate != ''"> 
+	       		and t.risk_score_rate  =  #{riskScoreRate}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+
+	<!-- 默认不分页 -->
+	<select id="queryAllVteRiskScoreNP" resultType="com.insight.wisehealth.vte.persistence.TbVteRiskScore" parameterType="map">
+	   	select 
+		        risk_score_id  riskScoreId,
+		        risk_score_name  riskScoreName,
+		        risk_score_code  riskScoreCode,
+		        risk_score_show_text  riskScoreShowText,
+		        risk_score_min_value  riskScoreMinValue,
+		        risk_score_max_value  riskScoreMaxValue,
+		        risk_score_rate  riskScoreRate,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_vte_risk_score t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="riskScoreId != null and riskScoreId != ''"> 
+	       		and t.risk_score_id  =  #{riskScoreId}
+	       	</if>
+	  		<if test="riskScoreName != null and riskScoreName != ''"> 
+	       		and t.risk_score_name  =  #{riskScoreName}
+	       	</if>
+	  		<if test="riskScoreCode != null and riskScoreCode != ''"> 
+	       		and t.risk_score_code  =  #{riskScoreCode}
+	       	</if>
+	  		<if test="riskScoreShowText != null and riskScoreShowText != ''"> 
+	       		and t.risk_score_show_text  =  #{riskScoreShowText}
+	       	</if>
+	  		<if test="riskScoreMinValue != null and riskScoreMinValue != ''"> 
+	       		and t.risk_score_min_value  =  #{riskScoreMinValue}
+	       	</if>
+	  		<if test="riskScoreMaxValue != null and riskScoreMaxValue != ''"> 
+	       		and t.risk_score_max_value  =  #{riskScoreMaxValue}
+	       	</if>
+	  		<if test="riskScoreRate != null and riskScoreRate != ''"> 
+	       		and t.risk_score_rate  =  #{riskScoreRate}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+	
+	<!-- 默认不分页 -->
+	<select id="queryVteRiskScoreInfo" resultType="com.insight.wisehealth.vte.persistence.TbVteRiskScore" parameterType="map">
+	   	select 
+		        risk_score_id  riskScoreId,
+		        risk_score_name  riskScoreName,
+		        risk_score_code  riskScoreCode,
+		        risk_score_show_text  riskScoreShowText,
+		        risk_score_min_value  riskScoreMinValue,
+		        risk_score_max_value  riskScoreMaxValue,
+		        risk_score_rate  riskScoreRate,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_vte_risk_score t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="riskScoreId != null and riskScoreId != ''"> 
+	       		and t.risk_score_id  =  #{riskScoreId}
+	       	</if>
+	  		<if test="riskScoreName != null and riskScoreName != ''"> 
+	       		and t.risk_score_name  =  #{riskScoreName}
+	       	</if>
+	  		<if test="riskScoreCode != null and riskScoreCode != ''"> 
+	       		and t.risk_score_code  =  #{riskScoreCode}
+	       	</if>
+	  		<if test="riskScoreShowText != null and riskScoreShowText != ''"> 
+	       		and t.risk_score_show_text  =  #{riskScoreShowText}
+	       	</if>
+	  		<if test="riskScoreMinValue != null and riskScoreMinValue != ''"> 
+	       		and t.risk_score_min_value  =  #{riskScoreMinValue}
+	       	</if>
+	  		<if test="riskScoreMaxValue != null and riskScoreMaxValue != ''"> 
+	       		and t.risk_score_max_value  =  #{riskScoreMaxValue}
+	       	</if>
+	  		<if test="riskScoreRate != null and riskScoreRate != ''"> 
+	       		and t.risk_score_rate  =  #{riskScoreRate}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	    limit 0,1
+	</select>
+	
+	<!-- 其他接口 -->	
+	
+</mapper>

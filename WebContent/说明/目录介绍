@@ -1,0 +1,22 @@
+src--------------------------------------------------
+	com.insight.core
+					common
+					config
+					util
+	com.insight.wisehealth.vte
+					controller
+					dao
+					perusustence
+					pojo
+					service
+						impl
+src/test
+
+config
+	mapper
+	jdbc.properties
+	log4j.properties
+
+	
+	
+	

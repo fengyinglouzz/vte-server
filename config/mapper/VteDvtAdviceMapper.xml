@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.insight.wisehealth.vte.dao.TbVteDvtAdviceDao">
+
+ <!-- 根据主键查询 -->	
+	<select id="selectByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbVteDvtAdvice" parameterType="com.insight.wisehealth.vte.persistence.TbVteDvtAdvice" >
+	    select 
+			        dvt_advice_id  dvtAdviceId,
+			        patient_hospit_id  patientHospitId,
+			        patient_code  patientCode,
+			        dvt_advice_node_name  dvtAdviceNodeName,
+			        dvt_advice_ishistory  dvtAdviceIshistory,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	    from tb_vte_dvt_advice
+	    where dvt_advice_id = #{dvtAdviceId}
+	</select>
+	
+	<!-- 根据主键查询 -->	
+	<select id="selectMapByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbVteDvtAdvice" parameterType="map" >
+	   	select 
+			        dvt_advice_id  dvtAdviceId,
+			        patient_hospit_id  patientHospitId,
+			        patient_code  patientCode,
+			        dvt_advice_node_name  dvtAdviceNodeName,
+			        dvt_advice_ishistory  dvtAdviceIshistory,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+		from tb_vte_dvt_advice t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	    and dvt_advice_id = #{dvtAdviceId}
+	</select>
+	
+	<!-- 根据主键删除（假删除） -->		
+	<delete id="deleteByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbVteDvtAdvice" >
+	    update tb_vte_dvt_advice set is_enable = 0, update_dt=#{updateDt},update_by=#{updateBy} 
+	    where dvt_advice_id = #{dvtAdviceId}
+	</delete>
+	
+	
+	<!-- 插入 -->	
+	<insert id="insert" parameterType="com.insight.wisehealth.vte.persistence.TbVteDvtAdvice" >
+	    insert into tb_vte_dvt_advice (
+				dvt_advice_id,
+				patient_hospit_id,
+				patient_code,
+				dvt_advice_node_name,
+				dvt_advice_ishistory,
+				is_enable,
+				create_by,
+				create_dt,
+				update_by,
+				update_dt
+	    )
+	    values (
+				#{dvtAdviceId},
+				#{patientHospitId},
+				#{patientCode},
+				#{dvtAdviceNodeName},
+				#{dvtAdviceIshistory},
+				#{isEnable},
+				#{createBy},
+				#{createDt},
+				#{updateBy},
+				#{updateDt}
+	    )
+	    
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey> 
+	</insert>
+	
+	<!-- 选择插入 -->		
+	<insert id="insertSelective" parameterType="com.insight.wisehealth.vte.persistence.TbVteDvtAdvice" >
+		    insert into tb_vte_dvt_advice
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="dvtAdviceId != null"> dvt_advice_id,</if>
+	  		<if test="patientHospitId != null"> patient_hospit_id,</if>
+	  		<if test="patientCode != null"> patient_code,</if>
+	  		<if test="dvtAdviceNodeName != null"> dvt_advice_node_name,</if>
+	  		<if test="dvtAdviceIshistory != null"> dvt_advice_ishistory,</if>
+	  		<if test="isEnable != null"> is_enable,</if>
+	  		<if test="createBy != null"> create_by,</if>
+	  		<if test="createDt != null"> create_dt,</if>
+	  		<if test="updateBy != null"> update_by,</if>
+			<if test="updateDt != null"> update_dt,</if>
+		      )
+		</trim>
+		    values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="dvtAdviceId != null"> #{dvtAdviceId},</if>
+	  		<if test="patientHospitId != null"> #{patientHospitId},</if>
+	  		<if test="patientCode != null"> #{patientCode},</if>
+	  		<if test="dvtAdviceNodeName != null"> #{dvtAdviceNodeName},</if>
+	  		<if test="dvtAdviceIshistory != null"> #{dvtAdviceIshistory},</if>
+	  		<if test="isEnable != null"> #{isEnable},</if>
+	  		<if test="createBy != null"> #{createBy},</if>
+	  		<if test="createDt != null"> #{createDt},</if>
+	  		<if test="updateBy != null"> #{updateBy},</if>
+			<if test="updateDt != null"> #{updateDt},</if>
+		      )
+		</trim>
+		
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey>		
+		
+		
+	</insert>
+	
+	
+	<!-- 根据主键选择性更新 -->	
+	<update id="updateByPrimaryKeySelective" parameterType="com.insight.wisehealth.vte.persistence.TbVteDvtAdvice" >
+		    update tb_vte_dvt_advice
+		 <trim prefix="set" suffixOverrides=",">
+				<if test="patientHospitId != null and patientHospitId != ''">  patient_hospit_id = #{patientHospitId},</if>
+				<if test="patientCode != null and patientCode != ''">  patient_code = #{patientCode},</if>
+				<if test="dvtAdviceNodeName != null and dvtAdviceNodeName != ''">  dvt_advice_node_name = #{dvtAdviceNodeName},</if>
+				<if test="dvtAdviceIshistory != null and dvtAdviceIshistory != ''">  dvt_advice_ishistory = #{dvtAdviceIshistory},</if>
+				<if test="isEnable != null and isEnable != ''">  is_enable = #{isEnable},</if>
+				<if test="createBy != null and createBy != ''">  create_by = #{createBy},</if>
+				<if test="createDt != null and createDt != ''">  create_dt = #{createDt},</if>
+				<if test="updateBy != null and updateBy != ''">  update_by = #{updateBy},</if>
+				<if test="updateDt != null and updateDt != ''">  update_dt = #{updateDt},</if>
+		 </trim>
+		    where dvt_advice_id = #{dvtAdviceId}
+	</update>
+	
+	<!-- 根据主键更新 -->	
+	<update id="updateByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbVteDvtAdvice" >
+		    update tb_vte_dvt_advice
+		    set 
+		        patient_hospit_id = #{patientHospitId},
+		        patient_code = #{patientCode},
+		        dvt_advice_node_name = #{dvtAdviceNodeName},
+		        dvt_advice_ishistory = #{dvtAdviceIshistory},
+		        is_enable = #{isEnable},
+		        create_by = #{createBy},
+		        create_dt = #{createDt},
+		        update_by = #{updateBy},
+				update_dt = #{updateDt}
+		    where dvt_advice_id = #{dvtAdviceId}
+	</update>
+	<!-- 根据Form传过来Map更新对应字段值 -->
+	<update id="updateByFormMap" parameterType="map" >
+	    update tb_vte_dvt_advice
+	    <trim prefix="set" suffixOverrides=",">
+			<if test="_parameter.containsKey('patientHospitId')">
+	   				<if test="patientHospitId != null and patientHospitId != ''">   patient_hospit_id = #{patientHospitId},</if>
+	   				<if test="patientHospitId == null or patientHospitId == ''">  patient_hospit_id = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientCode')">
+	   				<if test="patientCode != null and patientCode != ''">   patient_code = #{patientCode},</if>
+	   				<if test="patientCode == null or patientCode == ''">  patient_code = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('dvtAdviceNodeName')">
+	   				<if test="dvtAdviceNodeName != null and dvtAdviceNodeName != ''">   dvt_advice_node_name = #{dvtAdviceNodeName},</if>
+	   				<if test="dvtAdviceNodeName == null or dvtAdviceNodeName == ''">  dvt_advice_node_name = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('dvtAdviceIshistory')">
+	   				<if test="dvtAdviceIshistory != null and dvtAdviceIshistory != ''">   dvt_advice_ishistory = #{dvtAdviceIshistory},</if>
+	   				<if test="dvtAdviceIshistory == null or dvtAdviceIshistory == ''">  dvt_advice_ishistory = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('isEnable')">
+	   				<if test="isEnable != null and isEnable != ''">   is_enable = #{isEnable},</if>
+	   				<if test="isEnable == null or isEnable == ''">  is_enable = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createBy')">
+	   				<if test="createBy != null and createBy != ''">   create_by = #{createBy},</if>
+	   				<if test="createBy == null or createBy == ''">  create_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createDt')">
+	   				<if test="createDt != null and createDt != ''">   create_dt = #{createDt},</if>
+	   				<if test="createDt == null or createDt == ''">  create_dt = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateBy')">
+	   				<if test="updateBy != null and updateBy != ''">   update_by = #{updateBy},</if>
+	   				<if test="updateBy == null or updateBy == ''">  update_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateDt')">
+	   				<if test="updateDt != null and updateDt != ''">   update_dt = #{updateDt},</if>
+	   				<if test="updateDt == null or updateDt == ''">  update_dt = null,</if>
+	   		</if>
+		</trim>
+	    where dvt_advice_id = #{dvtAdviceId}
+	</update>
+	<!-- 默认分页 -->
+	<select id="queryAllVteDvtAdvice" resultType="com.insight.wisehealth.vte.persistence.TbVteDvtAdvice" parameterType="map">
+	   	select 
+			        dvt_advice_id  dvtAdviceId,
+			        patient_hospit_id  patientHospitId,
+			        patient_code  patientCode,
+			        dvt_advice_node_name  dvtAdviceNodeName,
+			        dvt_advice_ishistory  dvtAdviceIshistory,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	       from tb_vte_dvt_advice t
+	       where 
+	       IFNULL(t.is_enable,'0') = 1
+	  		<if test="dvtAdviceId != null and dvtAdviceId != ''"> 
+	       		and t.dvt_advice_id  =  #{dvtAdviceId}
+	       	</if>
+	  		<if test="patientHospitId != null and patientHospitId != ''"> 
+	       		and t.patient_hospit_id  =  #{patientHospitId}
+	       	</if>
+	  		<if test="patientCode != null and patientCode != ''"> 
+	       		and t.patient_code  =  #{patientCode}
+	       	</if>
+	  		<if test="dvtAdviceNodeName != null and dvtAdviceNodeName != ''"> 
+	       		and t.dvt_advice_node_name  =  #{dvtAdviceNodeName}
+	       	</if>
+	  		<if test="dvtAdviceIshistory != null and dvtAdviceIshistory != ''"> 
+	       		and t.dvt_advice_ishistory  =  #{dvtAdviceIshistory}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+		<if test="pageSort != null and pageSort != ''">
+			order by $pageSort$ 
+	     </if>
+			limit #{start},#{limit}
+	</select>
+  
+	<select id="countAllVteDvtAdvice" resultType="int" parameterType="map">
+		select  count(*)  from tb_vte_dvt_advice t
+			where 
+				IFNULL(t.is_enable,'0') = 1
+	  		<if test="dvtAdviceId != null and dvtAdviceId != ''"> 
+	       		and t.dvt_advice_id  =  #{dvtAdviceId}
+	       	</if>
+	  		<if test="patientHospitId != null and patientHospitId != ''"> 
+	       		and t.patient_hospit_id  =  #{patientHospitId}
+	       	</if>
+	  		<if test="patientCode != null and patientCode != ''"> 
+	       		and t.patient_code  =  #{patientCode}
+	       	</if>
+	  		<if test="dvtAdviceNodeName != null and dvtAdviceNodeName != ''"> 
+	       		and t.dvt_advice_node_name  =  #{dvtAdviceNodeName}
+	       	</if>
+	  		<if test="dvtAdviceIshistory != null and dvtAdviceIshistory != ''"> 
+	       		and t.dvt_advice_ishistory  =  #{dvtAdviceIshistory}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+
+	<!-- 默认不分页 -->
+	<select id="queryAllVteDvtAdviceNP" resultType="com.insight.wisehealth.vte.persistence.TbVteDvtAdvice" parameterType="map">
+	   	select 
+		        dvt_advice_id  dvtAdviceId,
+		        patient_hospit_id  patientHospitId,
+		        patient_code  patientCode,
+		        dvt_advice_node_name  dvtAdviceNodeName,
+		        dvt_advice_ishistory  dvtAdviceIshistory,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_vte_dvt_advice t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="dvtAdviceId != null and dvtAdviceId != ''"> 
+	       		and t.dvt_advice_id  =  #{dvtAdviceId}
+	       	</if>
+	  		<if test="patientHospitId != null and patientHospitId != ''"> 
+	       		and t.patient_hospit_id  =  #{patientHospitId}
+	       	</if>
+	  		<if test="patientCode != null and patientCode != ''"> 
+	       		and t.patient_code  =  #{patientCode}
+	       	</if>
+	  		<if test="dvtAdviceNodeName != null and dvtAdviceNodeName != ''"> 
+	       		and t.dvt_advice_node_name  =  #{dvtAdviceNodeName}
+	       	</if>
+	  		<if test="dvtAdviceIshistory != null and dvtAdviceIshistory != ''"> 
+	       		and t.dvt_advice_ishistory  =  #{dvtAdviceIshistory}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+	
+	<!-- 默认不分页 -->
+	<select id="queryVteDvtAdviceInfo" resultType="com.insight.wisehealth.vte.persistence.TbVteDvtAdvice" parameterType="map">
+	   	select 
+		        dvt_advice_id  dvtAdviceId,
+		        patient_hospit_id  patientHospitId,
+		        patient_code  patientCode,
+		        dvt_advice_node_name  dvtAdviceNodeName,
+		        dvt_advice_ishistory  dvtAdviceIshistory,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_vte_dvt_advice t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="dvtAdviceId != null and dvtAdviceId != ''"> 
+	       		and t.dvt_advice_id  =  #{dvtAdviceId}
+	       	</if>
+	  		<if test="patientHospitId != null and patientHospitId != ''"> 
+	       		and t.patient_hospit_id  =  #{patientHospitId}
+	       	</if>
+	  		<if test="patientCode != null and patientCode != ''"> 
+	       		and t.patient_code  =  #{patientCode}
+	       	</if>
+	  		<if test="dvtAdviceNodeName != null and dvtAdviceNodeName != ''"> 
+	       		and t.dvt_advice_node_name  =  #{dvtAdviceNodeName}
+	       	</if>
+	  		<if test="dvtAdviceIshistory != null and dvtAdviceIshistory != ''"> 
+	       		and t.dvt_advice_ishistory  =  #{dvtAdviceIshistory}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	    limit 0,1
+	</select>
+	
+	<!-- 其他接口 -->	
+	
+</mapper>

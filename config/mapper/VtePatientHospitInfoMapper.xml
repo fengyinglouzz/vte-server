@@ -1,0 +1,1484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.insight.wisehealth.vte.dao.TbVtePatientHospitInfoDao">
+
+ <!-- 根据主键查询 -->	
+	<select id="selectByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbVtePatientHospitInfo" parameterType="com.insight.wisehealth.vte.persistence.TbVtePatientHospitInfo" >
+	    select 
+			        patient_hospit_id  patientHospitId,
+			        patient_code  patientCode,
+			        patient_in_hospital  patientInHospital,
+			        patient_out_hospital  patientOutHospital,
+			        patient_number  patientNumber,
+			        patient_age  patientAge,
+			        patient_native_place  patientNativePlace,
+			        patient_job  patientJob,
+			        patient_marital  patientMarital,
+			        patient_phone_number  patientPhoneNumber,
+			        patient_department  patientDepartment,
+			        patient_area  patientArea,
+			        patient_bed  patientBed,
+			        patient_doctor  patientDoctor,
+			        patient_is_risk  patientIsRisk,
+			        patient_caprini_grade  patientCapriniGrade,
+			        patient_padua_grade  patientPaduaGrade,
+			        patient_syn_grade  patientSynGrade,
+			        patient_last_risk_user  patientLastRiskUser,
+			        patient_last_risk_type  patientLastRiskType,
+			        patient_last_risk_date  patientLastRiskDate,
+			        patient_from  patientFrom,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	    from tb_vte_patient_hospit_info
+	    where patient_hospit_id = #{patientHospitId}
+	</select>
+	
+	<!-- 根据主键查询 -->	
+	<select id="selectMapByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbVtePatientHospitInfo" parameterType="map" >
+	   	select 
+			        patient_hospit_id  patientHospitId,
+			        patient_code  patientCode,
+			        patient_in_hospital  patientInHospital,
+			        patient_out_hospital  patientOutHospital,
+			        patient_number  patientNumber,
+			        patient_age  patientAge,
+			        patient_native_place  patientNativePlace,
+			        patient_job  patientJob,
+			        patient_marital  patientMarital,
+			        patient_phone_number  patientPhoneNumber,
+			        patient_department  patientDepartment,
+			        patient_area  patientArea,
+			        patient_bed  patientBed,
+			        patient_doctor  patientDoctor,
+			        patient_is_risk  patientIsRisk,
+			        patient_caprini_grade  patientCapriniGrade,
+			        patient_padua_grade  patientPaduaGrade,
+			        patient_syn_grade  patientSynGrade,
+			        patient_last_risk_user  patientLastRiskUser,
+			        patient_last_risk_type  patientLastRiskType,
+			        patient_last_risk_date  patientLastRiskDate,
+			        patient_from  patientFrom,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+		from tb_vte_patient_hospit_info t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	    and patient_hospit_id = #{patientHospitId}
+	</select>
+	
+	<!-- 根据主键删除（假删除） -->		
+	<delete id="deleteByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbVtePatientHospitInfo" >
+	    update tb_vte_patient_hospit_info set is_enable = 0, update_dt=#{updateDt},update_by=#{updateBy} 
+	    where patient_hospit_id = #{patientHospitId}
+	</delete>
+	
+	
+	<!-- 插入 -->	
+	<insert id="insert" parameterType="com.insight.wisehealth.vte.persistence.TbVtePatientHospitInfo" >
+	    insert into tb_vte_patient_hospit_info (
+				patient_code,
+				patient_in_hospital,
+				patient_out_hospital,
+				patient_number,
+				patient_age,
+				patient_native_place,
+				patient_job,
+				patient_marital,
+				patient_phone_number,
+				patient_department,
+				patient_area,
+				patient_bed,
+				patient_doctor,
+				patient_is_risk,
+				patient_caprini_grade,
+				patient_padua_grade,
+				patient_syn_grade,
+				patient_last_risk_user,
+				patient_last_risk_type,
+				patient_last_risk_date,
+				patient_from,
+				is_enable,
+				create_by,
+				create_dt,
+				update_by,
+				update_dt
+	    )
+	    values (
+				#{patientCode},
+				#{patientInHospital},
+				#{patientOutHospital},
+				#{patientNumber},
+				#{patientAge},
+				#{patientNativePlace},
+				#{patientJob},
+				#{patientMarital},
+				#{patientPhoneNumber},
+				#{patientDepartment},
+				#{patientArea},
+				#{patientBed},
+				#{patientDoctor},
+				#{patientIsRisk},
+				#{patientCapriniGrade},
+				#{patientPaduaGrade},
+				#{patientSynGrade},
+				#{patientLastRiskUser},
+				#{patientLastRiskType},
+				#{patientLastRiskDate},
+				#{patientFrom},
+				#{isEnable},
+				#{createBy},
+				#{createDt},
+				#{updateBy},
+				#{updateDt}
+	    )
+	    
+	    <selectKey resultType="int" keyProperty="patientHospitId" > 
+				SELECT LAST_INSERT_ID() 
+		</selectKey> 
+	</insert>
+	
+	<!-- 选择插入 -->		
+	<insert id="insertSelective" parameterType="com.insight.wisehealth.vte.persistence.TbVtePatientHospitInfo" >
+		    insert into tb_vte_patient_hospit_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="patientHospitId != null"> patient_hospit_id,</if>
+	  		<if test="patientCode != null"> patient_code,</if>
+	  		<if test="patientInHospital != null"> patient_in_hospital,</if>
+	  		<if test="patientOutHospital != null"> patient_out_hospital,</if>
+	  		<if test="patientNumber != null"> patient_number,</if>
+	  		<if test="patientAge != null"> patient_age,</if>
+	  		<if test="patientNativePlace != null"> patient_native_place,</if>
+	  		<if test="patientJob != null"> patient_job,</if>
+	  		<if test="patientMarital != null"> patient_marital,</if>
+	  		<if test="patientPhoneNumber != null"> patient_phone_number,</if>
+	  		<if test="patientDepartment != null"> patient_department,</if>
+	  		<if test="patientArea != null"> patient_area,</if>
+	  		<if test="patientBed != null"> patient_bed,</if>
+	  		<if test="patientDoctor != null"> patient_doctor,</if>
+	  		<if test="patientIsRisk != null"> patient_is_risk,</if>
+	  		<if test="patientCapriniGrade != null"> patient_caprini_grade,</if>
+	  		<if test="patientPaduaGrade != null"> patient_padua_grade,</if>
+	  		<if test="patientSynGrade != null"> patient_syn_grade,</if>
+	  		<if test="patientLastRiskUser != null"> patient_last_risk_user,</if>
+	  		<if test="patientLastRiskType != null"> patient_last_risk_type,</if>
+	  		<if test="patientLastRiskDate != null"> patient_last_risk_date,</if>
+	  		<if test="patientFrom != null"> patient_from,</if>
+	  		<if test="isEnable != null"> is_enable,</if>
+	  		<if test="createBy != null"> create_by,</if>
+	  		<if test="createDt != null"> create_dt,</if>
+	  		<if test="updateBy != null"> update_by,</if>
+			<if test="updateDt != null"> update_dt,</if>
+		      )
+		</trim>
+		    values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="patientHospitId != null"> #{patientHospitId},</if>
+	  		<if test="patientCode != null"> #{patientCode},</if>
+	  		<if test="patientInHospital != null"> #{patientInHospital},</if>
+	  		<if test="patientOutHospital != null"> #{patientOutHospital},</if>
+	  		<if test="patientNumber != null"> #{patientNumber},</if>
+	  		<if test="patientAge != null"> #{patientAge},</if>
+	  		<if test="patientNativePlace != null"> #{patientNativePlace},</if>
+	  		<if test="patientJob != null"> #{patientJob},</if>
+	  		<if test="patientMarital != null"> #{patientMarital},</if>
+	  		<if test="patientPhoneNumber != null"> #{patientPhoneNumber},</if>
+	  		<if test="patientDepartment != null"> #{patientDepartment},</if>
+	  		<if test="patientArea != null"> #{patientArea},</if>
+	  		<if test="patientBed != null"> #{patientBed},</if>
+	  		<if test="patientDoctor != null"> #{patientDoctor},</if>
+	  		<if test="patientIsRisk != null"> #{patientIsRisk},</if>
+	  		<if test="patientCapriniGrade != null"> #{patientCapriniGrade},</if>
+	  		<if test="patientPaduaGrade != null"> #{patientPaduaGrade},</if>
+	  		<if test="patientSynGrade != null"> #{patientSynGrade},</if>
+	  		<if test="patientLastRiskUser != null"> #{patientLastRiskUser},</if>
+	  		<if test="patientLastRiskType != null"> #{patientLastRiskType},</if>
+	  		<if test="patientLastRiskDate != null"> #{patientLastRiskDate},</if>
+	  		<if test="patientFrom != null"> #{patientFrom},</if>
+	  		<if test="isEnable != null"> #{isEnable},</if>
+	  		<if test="createBy != null"> #{createBy},</if>
+	  		<if test="createDt != null"> #{createDt},</if>
+	  		<if test="updateBy != null"> #{updateBy},</if>
+			<if test="updateDt != null"> #{updateDt},</if>
+		      )
+		</trim>
+		
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey>		
+		
+		
+	</insert>
+	
+	
+	<!-- 根据主键选择性更新 -->	
+	<update id="updateByPrimaryKeySelective" parameterType="com.insight.wisehealth.vte.persistence.TbVtePatientHospitInfo" >
+		    update tb_vte_patient_hospit_info
+		 <trim prefix="set" suffixOverrides=",">
+				<if test="patientCode != null and patientCode != ''">  patient_code = #{patientCode},</if>
+				<if test="patientInHospital != null ">  patient_in_hospital = #{patientInHospital},</if>
+				<if test="patientOutHospital != null ">  patient_out_hospital = #{patientOutHospital},</if>
+				<if test="patientNumber != null and patientNumber != ''">  patient_number = #{patientNumber},</if>
+				<if test="patientAge != null and patientAge != ''">  patient_age = #{patientAge},</if>
+				<if test="patientNativePlace != null and patientNativePlace != ''">  patient_native_place = #{patientNativePlace},</if>
+				<if test="patientJob != null and patientJob != ''">  patient_job = #{patientJob},</if>
+				<if test="patientMarital != null and patientMarital != ''">  patient_marital = #{patientMarital},</if>
+				<if test="patientPhoneNumber != null and patientPhoneNumber != ''">  patient_phone_number = #{patientPhoneNumber},</if>
+				<if test="patientDepartment != null and patientDepartment != ''">  patient_department = #{patientDepartment},</if>
+				<if test="patientArea != null and patientArea != ''">  patient_area = #{patientArea},</if>
+				<if test="patientBed != null and patientBed != ''">  patient_bed = #{patientBed},</if>
+				<if test="patientDoctor != null and patientDoctor != ''">  patient_doctor = #{patientDoctor},</if>
+				<if test="patientIsRisk != null and patientIsRisk != ''">  patient_is_risk = #{patientIsRisk},</if>
+				<if test="patientCapriniGrade != null and patientCapriniGrade != ''">  patient_caprini_grade = #{patientCapriniGrade},</if>
+				<if test="patientPaduaGrade != null and patientPaduaGrade != ''">  patient_padua_grade = #{patientPaduaGrade},</if>
+				<if test="patientSynGrade != null and patientSynGrade != ''">  patient_syn_grade = #{patientSynGrade},</if>
+				<if test="patientLastRiskUser != null and patientLastRiskUser != ''">  patient_last_risk_user = #{patientLastRiskUser},</if>
+				<if test="patientLastRiskType != null and patientLastRiskType != ''">  patient_last_risk_type = #{patientLastRiskType},</if>
+				<if test="patientLastRiskDate != null ">  patient_last_risk_date = #{patientLastRiskDate},</if>
+				<if test="patientFrom != null and patientFrom != ''">  patient_from = #{patientFrom},</if>
+				<if test="isEnable != null and isEnable != ''">  is_enable = #{isEnable},</if>
+				<if test="createBy != null ">  create_by = #{createBy},</if>
+				<if test="createDt != null and createDt != ''">  create_dt = #{createDt},</if>
+				<if test="updateBy != null and updateBy != ''">  update_by = #{updateBy},</if>
+				<if test="updateDt != null ">  update_dt = #{updateDt},</if>
+		 </trim>
+		    where patient_hospit_id = #{patientHospitId}
+	</update>
+	
+	<!-- 根据主键更新 -->	
+	<update id="updateByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbVtePatientHospitInfo" >
+		    update tb_vte_patient_hospit_info
+		    set 
+		        patient_code = #{patientCode},
+		        patient_in_hospital = #{patientInHospital},
+		        patient_out_hospital = #{patientOutHospital},
+		        patient_number = #{patientNumber},
+		        patient_age = #{patientAge},
+		        patient_native_place = #{patientNativePlace},
+		        patient_job = #{patientJob},
+		        patient_marital = #{patientMarital},
+		        patient_phone_number = #{patientPhoneNumber},
+		        patient_department = #{patientDepartment},
+		        patient_area = #{patientArea},
+		        patient_bed = #{patientBed},
+		        patient_doctor = #{patientDoctor},
+		        patient_is_risk = #{patientIsRisk},
+		        patient_caprini_grade = #{patientCapriniGrade},
+		        patient_padua_grade = #{patientPaduaGrade},
+		        patient_syn_grade = #{patientSynGrade},
+		        patient_last_risk_user = #{patientLastRiskUser},
+		        patient_last_risk_type = #{patientLastRiskType},
+		        patient_last_risk_date = #{patientLastRiskDate},
+		        patient_from = #{patientFrom},
+		        is_enable = #{isEnable},
+		        create_by = #{createBy},
+		        create_dt = #{createDt},
+		        update_by = #{updateBy},
+				update_dt = #{updateDt}
+		    where patient_hospit_id = #{patientHospitId}
+	</update>
+	<!-- 根据Form传过来Map更新对应字段值 -->
+	<update id="updateByFormMap" parameterType="map" >
+	    update tb_vte_patient_hospit_info
+	    <trim prefix="set" suffixOverrides=",">
+			<if test="_parameter.containsKey('patientCode')">
+	   				<if test="patientCode != null and patientCode != ''">   patient_code = #{patientCode},</if>
+	   				<if test="patientCode == null or patientCode == ''">  patient_code = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientInHospital')">
+	   				<if test="patientInHospital != null and patientInHospital != ''">   patient_in_hospital = #{patientInHospital},</if>
+	   				<if test="patientInHospital == null or patientInHospital == ''">  patient_in_hospital = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientOutHospital')">
+	   				<if test="patientOutHospital != null and patientOutHospital != ''">   patient_out_hospital = #{patientOutHospital},</if>
+	   				<if test="patientOutHospital == null or patientOutHospital == ''">  patient_out_hospital = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientNumber')">
+	   				<if test="patientNumber != null and patientNumber != ''">   patient_number = #{patientNumber},</if>
+	   				<if test="patientNumber == null or patientNumber == ''">  patient_number = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientAge')">
+	   				<if test="patientAge != null and patientAge != ''">   patient_age = #{patientAge},</if>
+	   				<if test="patientAge == null or patientAge == ''">  patient_age = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientNativePlace')">
+	   				<if test="patientNativePlace != null and patientNativePlace != ''">   patient_native_place = #{patientNativePlace},</if>
+	   				<if test="patientNativePlace == null or patientNativePlace == ''">  patient_native_place = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientJob')">
+	   				<if test="patientJob != null and patientJob != ''">   patient_job = #{patientJob},</if>
+	   				<if test="patientJob == null or patientJob == ''">  patient_job = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientMarital')">
+	   				<if test="patientMarital != null and patientMarital != ''">   patient_marital = #{patientMarital},</if>
+	   				<if test="patientMarital == null or patientMarital == ''">  patient_marital = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientPhoneNumber')">
+	   				<if test="patientPhoneNumber != null and patientPhoneNumber != ''">   patient_phone_number = #{patientPhoneNumber},</if>
+	   				<if test="patientPhoneNumber == null or patientPhoneNumber == ''">  patient_phone_number = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientDepartment')">
+	   				<if test="patientDepartment != null and patientDepartment != ''">   patient_department = #{patientDepartment},</if>
+	   				<if test="patientDepartment == null or patientDepartment == ''">  patient_department = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientArea')">
+	   				<if test="patientArea != null and patientArea != ''">   patient_area = #{patientArea},</if>
+	   				<if test="patientArea == null or patientArea == ''">  patient_area = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientBed')">
+	   				<if test="patientBed != null and patientBed != ''">   patient_bed = #{patientBed},</if>
+	   				<if test="patientBed == null or patientBed == ''">  patient_bed = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientDoctor')">
+	   				<if test="patientDoctor != null and patientDoctor != ''">   patient_doctor = #{patientDoctor},</if>
+	   				<if test="patientDoctor == null or patientDoctor == ''">  patient_doctor = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientIsRisk')">
+	   				<if test="patientIsRisk != null and patientIsRisk != ''">   patient_is_risk = #{patientIsRisk},</if>
+	   				<if test="patientIsRisk == null or patientIsRisk == ''">  patient_is_risk = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientCapriniGrade')">
+	   				<if test="patientCapriniGrade != null and patientCapriniGrade != ''">   patient_caprini_grade = #{patientCapriniGrade},</if>
+	   				<if test="patientCapriniGrade == null or patientCapriniGrade == ''">  patient_caprini_grade = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientPaduaGrade')">
+	   				<if test="patientPaduaGrade != null and patientPaduaGrade != ''">   patient_padua_grade = #{patientPaduaGrade},</if>
+	   				<if test="patientPaduaGrade == null or patientPaduaGrade == ''">  patient_padua_grade = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientSynGrade')">
+	   				<if test="patientSynGrade != null and patientSynGrade != ''">   patient_syn_grade = #{patientSynGrade},</if>
+	   				<if test="patientSynGrade == null or patientSynGrade == ''">  patient_syn_grade = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientLastRiskUser')">
+	   				<if test="patientLastRiskUser != null and patientLastRiskUser != ''">   patient_last_risk_user = #{patientLastRiskUser},</if>
+	   				<if test="patientLastRiskUser == null or patientLastRiskUser == ''">  patient_last_risk_user = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientLastRiskType')">
+	   				<if test="patientLastRiskType != null and patientLastRiskType != ''">   patient_last_risk_type = #{patientLastRiskType},</if>
+	   				<if test="patientLastRiskType == null or patientLastRiskType == ''">  patient_last_risk_type = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientLastRiskDate')">
+	   				<if test="patientLastRiskDate != null and patientLastRiskDate != ''">   patient_last_risk_date = #{patientLastRiskDate},</if>
+	   				<if test="patientLastRiskDate == null or patientLastRiskDate == ''">  patient_last_risk_date = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('patientFrom')">
+	   				<if test="patientFrom != null and patientFrom != ''">   patient_from = #{patientFrom},</if>
+	   				<if test="patientFrom == null or patientFrom == ''">  patient_from = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('isEnable')">
+	   				<if test="isEnable != null and isEnable != ''">   is_enable = #{isEnable},</if>
+	   				<if test="isEnable == null or isEnable == ''">  is_enable = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createBy')">
+	   				<if test="createBy != null and createBy != ''">   create_by = #{createBy},</if>
+	   				<if test="createBy == null or createBy == ''">  create_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createDt')">
+	   				<if test="createDt != null and createDt != ''">   create_dt = #{createDt},</if>
+	   				<if test="createDt == null or createDt == ''">  create_dt = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateBy')">
+	   				<if test="updateBy != null and updateBy != ''">   update_by = #{updateBy},</if>
+	   				<if test="updateBy == null or updateBy == ''">  update_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateDt')">
+	   				<if test="updateDt != null and updateDt != ''">   update_dt = #{updateDt},</if>
+	   				<if test="updateDt == null or updateDt == ''">  update_dt = null,</if>
+	   		</if>
+		</trim>
+	    where patient_hospit_id = #{patientHospitId}
+	</update>
+	<!-- 默认分页 -->
+	<select id="queryAllVtePatientHospitInfo" resultType="com.insight.wisehealth.vte.persistence.TbVtePatientHospitInfo" parameterType="map">
+	   	select 
+			        patient_hospit_id  patientHospitId,
+			        patient_code  patientCode,
+			        patient_in_hospital  patientInHospital,
+			        patient_out_hospital  patientOutHospital,
+			        patient_number  patientNumber,
+			        patient_age  patientAge,
+			        patient_native_place  patientNativePlace,
+			        patient_job  patientJob,
+			        patient_marital  patientMarital,
+			        patient_phone_number  patientPhoneNumber,
+			        patient_department  patientDepartment,
+			        patient_area  patientArea,
+			        patient_bed  patientBed,
+			        patient_doctor  patientDoctor,
+			        patient_is_risk  patientIsRisk,
+			        patient_caprini_grade  patientCapriniGrade,
+			        patient_padua_grade  patientPaduaGrade,
+			        patient_syn_grade  patientSynGrade,
+			        patient_last_risk_user  patientLastRiskUser,
+			        patient_last_risk_type  patientLastRiskType,
+			        patient_last_risk_date  patientLastRiskDate,
+			        patient_from  patientFrom,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	       from tb_vte_patient_hospit_info t
+	       where 
+	       IFNULL(t.is_enable,'0') = 1
+	  		<if test="patientHospitId != null and patientHospitId != ''"> 
+	       		and t.patient_hospit_id  =  #{patientHospitId}
+	       	</if>
+	  		<if test="patientCode != null and patientCode != ''"> 
+	       		and t.patient_code  =  #{patientCode}
+	       	</if>
+	  		<if test="patientInHospital != null and patientInHospital != ''"> 
+	       		and t.patient_in_hospital  =  #{patientInHospital}
+	       	</if>
+	  		<if test="patientOutHospital != null and patientOutHospital != ''"> 
+	       		and t.patient_out_hospital  =  #{patientOutHospital}
+	       	</if>
+	  		<if test="patientNumber != null and patientNumber != ''"> 
+	       		and t.patient_number  =  #{patientNumber}
+	       	</if>
+	  		<if test="patientAge != null and patientAge != ''"> 
+	       		and t.patient_age  =  #{patientAge}
+	       	</if>
+	  		<if test="patientNativePlace != null and patientNativePlace != ''"> 
+	       		and t.patient_native_place  =  #{patientNativePlace}
+	       	</if>
+	  		<if test="patientJob != null and patientJob != ''"> 
+	       		and t.patient_job  =  #{patientJob}
+	       	</if>
+	  		<if test="patientMarital != null and patientMarital != ''"> 
+	       		and t.patient_marital  =  #{patientMarital}
+	       	</if>
+	  		<if test="patientPhoneNumber != null and patientPhoneNumber != ''"> 
+	       		and t.patient_phone_number  =  #{patientPhoneNumber}
+	       	</if>
+	  		<if test="patientDepartment != null and patientDepartment != ''"> 
+	       		and t.patient_department  =  #{patientDepartment}
+	       	</if>
+	  		<if test="patientArea != null and patientArea != ''"> 
+	       		and t.patient_area  =  #{patientArea}
+	       	</if>
+	  		<if test="patientBed != null and patientBed != ''"> 
+	       		and t.patient_bed  =  #{patientBed}
+	       	</if>
+	  		<if test="patientDoctor != null and patientDoctor != ''"> 
+	       		and t.patient_doctor  =  #{patientDoctor}
+	       	</if>
+	  		<if test="patientIsRisk != null and patientIsRisk != ''"> 
+	       		and t.patient_is_risk  =  #{patientIsRisk}
+	       	</if>
+	  		<if test="patientCapriniGrade != null and patientCapriniGrade != ''"> 
+	       		and t.patient_caprini_grade  =  #{patientCapriniGrade}
+	       	</if>
+	  		<if test="patientPaduaGrade != null and patientPaduaGrade != ''"> 
+	       		and t.patient_padua_grade  =  #{patientPaduaGrade}
+	       	</if>
+	  		<if test="patientSynGrade != null and patientSynGrade != ''"> 
+	       		and t.patient_syn_grade  =  #{patientSynGrade}
+	       	</if>
+	  		<if test="patientLastRiskUser != null and patientLastRiskUser != ''"> 
+	       		and t.patient_last_risk_user  =  #{patientLastRiskUser}
+	       	</if>
+	  		<if test="patientLastRiskType != null and patientLastRiskType != ''"> 
+	       		and t.patient_last_risk_type  =  #{patientLastRiskType}
+	       	</if>
+	  		<if test="patientLastRiskDate != null and patientLastRiskDate != ''"> 
+	       		and t.patient_last_risk_date  =  #{patientLastRiskDate}
+	       	</if>
+	  		<if test="patientFrom != null and patientFrom != ''"> 
+	       		and t.patient_from  =  #{patientFrom}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+		<if test="pageSort != null and pageSort != ''">
+			order by $pageSort$ 
+	     </if>
+			limit #{start},#{limit}
+	</select>
+  
+	<select id="countAllVtePatientHospitInfo" resultType="int" parameterType="map">
+		select  count(*)  from tb_vte_patient_hospit_info t
+			where 
+				IFNULL(t.is_enable,'0') = 1
+	  		<if test="patientHospitId != null and patientHospitId != ''"> 
+	       		and t.patient_hospit_id  =  #{patientHospitId}
+	       	</if>
+	  		<if test="patientCode != null and patientCode != ''"> 
+	       		and t.patient_code  =  #{patientCode}
+	       	</if>
+	  		<if test="patientInHospital != null and patientInHospital != ''"> 
+	       		and t.patient_in_hospital  =  #{patientInHospital}
+	       	</if>
+	  		<if test="patientOutHospital != null and patientOutHospital != ''"> 
+	       		and t.patient_out_hospital  =  #{patientOutHospital}
+	       	</if>
+	  		<if test="patientNumber != null and patientNumber != ''"> 
+	       		and t.patient_number  =  #{patientNumber}
+	       	</if>
+	  		<if test="patientAge != null and patientAge != ''"> 
+	       		and t.patient_age  =  #{patientAge}
+	       	</if>
+	  		<if test="patientNativePlace != null and patientNativePlace != ''"> 
+	       		and t.patient_native_place  =  #{patientNativePlace}
+	       	</if>
+	  		<if test="patientJob != null and patientJob != ''"> 
+	       		and t.patient_job  =  #{patientJob}
+	       	</if>
+	  		<if test="patientMarital != null and patientMarital != ''"> 
+	       		and t.patient_marital  =  #{patientMarital}
+	       	</if>
+	  		<if test="patientPhoneNumber != null and patientPhoneNumber != ''"> 
+	       		and t.patient_phone_number  =  #{patientPhoneNumber}
+	       	</if>
+	  		<if test="patientDepartment != null and patientDepartment != ''"> 
+	       		and t.patient_department  =  #{patientDepartment}
+	       	</if>
+	  		<if test="patientArea != null and patientArea != ''"> 
+	       		and t.patient_area  =  #{patientArea}
+	       	</if>
+	  		<if test="patientBed != null and patientBed != ''"> 
+	       		and t.patient_bed  =  #{patientBed}
+	       	</if>
+	  		<if test="patientDoctor != null and patientDoctor != ''"> 
+	       		and t.patient_doctor  =  #{patientDoctor}
+	       	</if>
+	  		<if test="patientIsRisk != null and patientIsRisk != ''"> 
+	       		and t.patient_is_risk  =  #{patientIsRisk}
+	       	</if>
+	  		<if test="patientCapriniGrade != null and patientCapriniGrade != ''"> 
+	       		and t.patient_caprini_grade  =  #{patientCapriniGrade}
+	       	</if>
+	  		<if test="patientPaduaGrade != null and patientPaduaGrade != ''"> 
+	       		and t.patient_padua_grade  =  #{patientPaduaGrade}
+	       	</if>
+	  		<if test="patientSynGrade != null and patientSynGrade != ''"> 
+	       		and t.patient_syn_grade  =  #{patientSynGrade}
+	       	</if>
+	  		<if test="patientLastRiskUser != null and patientLastRiskUser != ''"> 
+	       		and t.patient_last_risk_user  =  #{patientLastRiskUser}
+	       	</if>
+	  		<if test="patientLastRiskType != null and patientLastRiskType != ''"> 
+	       		and t.patient_last_risk_type  =  #{patientLastRiskType}
+	       	</if>
+	  		<if test="patientLastRiskDate != null and patientLastRiskDate != ''"> 
+	       		and t.patient_last_risk_date  =  #{patientLastRiskDate}
+	       	</if>
+	  		<if test="patientFrom != null and patientFrom != ''"> 
+	       		and t.patient_from  =  #{patientFrom}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+
+	<!-- 默认不分页 -->
+	<select id="queryAllVtePatientHospitInfoNP" resultType="com.insight.wisehealth.vte.persistence.TbVtePatientHospitInfo" parameterType="map">
+	   	select 
+		        patient_hospit_id  patientHospitId,
+		        patient_code  patientCode,
+		        patient_in_hospital  patientInHospital,
+		        patient_out_hospital  patientOutHospital,
+		        patient_number  patientNumber,
+		        patient_age  patientAge,
+		        patient_native_place  patientNativePlace,
+		        patient_job  patientJob,
+		        patient_marital  patientMarital,
+		        patient_phone_number  patientPhoneNumber,
+		        patient_department  patientDepartment,
+		        patient_area  patientArea,
+		        patient_bed  patientBed,
+		        patient_doctor  patientDoctor,
+		        patient_is_risk  patientIsRisk,
+		        patient_caprini_grade  patientCapriniGrade,
+		        patient_padua_grade  patientPaduaGrade,
+		        patient_syn_grade  patientSynGrade,
+		        patient_last_risk_user  patientLastRiskUser,
+		        patient_last_risk_type  patientLastRiskType,
+		        patient_last_risk_date  patientLastRiskDate,
+		        patient_from  patientFrom,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_vte_patient_hospit_info t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="patientHospitId != null and patientHospitId != ''"> 
+	       		and t.patient_hospit_id  =  #{patientHospitId}
+	       	</if>
+	  		<if test="patientCode != null and patientCode != ''"> 
+	       		and t.patient_code  =  #{patientCode}
+	       	</if>
+	  		<if test="patientInHospital != null and patientInHospital != ''"> 
+	       		and t.patient_in_hospital  =  #{patientInHospital}
+	       	</if>
+	  		<if test="patientOutHospital != null and patientOutHospital != ''"> 
+	       		and t.patient_out_hospital  =  #{patientOutHospital}
+	       	</if>
+	  		<if test="patientNumber != null and patientNumber != ''"> 
+	       		and t.patient_number  =  #{patientNumber}
+	       	</if>
+	  		<if test="patientAge != null and patientAge != ''"> 
+	       		and t.patient_age  =  #{patientAge}
+	       	</if>
+	  		<if test="patientNativePlace != null and patientNativePlace != ''"> 
+	       		and t.patient_native_place  =  #{patientNativePlace}
+	       	</if>
+	  		<if test="patientJob != null and patientJob != ''"> 
+	       		and t.patient_job  =  #{patientJob}
+	       	</if>
+	  		<if test="patientMarital != null and patientMarital != ''"> 
+	       		and t.patient_marital  =  #{patientMarital}
+	       	</if>
+	  		<if test="patientPhoneNumber != null and patientPhoneNumber != ''"> 
+	       		and t.patient_phone_number  =  #{patientPhoneNumber}
+	       	</if>
+	  		<if test="patientDepartment != null and patientDepartment != ''"> 
+	       		and t.patient_department  =  #{patientDepartment}
+	       	</if>
+	  		<if test="patientArea != null and patientArea != ''"> 
+	       		and t.patient_area  =  #{patientArea}
+	       	</if>
+	  		<if test="patientBed != null and patientBed != ''"> 
+	       		and t.patient_bed  =  #{patientBed}
+	       	</if>
+	  		<if test="patientDoctor != null and patientDoctor != ''"> 
+	       		and t.patient_doctor  =  #{patientDoctor}
+	       	</if>
+	  		<if test="patientIsRisk != null and patientIsRisk != ''"> 
+	       		and t.patient_is_risk  =  #{patientIsRisk}
+	       	</if>
+	  		<if test="patientCapriniGrade != null and patientCapriniGrade != ''"> 
+	       		and t.patient_caprini_grade  =  #{patientCapriniGrade}
+	       	</if>
+	  		<if test="patientPaduaGrade != null and patientPaduaGrade != ''"> 
+	       		and t.patient_padua_grade  =  #{patientPaduaGrade}
+	       	</if>
+	  		<if test="patientSynGrade != null and patientSynGrade != ''"> 
+	       		and t.patient_syn_grade  =  #{patientSynGrade}
+	       	</if>
+	  		<if test="patientLastRiskUser != null and patientLastRiskUser != ''"> 
+	       		and t.patient_last_risk_user  =  #{patientLastRiskUser}
+	       	</if>
+	  		<if test="patientLastRiskType != null and patientLastRiskType != ''"> 
+	       		and t.patient_last_risk_type  =  #{patientLastRiskType}
+	       	</if>
+	  		<if test="patientLastRiskDate != null and patientLastRiskDate != ''"> 
+	       		and t.patient_last_risk_date  =  #{patientLastRiskDate}
+	       	</if>
+	  		<if test="patientFrom != null and patientFrom != ''"> 
+	       		and t.patient_from  =  #{patientFrom}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+	
+	<!-- 默认不分页 -->
+	<select id="queryVtePatientHospitInfoInfo" resultType="com.insight.wisehealth.vte.persistence.TbVtePatientHospitInfo" parameterType="map">
+	   	select 
+		        patient_hospit_id  patientHospitId,
+		        patient_code  patientCode,
+		        patient_in_hospital  patientInHospital,
+		        patient_out_hospital  patientOutHospital,
+		        patient_number  patientNumber,
+		        patient_age  patientAge,
+		        patient_native_place  patientNativePlace,
+		        patient_job  patientJob,
+		        patient_marital  patientMarital,
+		        patient_phone_number  patientPhoneNumber,
+		        patient_department  patientDepartment,
+		        patient_area  patientArea,
+		        patient_bed  patientBed,
+		        patient_doctor  patientDoctor,
+		        patient_is_risk  patientIsRisk,
+		        patient_caprini_grade  patientCapriniGrade,
+		        patient_padua_grade  patientPaduaGrade,
+		        patient_syn_grade  patientSynGrade,
+		        patient_last_risk_user  patientLastRiskUser,
+		        patient_last_risk_type  patientLastRiskType,
+		        patient_last_risk_date  patientLastRiskDate,
+		        patient_from  patientFrom,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_vte_patient_hospit_info t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="patientHospitId != null and patientHospitId != ''"> 
+	       		and t.patient_hospit_id  =  #{patientHospitId}
+	       	</if>
+	  		<if test="patientCode != null and patientCode != ''"> 
+	       		and t.patient_code  =  #{patientCode}
+	       	</if>
+	  		<if test="patientInHospital != null and patientInHospital != ''"> 
+	       		and t.patient_in_hospital  =  #{patientInHospital}
+	       	</if>
+	  		<if test="patientOutHospital != null and patientOutHospital != ''"> 
+	       		and t.patient_out_hospital  =  #{patientOutHospital}
+	       	</if>
+	  		<if test="patientNumber != null and patientNumber != ''"> 
+	       		and t.patient_number  =  #{patientNumber}
+	       	</if>
+	  		<if test="patientAge != null and patientAge != ''"> 
+	       		and t.patient_age  =  #{patientAge}
+	       	</if>
+	  		<if test="patientNativePlace != null and patientNativePlace != ''"> 
+	       		and t.patient_native_place  =  #{patientNativePlace}
+	       	</if>
+	  		<if test="patientJob != null and patientJob != ''"> 
+	       		and t.patient_job  =  #{patientJob}
+	       	</if>
+	  		<if test="patientMarital != null and patientMarital != ''"> 
+	       		and t.patient_marital  =  #{patientMarital}
+	       	</if>
+	  		<if test="patientPhoneNumber != null and patientPhoneNumber != ''"> 
+	       		and t.patient_phone_number  =  #{patientPhoneNumber}
+	       	</if>
+	  		<if test="patientDepartment != null and patientDepartment != ''"> 
+	       		and t.patient_department  =  #{patientDepartment}
+	       	</if>
+	  		<if test="patientArea != null and patientArea != ''"> 
+	       		and t.patient_area  =  #{patientArea}
+	       	</if>
+	  		<if test="patientBed != null and patientBed != ''"> 
+	       		and t.patient_bed  =  #{patientBed}
+	       	</if>
+	  		<if test="patientDoctor != null and patientDoctor != ''"> 
+	       		and t.patient_doctor  =  #{patientDoctor}
+	       	</if>
+	  		<if test="patientIsRisk != null and patientIsRisk != ''"> 
+	       		and t.patient_is_risk  =  #{patientIsRisk}
+	       	</if>
+	  		<if test="patientCapriniGrade != null and patientCapriniGrade != ''"> 
+	       		and t.patient_caprini_grade  =  #{patientCapriniGrade}
+	       	</if>
+	  		<if test="patientPaduaGrade != null and patientPaduaGrade != ''"> 
+	       		and t.patient_padua_grade  =  #{patientPaduaGrade}
+	       	</if>
+	  		<if test="patientSynGrade != null and patientSynGrade != ''"> 
+	       		and t.patient_syn_grade  =  #{patientSynGrade}
+	       	</if>
+	  		<if test="patientLastRiskUser != null and patientLastRiskUser != ''"> 
+	       		and t.patient_last_risk_user  =  #{patientLastRiskUser}
+	       	</if>
+	  		<if test="patientLastRiskType != null and patientLastRiskType != ''"> 
+	       		and t.patient_last_risk_type  =  #{patientLastRiskType}
+	       	</if>
+	  		<if test="patientLastRiskDate != null and patientLastRiskDate != ''"> 
+	       		and t.patient_last_risk_date  =  #{patientLastRiskDate}
+	       	</if>
+	  		<if test="patientFrom != null and patientFrom != ''"> 
+	       		and t.patient_from  =  #{patientFrom}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	    limit 0,1
+	</select>
+	
+	<!-- 其他接口 -->	
+	<select id="queryVteDepartmentInfo" resultType="map" parameterType="map">
+	   	select 
+		        t.patient_hospit_id  patientHospitId,
+		        t.patient_department  patientDepartment,
+		        d.department_id  departmentId,
+		        d.department_code  departmentCode
+		from tb_vte_patient_hospit_info t inner join 
+		       tb_vte_department d on d.department_name = t.patient_department   
+		where 
+		IFNULL(t.is_enable,'0') = 1
+		and IFNULL(d.is_enable,'0') = 1
+	  		<if test="patientHospitId != null and patientHospitId != ''"> 
+	       		and t.patient_hospit_id  =  #{patientHospitId}
+	       	</if>
+	    limit 0,1
+	</select>
+	
+	<select id="queryOatientHospitIdBypatientDepartment" resultType="int" parameterType="map">
+	   	select 
+		    t.patient_hospit_id  patientHospitId
+		from tb_vte_patient_hospit_info t 
+		where 
+		IFNULL(t.is_enable,'0') = 1
+		and IFNULL(d.is_enable,'0') = 1
+	  		t.patient_department =  #{patientDepartment}
+	    limit 0,1
+	</select>
+	
+	<!-- 质控视图KPI检测患者人数和科室 -->
+	<select id="queryNumberPatient" resultType="java.util.HashMap" parameterType="map">
+			SELECT
+				count(*) count,
+				tvphi.patient_department patientDepartment
+			FROM
+				tb_vte_patient_hospit_info tvphi
+			<if test="patientDepartment =='全部' ">
+				LEFT JOIN tb_vte_department tvd on tvphi.patient_department=tvd.department_name
+			</if>
+			WHERE
+				IFNULL(tvphi.is_enable, '0') = 1
+				<!-- 最近一个月 -->
+			<if test="patientDepartment != null and patientDepartment != '' and patientDepartment != '全部'">
+	       		and tvphi.patient_department=#{patientDepartment}
+	       	</if>
+	       	<if test="dateType=='1' or dateType==1 ">
+	       		<if test="date=='' or date==null">
+	       			and year(tvphi.patient_in_hospital)=year(date_sub(now(),interval 1 year))
+	       		</if>
+	       		<if test="date!='' and date!=null">
+	       			and date_format(tvphi.patient_in_hospital,'%Y')=#{date}
+	       		</if>
+	       	</if>
+	       	<if test="dateType=='2' or dateType==2 ">
+	       		<if test="date=='' or date==null">
+	       			and PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format(tvphi.patient_in_hospital, '%Y%m' ) ) =1
+	       		</if>
+	       		<if test="date!='' and date!=null">
+	       			and date_format(tvphi.patient_in_hospital,'%Y-%m')=#{date}
+	       		</if>
+	       	</if>
+	       	<if test="dateType=='3' or dateType==3 ">
+	       		<if test="date=='' or date==null">
+	       			and YEARWEEK(tvphi.patient_in_hospital, 1) = YEARWEEK(
+						date_sub(curdate(), INTERVAL 7 DAY),
+						1
+					)
+	       		</if>
+	       		<if test="date!='' and date!=null">
+	       			and date_format(tvphi.patient_in_hospital,'%Y-%m-%d')<![CDATA[ >= ]]>#{dateS}
+	       			and date_format(tvphi.patient_in_hospital,'%Y-%m-%d')<![CDATA[ <= ]]>#{dateE}
+	       		</if>
+	       	</if>
+	       	<if test="patientDepartment =='全部' ">
+	       		and IFNULL(tvd.is_enable, '0') = 1
+				and tvd.department_qualitycontrol=#{departmentQualitycontrol}
+			</if>
+	       	<if test="patientDepartment != '全部' ">
+				GROUP BY tvphi.patient_department
+			</if>
+	</select>
+	<!-- 质控视图KPI检测发病人数 -->
+	<select id="queryOnsetOfNumberPatient" resultType="java.util.HashMap" parameterType="map">
+			SELECT
+				count(*) count,
+				tvphi.patient_department patientDepartment
+			FROM
+				tb_vte_patient_hospit_info tvphi 
+			LEFT JOIN tb_vte_doctor_advice tvda on tvphi.patient_hospit_id = tvda.patient_hospit_id
+		<if test="patientDepartment =='全部' ">
+			LEFT JOIN tb_vte_department tvd on tvphi.patient_department=tvd.department_name
+		</if>
+			where IFNULL(tvphi.is_enable, '0') = 1  and IFNULL(tvda.is_enable, '0') = 1
+			and tvda.doctor_advice_is_last = 1
+		<if test="patientDepartment != null and patientDepartment != '' and patientDepartment != '全部'">
+	       		and tvphi.patient_department=#{patientDepartment}
+       	</if>
+       	<if test="dateType=='1' or dateType==1 ">
+       		<if test="date=='' or date==null">
+       			and year(tvphi.patient_in_hospital)=year(date_sub(now(),interval 1 year))
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y')=#{date}
+       		</if>
+       	</if>
+       	<if test="dateType=='2' or dateType==2 ">
+       		<if test="date=='' or date==null">
+       			and PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format(tvphi.patient_in_hospital, '%Y%m' ) ) =1
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m')=#{date}
+       		</if>
+       	</if>
+       	<if test="dateType=='3' or dateType==3 ">
+       		<if test="date=='' or date==null">
+       			and YEARWEEK(tvphi.patient_in_hospital, 1) = YEARWEEK(
+					date_sub(curdate(), INTERVAL 7 DAY),
+					1
+				)
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m-%d')<![CDATA[ >= ]]>#{dateS}
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m-%d')<![CDATA[ <= ]]>#{dateE}
+       		</if>
+       	</if>
+       		and (tvda.doctor_advice_result=#{doctorAdviceResult1} or tvda.doctor_advice_result=#{doctorAdviceResult2})
+   	 	<if test="patientDepartment =='全部' ">
+       		and IFNULL(tvd.is_enable, '0') = 1
+			and tvd.department_qualitycontrol=#{departmentQualitycontrol}
+		</if>
+       	<if test="patientDepartment != '全部' ">
+			GROUP BY tvphi.patient_department
+		</if>
+	</select>
+	<!-- 质控视图KPI检测完成VTE风险评估患者人数 或出血风险评估人数-->
+	<select id="queryVteRiskAssessmentPatient" resultType="java.util.HashMap" parameterType="map">
+			SELECT
+				count(*) count,
+				tvphi.patient_department patientDepartment
+			FROM
+				tb_vte_patient_hospit_info tvphi
+			LEFT JOIN tb_vte_assessment tvaa ON tvphi.patient_hospit_id = tvaa.patient_hospit_id
+		<if test="patientDepartment =='全部' ">
+				LEFT JOIN tb_vte_department tvd on tvphi.patient_department=tvd.department_name
+		</if>
+			WHERE
+				 IFNULL(tvphi.is_enable, '0') = 1 and IFNULL(tvaa.is_enable, '0') = 1
+				 and tvaa.assessment_type_is_last = 1
+				 and tvaa.assessment_item_is_last = 1
+				 AND (
+							tvaa.assessment_item = #{assessmentItem1}
+							OR tvaa.assessment_item = #{assessmentItem2}
+						)
+		<if test="createDtOneDay != null and createDtOneDay != '' and createDtOneDay == 1 ">
+       		and TIMESTAMPDIFF(SECOND,tvphi.patient_in_hospital,tvaa.create_dt)<![CDATA[ <= ]]>86400
+       	</if>
+		<if test="patientDepartment != null and patientDepartment != '' and patientDepartment != '全部'">
+	       		and tvphi.patient_department=#{patientDepartment}
+       	</if>
+       	<if test="dateType=='1' or dateType==1 ">
+       		<if test="date=='' or date==null">
+       			and year(tvphi.patient_in_hospital)=year(date_sub(now(),interval 1 year))
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y')=#{date}
+       		</if>
+       	</if>
+       	<if test="dateType=='2' or dateType==2 ">
+       		<if test="date=='' or date==null">
+       			and PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format(tvphi.patient_in_hospital, '%Y%m' ) ) =1
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m')=#{date}
+       		</if>
+       	</if>
+       	<if test="dateType=='3' or dateType==3 ">
+       		<if test="date=='' or date==null">
+       			and YEARWEEK(tvphi.patient_in_hospital, 1) = YEARWEEK(
+					date_sub(curdate(), INTERVAL 7 DAY),
+					1
+				)
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m-%d')<![CDATA[ >= ]]>#{dateS}
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m-%d')<![CDATA[ <= ]]>#{dateE}
+       		</if>
+       	</if>
+       	<if test="patientDepartment =='全部' ">
+	       		and IFNULL(tvd.is_enable, '0') = 1
+				and tvd.department_qualitycontrol=#{departmentQualitycontrol}
+		</if>
+       	<if test="patientDepartment != '全部' ">
+			GROUP BY tvphi.patient_department
+		</if>
+	</select>
+	<!-- 质控视图中高危患者预防-中高危患者数-->
+	<select id="queryCapriniPaduaRiskList" resultType="java.util.HashMap" parameterType="map">
+			SELECT
+				count(*) count,
+				tvphi.patient_department patientDepartment
+			FROM
+				tb_vte_patient_hospit_info tvphi
+			LEFT JOIN tb_vte_assessment tvaa ON tvphi.patient_hospit_id = tvaa.patient_hospit_id
+			WHERE
+				IFNULL(tvphi.is_enable, '0') = 1 and IFNULL(tvaa.is_enable, '0') = 1
+				AND tvaa.assessment_type_is_last = 1
+				AND tvaa.assessment_type = #{assessmentType}
+				AND tvaa.assessment_item = #{assessmentItem}
+				AND tvaa.assessment_result = #{assessmentResult}
+		<if test="dateType=='1' or dateType==1 ">
+       		<if test="date=='' or date==null">
+       			and year(tvphi.patient_in_hospital)=year(date_sub(now(),interval 1 year))
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y')=#{date}
+       		</if>
+       	</if>
+       	<if test="dateType=='2' or dateType==2 ">
+       		<if test="date=='' or date==null">
+       			and PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format(tvphi.patient_in_hospital, '%Y%m' ) ) =1
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m')=#{date}
+       		</if>
+       	</if>
+       	<if test="dateType=='3' or dateType==3 ">
+       		<if test="date=='' or date==null">
+       			and YEARWEEK(tvphi.patient_in_hospital, 1) = YEARWEEK(
+					date_sub(curdate(), INTERVAL 7 DAY),
+					1
+				)
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m-%d')<![CDATA[ >= ]]>#{dateS}
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m-%d')<![CDATA[ <= ]]>#{dateE}
+       		</if>
+       	</if>
+			GROUP BY
+				tvphi.patient_department
+			ORDER BY
+				count DESC
+	</select>
+	<!-- 质控视图中高危患者预防-各部门中高危患者总数-->
+	<select id="queryCapriniPaduaRiskSumList" resultType="java.util.HashMap" parameterType="map">
+			SELECT
+				count(*) count,
+				tvphi.patient_department patientDepartment
+			FROM
+				tb_vte_patient_hospit_info tvphi
+			LEFT JOIN tb_vte_assessment tvaa ON tvphi.patient_hospit_id = tvaa.patient_hospit_id
+			WHERE
+				IFNULL(tvphi.is_enable, '0') = 1 and IFNULL(tvaa.is_enable, '0') = 1
+				AND tvaa.assessment_type_is_last = 1
+				AND tvaa.assessment_type = #{assessmentType}
+				AND ((tvaa.assessment_item = #{assessmentItem1} and (tvaa.assessment_result = #{assessmentResult1} or tvaa.assessment_result = #{assessmentResult2})) or
+				(tvaa.assessment_item = #{assessmentItem2} and tvaa.assessment_result = #{assessmentResult2}))
+		<if test="dateType=='1' or dateType==1 ">
+       		<if test="date=='' or date==null">
+       			and year(tvphi.patient_in_hospital)=year(date_sub(now(),interval 1 year))
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y')=#{date}
+       		</if>
+       	</if>
+       	<if test="dateType=='2' or dateType==2 ">
+       		<if test="date=='' or date==null">
+       			and PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format(tvphi.patient_in_hospital, '%Y%m' ) ) =1
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m')=#{date}
+       		</if>
+       	</if>
+       	<if test="dateType=='3' or dateType==3 ">
+       		<if test="date=='' or date==null">
+       			and YEARWEEK(tvphi.patient_in_hospital, 1) = YEARWEEK(
+					date_sub(curdate(), INTERVAL 7 DAY),
+					1
+				)
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m-%d')<![CDATA[ >= ]]>#{dateS}
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m-%d')<![CDATA[ <= ]]>#{dateE}
+       		</if>
+       	</if>
+			GROUP BY
+				tvphi.patient_department
+			ORDER BY
+				count DESC
+	</select>
+	<!-- 质控视图中高危患者预防-各部门预防措施率-->
+	<select id="queryPreventiveNumberList" resultType="java.util.HashMap" parameterType="map">
+			SELECT
+				count(*) count,
+				tvphi.patient_department patientDepartment
+			FROM
+				tb_vte_patient_hospit_info tvphi 
+			LEFT JOIN tb_vte_assessment tvaa ON tvphi.patient_hospit_id = tvaa.patient_hospit_id
+			LEFT JOIN tb_vte_doctor_advice tvda on tvphi.patient_hospit_id = tvda.patient_hospit_id
+			where IFNULL(tvphi.is_enable, '0') = 1  and IFNULL(tvaa.is_enable, '0') = 1 and IFNULL(tvda.is_enable, '0') = 1
+			AND tvaa.assessment_type_is_last = 1
+			AND tvaa.assessment_type = #{assessmentType}
+			AND tvda.doctor_advice_is_last = 1
+			AND ((tvaa.assessment_item = #{assessmentItem1} and (tvaa.assessment_result = #{assessmentResult1} or tvaa.assessment_result = #{assessmentResult2})) or
+				(tvaa.assessment_item = #{assessmentItem2} and tvaa.assessment_result = #{assessmentResult2}))
+		<if test="dateType=='1' or dateType==1 ">
+       		<if test="date=='' or date==null">
+       			and year(tvphi.patient_in_hospital)=year(date_sub(now(),interval 1 year))
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y')=#{date}
+       		</if>
+       	</if>
+       	<if test="dateType=='2' or dateType==2 ">
+       		<if test="date=='' or date==null">
+       			and PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format(tvphi.patient_in_hospital, '%Y%m' ) ) =1
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m')=#{date}
+       		</if>
+       	</if>
+       	<if test="dateType=='3' or dateType==3 ">
+       		<if test="date=='' or date==null">
+       			and YEARWEEK(tvphi.patient_in_hospital, 1) = YEARWEEK(
+					date_sub(curdate(), INTERVAL 7 DAY),
+					1
+				)
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m-%d')<![CDATA[ >= ]]>#{dateS}
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m-%d')<![CDATA[ <= ]]>#{dateE}
+       		</if>
+       	</if>
+			and tvda.doctor_advice_risk=#{doctorAdviceRisk}
+			GROUP BY
+				tvphi.patient_department
+	</select>
+	<!-- 质控视图最近一次出血风险评估为 外科出血风险评估且结果为 有 的病案号数+最近一次出血风险评估为 内科出血风险评估且结果为 有 的病案号数-->
+	<select id="queryRecentlyBleedingRiskSumList" resultType="java.util.HashMap" parameterType="map">
+			SELECT
+				count(*) count,
+				tvphi.patient_department patientDepartment
+			FROM
+				tb_vte_patient_hospit_info tvphi
+			LEFT JOIN tb_vte_assessment tvaa ON tvphi.patient_hospit_id = tvaa.patient_hospit_id 
+			WHERE
+				IFNULL(tvphi.is_enable, '0') = 1 and IFNULL(tvaa.is_enable, '0') = 1
+				AND tvaa.assessment_type_is_last = 1
+				AND tvaa.assessment_type = #{assessmentType}
+				AND tvaa.assessment_result = #{assessmentResult}
+		<if test="dateType=='1' or dateType==1 ">
+       		<if test="date=='' or date==null">
+       			and year(tvphi.patient_in_hospital)=year(date_sub(now(),interval 1 year))
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y')=#{date}
+       		</if>
+       	</if>
+       	<if test="dateType=='2' or dateType==2 ">
+       		<if test="date=='' or date==null">
+       			and PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format(tvphi.patient_in_hospital, '%Y%m' ) ) =1
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m')=#{date}
+       		</if>
+       	</if>
+       	<if test="dateType=='3' or dateType==3 ">
+       		<if test="date=='' or date==null">
+       			and YEARWEEK(tvphi.patient_in_hospital, 1) = YEARWEEK(
+					date_sub(curdate(), INTERVAL 7 DAY),
+					1
+				)
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m-%d')<![CDATA[ >= ]]>#{dateS}
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m-%d')<![CDATA[ <= ]]>#{dateE}
+       		</if>
+       	</if>
+			GROUP BY
+				tvphi.patient_department
+			ORDER BY
+				count DESC
+	</select>
+	<!-- 质控视图患者情况 -->
+	<select id="queryPrevalenceAssessment" resultType="java.util.HashMap" parameterType="map">
+			SELECT
+				count(*) count,
+				tvphi.patient_department patientDepartment
+			FROM
+				tb_vte_patient_hospit_info tvphi 
+			LEFT JOIN tb_vte_doctor_advice tvda on tvphi.patient_hospit_id = tvda.patient_hospit_id
+			where IFNULL(tvphi.is_enable, '0') = 1 and IFNULL(tvda.is_enable, '0') = 1
+			AND tvda.doctor_advice_is_last = 1
+		<if test="dateType=='1' or dateType==1 ">
+       		<if test="date=='' or date==null">
+       			and year(tvphi.patient_in_hospital)=year(date_sub(now(),interval 1 year))
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y')=#{date}
+       		</if>
+       	</if>
+       	<if test="dateType=='2' or dateType==2 ">
+       		<if test="date=='' or date==null">
+       			and PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format(tvphi.patient_in_hospital, '%Y%m' ) ) =1
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m')=#{date}
+       		</if>
+       	</if>
+       	<if test="dateType=='3' or dateType==3 ">
+       		<if test="date=='' or date==null">
+       			and YEARWEEK(tvphi.patient_in_hospital, 1) = YEARWEEK(
+					date_sub(curdate(), INTERVAL 7 DAY),
+					1
+				)
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m-%d')<![CDATA[ >= ]]>#{dateS}
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m-%d')<![CDATA[ <= ]]>#{dateE}
+       		</if>
+       	</if>
+		<if test="doctorAdviceResult != null and doctorAdviceResult != ''">	
+			and tvda.doctor_advice_result=#{doctorAdviceResult}
+		</if>
+		<if test="doctorAdviceResult1 != null and doctorAdviceResult1 != ''">	
+			and (tvda.doctor_advice_result=#{doctorAdviceResult1} or tvda.doctor_advice_result=#{doctorAdviceResult2})
+		</if>
+		<if test="patientDepartment != null and patientDepartment != ''">
+	       		and tvphi.patient_department=#{patientDepartment}
+       	</if>
+			GROUP BY tvphi.patient_department
+	</select>
+	<!-- 质控视图患者情况-内外科 -->
+	<select id="queryNwPrevalenceAssessment" resultType="java.util.HashMap" parameterType="map">
+			SELECT
+				count(*) count,
+				tso.org_type orgType
+			FROM
+				tb_vte_patient_hospit_info tvphi
+			LEFT JOIN tb_vte_doctor_advice tvda ON tvphi.patient_hospit_id = tvda.patient_hospit_id
+			LEFT JOIN tb_vte_department tvd on tvphi.patient_department=tvd.department_name
+			LEFT JOIN tb_system_org tso on tvd.department_code=tso.org_code
+			WHERE
+				IFNULL(tvphi.is_enable, '0') = 1
+			and IFNULL(tvd.is_enable, '0') = 1
+			and IFNULL(tvda.is_enable, '0') = 1
+			and IFNULL(tso.is_enable, '0') = 1
+			AND tvda.doctor_advice_is_last = 1
+			and tvd.department_qualitycontrol=#{departmentQualitycontrol}
+		<if test="dateType=='1' or dateType==1 ">
+       		<if test="date=='' or date==null">
+       			and year(tvphi.patient_in_hospital)=year(date_sub(now(),interval 1 year))
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y')=#{date}
+       		</if>
+       	</if>
+       	<if test="dateType=='2' or dateType==2 ">
+       		<if test="date=='' or date==null">
+       			and PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format(tvphi.patient_in_hospital, '%Y%m' ) ) =1
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m')=#{date}
+       		</if>
+       	</if>
+       	<if test="dateType=='3' or dateType==3 ">
+       		<if test="date=='' or date==null">
+       			and YEARWEEK(tvphi.patient_in_hospital, 1) = YEARWEEK(
+					date_sub(curdate(), INTERVAL 7 DAY),
+					1
+				)
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m-%d')<![CDATA[ >= ]]>#{dateS}
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m-%d')<![CDATA[ <= ]]>#{dateE}
+       		</if>
+       	</if>
+			and (tso.org_type=#{orgType1} or tso.org_type=#{orgType2})
+		<if test="doctorAdviceResult != null and doctorAdviceResult != ''">	
+			and tvda.doctor_advice_result=#{doctorAdviceResult}
+		</if>
+		<if test="doctorAdviceResult1 != null and doctorAdviceResult1 != ''">	
+			and (tvda.doctor_advice_result=#{doctorAdviceResult1} or tvda.doctor_advice_result=#{doctorAdviceResult2})
+		</if>
+		<if test="patientDepartment != null and patientDepartment != ''">
+	       		and tvphi.patient_department=#{patientDepartment}
+       	</if>
+			GROUP BY tso.org_type
+	</select>
+	<!-- 外科出血风险高危人数或内科出血风险高危人数    暂时没用-->
+	<select id="queryMedicineOrSurgeryBleedingRiskList" resultType="java.util.HashMap" parameterType="map">
+			SELECT
+				count(*) count,
+				tvphi.patient_department patientDepartment
+			FROM
+				tb_vte_patient_hospit_info tvphi
+			LEFT JOIN tb_vte_assessment tvaa ON tvphi.patient_hospit_id = tvaa.patient_hospit_id
+			WHERE
+				IFNULL(tvphi.is_enable, '0') = 1 and IFNULL(tvaa.is_enable, '0') = 1
+				AND tvaa.assessment_type_is_last = 1
+		<if test="dateType=='1' or dateType==1 ">
+       		<if test="date=='' or date==null">
+       			and year(tvphi.patient_in_hospital)=year(date_sub(now(),interval 1 year))
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y')=#{date}
+       		</if>
+       	</if>
+       	<if test="dateType=='2' or dateType==2 ">
+       		<if test="date=='' or date==null">
+       			and PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format(tvphi.patient_in_hospital, '%Y%m' ) ) =1
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m')=#{date}
+       		</if>
+       	</if>
+       	<if test="dateType=='3' or dateType==3 ">
+       		<if test="date=='' or date==null">
+       			and YEARWEEK(tvphi.patient_in_hospital, 1) = YEARWEEK(
+					date_sub(curdate(), INTERVAL 7 DAY),
+					1
+				)
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m-%d')<![CDATA[ >= ]]>#{dateS}
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m-%d')<![CDATA[ <= ]]>#{dateE}
+       		</if>
+       	</if>
+			AND tvaa.assessment_item = #{assessmentItem}
+			and tvaa.assessment_result = #{assessmentResult}
+			GROUP BY
+				tvphi.patient_department
+			ORDER BY
+				count DESC
+	</select>
+	<!-- 单独计算外科出血风险高危人数 或内科出血风险高危人数 接口使用-->
+	<select id="queryRecentlyBleedingRiskList" resultType="java.util.HashMap" parameterType="map">
+			SELECT
+				count(*) count,
+				tvphi.patient_department patientDepartment
+			FROM
+				tb_vte_patient_hospit_info tvphi
+			LEFT JOIN tb_vte_assessment tvaa ON tvphi.patient_hospit_id = tvaa.patient_hospit_id
+			WHERE
+				IFNULL(tvphi.is_enable, '0') = 1 and IFNULL(tvaa.is_enable, '0') = 1
+				AND tvaa.assessment_type_is_last = 1
+				AND tvaa.assessment_type = #{assessmentType}
+				AND tvaa.assessment_item = #{assessmentItem}
+				AND tvaa.assessment_result = #{assessmentResult}
+		<if test="dateType=='1' or dateType==1 ">
+       		<if test="date=='' or date==null">
+       			and year(tvphi.patient_in_hospital)=year(date_sub(now(),interval 1 year))
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y')=#{date}
+       		</if>
+       	</if>
+       	<if test="dateType=='2' or dateType==2 ">
+       		<if test="date=='' or date==null">
+       			and PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format(tvphi.patient_in_hospital, '%Y%m' ) ) =1
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m')=#{date}
+       		</if>
+       	</if>
+       	<if test="dateType=='3' or dateType==3 ">
+       		<if test="date=='' or date==null">
+       			and YEARWEEK(tvphi.patient_in_hospital, 1) = YEARWEEK(
+					date_sub(curdate(), INTERVAL 7 DAY),
+					1
+				)
+       		</if>
+       		<if test="date!='' and date!=null">
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m-%d')<![CDATA[ >= ]]>#{dateS}
+       			and date_format(tvphi.patient_in_hospital,'%Y-%m-%d')<![CDATA[ <= ]]>#{dateE}
+       		</if>
+       	</if>
+			GROUP BY
+				tvphi.patient_department
+			ORDER BY
+				count DESC
+	</select>
+	
+	
+	<!-- 插入 -->	
+	<insert id="saveTbVtePatientHospitInfo" parameterType="com.insight.wisehealth.vte.persistence.TbVtePatientHospitInfo" >
+	    insert into tb_vte_patient_hospit_info (
+				patient_code,
+				patient_in_hospital,
+				patient_out_hospital,
+				patient_number,
+				patient_age,
+				patient_native_place,
+				patient_job,
+				patient_marital,
+				patient_phone_number,
+				patient_department,
+				patient_area,
+				patient_bed,
+				patient_doctor,
+				patient_is_risk,
+				patient_caprini_grade,
+				patient_padua_grade,
+				patient_syn_grade,
+				patient_last_risk_user,
+				patient_last_risk_type,
+				patient_last_risk_date,
+				patient_from,
+				is_enable,
+				create_by,
+				create_dt,
+				update_by,
+				update_dt
+	    )
+	    values (
+				#{patientCode},
+				#{patientInHospital},
+				#{patientOutHospital},
+				#{patientNumber},
+				#{patientAge},
+				#{patientNativePlace},
+				#{patientJob},
+				#{patientMarital},
+				#{patientPhoneNumber},
+				#{patientDepartment},
+				#{patientArea},
+				#{patientBed},
+				#{patientDoctor},
+				#{patientIsRisk},
+				#{patientCapriniGrade},
+				#{patientPaduaGrade},
+				#{patientSynGrade},
+				#{patientLastRiskUser},
+				#{patientLastRiskType},
+				#{patientLastRiskDate},
+				#{patientFrom},
+				#{isEnable},
+				#{createBy},
+				#{createDt},
+				#{updateBy},
+				#{updateDt}
+	    )
+	    
+	    <selectKey resultType="int" keyProperty="patientHospitId" > 
+				SELECT LAST_INSERT_ID() 
+		</selectKey> 
+	</insert>
+</mapper>

@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.insight.wisehealth.vte.dao.TbSystemUserRoleDao">
+
+ <!-- 根据主键查询 -->	
+	<select id="selectByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbSystemUserRole" parameterType="com.insight.wisehealth.vte.persistence.TbSystemUserRole" >
+	    select 
+			        user_role_id  userRoleId,
+			        role_id  roleId,
+			        user_id  userId,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	    from tb_system_user_role
+	    where user_role_id = #{userRoleId}
+	</select>
+	
+	<!-- 根据主键查询 -->	
+	<select id="selectMapByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbSystemUserRole" parameterType="map" >
+	   	select 
+			        user_role_id  userRoleId,
+			        role_id  roleId,
+			        user_id  userId,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+		from tb_system_user_role t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	    and user_role_id = #{userRoleId}
+	</select>
+	
+	<!-- 根据主键删除（假删除） -->		
+	<delete id="deleteByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbSystemUserRole" >
+	    update tb_system_user_role set is_enable = 0, update_dt=#{updateDt},update_by=#{updateBy} 
+	    where user_role_id = #{userRoleId}
+	</delete>
+	
+	
+	<!-- 插入 -->	
+	<insert id="insert" parameterType="com.insight.wisehealth.vte.persistence.TbSystemUserRole" >
+	    insert into tb_system_user_role (
+				user_role_id,
+				role_id,
+				user_id,
+				is_enable,
+				create_by,
+				create_dt,
+				update_by,
+				update_dt
+	    )
+	    values (
+				#{userRoleId},
+				#{roleId},
+				#{userId},
+				#{isEnable},
+				#{createBy},
+				#{createDt},
+				#{updateBy},
+				#{updateDt}
+	    )
+	    
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey> 
+	</insert>
+	
+	<!-- 选择插入 -->		
+	<insert id="insertSelective" parameterType="com.insight.wisehealth.vte.persistence.TbSystemUserRole" >
+		    insert into tb_system_user_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="userRoleId != null"> user_role_id,</if>
+	  		<if test="roleId != null"> role_id,</if>
+	  		<if test="userId != null"> user_id,</if>
+	  		<if test="isEnable != null"> is_enable,</if>
+	  		<if test="createBy != null"> create_by,</if>
+	  		<if test="createDt != null"> create_dt,</if>
+	  		<if test="updateBy != null"> update_by,</if>
+			<if test="updateDt != null"> update_dt,</if>
+		      )
+		</trim>
+		    values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="userRoleId != null"> #{userRoleId},</if>
+	  		<if test="roleId != null"> #{roleId},</if>
+	  		<if test="userId != null"> #{userId},</if>
+	  		<if test="isEnable != null"> #{isEnable},</if>
+	  		<if test="createBy != null"> #{createBy},</if>
+	  		<if test="createDt != null"> #{createDt},</if>
+	  		<if test="updateBy != null"> #{updateBy},</if>
+			<if test="updateDt != null"> #{updateDt},</if>
+		      )
+		</trim>
+		
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey>		
+		
+		
+	</insert>
+	
+	
+	<!-- 根据主键选择性更新 -->	
+	<update id="updateByPrimaryKeySelective" parameterType="com.insight.wisehealth.vte.persistence.TbSystemUserRole" >
+		    update tb_system_user_role
+		 <trim prefix="set" suffixOverrides=",">
+				<if test="roleId != null and roleId != ''">  role_id = #{roleId},</if>
+				<if test="userId != null and userId != ''">  user_id = #{userId},</if>
+				<if test="isEnable != null and isEnable != ''">  is_enable = #{isEnable},</if>
+				<if test="createBy != null and createBy != ''">  create_by = #{createBy},</if>
+				<if test="createDt != null and createDt != ''">  create_dt = #{createDt},</if>
+				<if test="updateBy != null and updateBy != ''">  update_by = #{updateBy},</if>
+				<if test="updateDt != null and updateDt != ''">  update_dt = #{updateDt},</if>
+		 </trim>
+		    where user_role_id = #{userRoleId}
+	</update>
+	
+	<!-- 根据主键更新 -->	
+	<update id="updateByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbSystemUserRole" >
+		    update tb_system_user_role
+		    set 
+		        role_id = #{roleId},
+		        user_id = #{userId},
+		        is_enable = #{isEnable},
+		        create_by = #{createBy},
+		        create_dt = #{createDt},
+		        update_by = #{updateBy},
+				update_dt = #{updateDt}
+		    where user_role_id = #{userRoleId}
+	</update>
+	<!-- 根据Form传过来Map更新对应字段值 -->
+	<update id="updateByFormMap" parameterType="map" >
+	    update tb_system_user_role
+	    <trim prefix="set" suffixOverrides=",">
+			<if test="_parameter.containsKey('roleId')">
+	   				<if test="roleId != null and roleId != ''">   role_id = #{roleId},</if>
+	   				<if test="roleId == null or roleId == ''">  role_id = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('userId')">
+	   				<if test="userId != null and userId != ''">   user_id = #{userId},</if>
+	   				<if test="userId == null or userId == ''">  user_id = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('isEnable')">
+	   				<if test="isEnable != null and isEnable != ''">   is_enable = #{isEnable},</if>
+	   				<if test="isEnable == null or isEnable == ''">  is_enable = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createBy')">
+	   				<if test="createBy != null and createBy != ''">   create_by = #{createBy},</if>
+	   				<if test="createBy == null or createBy == ''">  create_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createDt')">
+	   				<if test="createDt != null and createDt != ''">   create_dt = #{createDt},</if>
+	   				<if test="createDt == null or createDt == ''">  create_dt = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateBy')">
+	   				<if test="updateBy != null and updateBy != ''">   update_by = #{updateBy},</if>
+	   				<if test="updateBy == null or updateBy == ''">  update_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateDt')">
+	   				<if test="updateDt != null and updateDt != ''">   update_dt = #{updateDt},</if>
+	   				<if test="updateDt == null or updateDt == ''">  update_dt = null,</if>
+	   		</if>
+		</trim>
+	    where user_role_id = #{userRoleId}
+	</update>
+	<!-- 默认分页 -->
+	<select id="queryAllSystemUserRole" resultType="com.insight.wisehealth.vte.persistence.TbSystemUserRole" parameterType="map">
+	   	select 
+			        user_role_id  userRoleId,
+			        role_id  roleId,
+			        user_id  userId,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	       from tb_system_user_role t
+	       where 
+	       IFNULL(t.is_enable,'0') = 1
+	  		<if test="userRoleId != null and userRoleId != ''"> 
+	       		and t.user_role_id  =  #{userRoleId}
+	       	</if>
+	  		<if test="roleId != null and roleId != ''"> 
+	       		and t.role_id  =  #{roleId}
+	       	</if>
+	  		<if test="userId != null and userId != ''"> 
+	       		and t.user_id  =  #{userId}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+		<if test="pageSort != null and pageSort != ''">
+			order by $pageSort$ 
+	     </if>
+			limit #{start},#{limit}
+	</select>
+  
+	<select id="countAllSystemUserRole" resultType="int" parameterType="map">
+		select  count(*)  from tb_system_user_role t
+			where 
+				IFNULL(t.is_enable,'0') = 1
+	  		<if test="userRoleId != null and userRoleId != ''"> 
+	       		and t.user_role_id  =  #{userRoleId}
+	       	</if>
+	  		<if test="roleId != null and roleId != ''"> 
+	       		and t.role_id  =  #{roleId}
+	       	</if>
+	  		<if test="userId != null and userId != ''"> 
+	       		and t.user_id  =  #{userId}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+
+	<!-- 默认不分页 -->
+	<select id="queryAllSystemUserRoleNP" resultType="com.insight.wisehealth.vte.persistence.TbSystemUserRole" parameterType="map">
+	   	select 
+		        user_role_id  userRoleId,
+		        role_id  roleId,
+		        user_id  userId,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_system_user_role t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="userRoleId != null and userRoleId != ''"> 
+	       		and t.user_role_id  =  #{userRoleId}
+	       	</if>
+	  		<if test="roleId != null and roleId != ''"> 
+	       		and t.role_id  =  #{roleId}
+	       	</if>
+	  		<if test="userId != null and userId != ''"> 
+	       		and t.user_id  =  #{userId}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+	
+	<!-- 默认不分页 -->
+	<select id="querySystemUserRoleInfo" resultType="com.insight.wisehealth.vte.persistence.TbSystemUserRole" parameterType="map">
+	   	select 
+		        user_role_id  userRoleId,
+		        role_id  roleId,
+		        user_id  userId,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_system_user_role t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="userRoleId != null and userRoleId != ''"> 
+	       		and t.user_role_id  =  #{userRoleId}
+	       	</if>
+	  		<if test="roleId != null and roleId != ''"> 
+	       		and t.role_id  =  #{roleId}
+	       	</if>
+	  		<if test="userId != null and userId != ''"> 
+	       		and t.user_id  =  #{userId}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	    limit 0,1
+	</select>
+	
+	<!-- 其他接口 -->	
+	<!-- 插入 -->	
+	<insert id="saveTbSystemUserRole" parameterType="com.insight.wisehealth.vte.persistence.TbSystemUserRole" >
+	    insert into tb_system_user_role (
+				user_role_id,
+				role_id,
+				user_id,
+				is_enable,
+				create_by,
+				create_dt,
+				update_by,
+				update_dt
+	    )
+	    values (
+				#{userRoleId},
+				#{roleId},
+				#{userId},
+				#{isEnable},
+				#{createBy},
+				#{createDt},
+				#{updateBy},
+				#{updateDt}
+	    )
+	    
+	    <selectKey resultType="int"  keyProperty="userRoleId" > 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey> 
+	</insert>
+</mapper>

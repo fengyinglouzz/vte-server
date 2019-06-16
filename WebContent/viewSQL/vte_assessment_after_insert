@@ -1,0 +1,15 @@
+DROP PROCEDURE IF EXISTS vte_assessment_after_insert; 
+
+DELIMITER //
+CREATE PROCEDURE vte_assessment_after_insert(IN patientHospitId INT,IN assessmentItem varchar(32),IN assessmentType varchar(32)) 
+BEGIN
+	DECLARE assessmentItemId INT(11);
+	DECLARE assessmentTypeId INT(11);
+  update tb_vte_assessment set assessment_item_is_last = 0 WHERE patient_hospit_id = ( patientHospitId ) AND assessment_item =   ( assessmentItem ) AND  assessment_item_is_last = 1; 
+	set assessmentItemId = (SELECT assessment_id FROM tb_vte_assessment WHERE  patient_hospit_id = ( patientHospitId ) AND assessment_item =   ( assessmentItem )  ORDER BY create_dt DESC LIMIT 0,1 );
+	update tb_vte_assessment set assessment_item_is_last = 1 WHERE patient_hospit_id = (patientHospitId) AND assessment_id  = assessmentItemId;
+	update tb_vte_assessment set assessment_type_is_last = 0 WHERE patient_hospit_id = ( patientHospitId ) AND assessment_type =   ( assessmentType ) AND  assessment_type_is_last = 1; 		
+	set assessmentTypeId = (SELECT assessment_id FROM tb_vte_assessment WHERE  patient_hospit_id = ( patientHospitId )  AND assessment_type =   ( assessmentType )  ORDER BY create_dt DESC LIMIT 0,1 );
+  update tb_vte_assessment set assessment_type_is_last = 1 WHERE patient_hospit_id = (patientHospitId) AND assessment_id  = assessmentTypeId; 
+END //
+DELIMITER ;

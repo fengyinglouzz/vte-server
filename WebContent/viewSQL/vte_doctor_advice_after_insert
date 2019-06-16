@@ -1,0 +1,11 @@
+DROP PROCEDURE IF EXISTS vte_doctor_advice_after_insert; 
+
+DELIMITER //
+CREATE PROCEDURE vte_doctor_advice_after_insert(IN patientHospitId INT) 
+BEGIN
+  DECLARE doctorAdviceId INT(11);
+	update tb_vte_doctor_advice set doctor_advice_is_last = 0 WHERE patient_hospit_id = ( patientHospitId ) AND  doctor_advice_is_last = 1; 
+	set doctorAdviceId = (SELECT doctor_advice_id FROM tb_vte_doctor_advice WHERE  patient_hospit_id = ( patientHospitId )  ORDER BY create_dt DESC LIMIT 0,1 );
+  update tb_vte_doctor_advice set doctor_advice_is_last = 1 WHERE patient_hospit_id = ( patientHospitId ) AND doctor_advice_id  = doctorAdviceId;
+END//
+DELIMITER ;

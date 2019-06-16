@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.insight.wisehealth.vte.dao.TbVteAssessmentDictRoleDao">
+
+ <!-- 根据主键查询 -->	
+	<select id="selectByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbVteAssessmentDictRole" parameterType="com.insight.wisehealth.vte.persistence.TbVteAssessmentDictRole" >
+	    select 
+			        assessment_dict_role_id  assessmentDictRoleId,
+			        role_id  roleId,
+			        assessment_dict_id  assessmentDictId,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	    from tb_vte_assessment_dict_role
+	    where assessment_dict_role_id = #{assessmentDictRoleId}
+	</select>
+	
+	<!-- 根据主键查询 -->	
+	<select id="selectMapByPrimaryKey" resultType="com.insight.wisehealth.vte.persistence.TbVteAssessmentDictRole" parameterType="map" >
+	   	select 
+			        assessment_dict_role_id  assessmentDictRoleId,
+			        role_id  roleId,
+			        assessment_dict_id  assessmentDictId,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+		from tb_vte_assessment_dict_role t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	    and assessment_dict_role_id = #{assessmentDictRoleId}
+	</select>
+	
+	<!-- 根据主键删除（假删除） -->		
+	<delete id="deleteByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbVteAssessmentDictRole" >
+	    update tb_vte_assessment_dict_role set is_enable = 0, update_dt=#{updateDt},update_by=#{updateBy} 
+	    where  
+	    IFNULL(is_enable,'0') = 1
+	        <if test="assessmentDictRoleId != null and assessmentDictRoleId != ''"> 
+	       		and assessment_dict_role_id  =  #{assessmentDictRoleId}
+	       	</if>
+	  		<if test="roleId != null and roleId != ''"> 
+	       		and role_id  =  #{roleId}
+	       	</if>
+	       	<if test="assessmentDictId != null and assessmentDictId != ''"> 
+	       		and assessment_dict_id  =  #{assessmentDictId}
+	       	</if>
+	</delete>
+	
+	
+	<!-- 插入 -->	
+	<insert id="insert" parameterType="com.insight.wisehealth.vte.persistence.TbVteAssessmentDictRole" >
+	    insert into tb_vte_assessment_dict_role (
+				assessment_dict_role_id,
+				role_id,
+				assessment_dict_id,
+				is_enable,
+				create_by,
+				create_dt,
+				update_by,
+				update_dt
+	    )
+	    values (
+				#{assessmentDictRoleId},
+				#{roleId},
+				#{assessmentDictId},
+				#{isEnable},
+				#{createBy},
+				#{createDt},
+				#{updateBy},
+				#{updateDt}
+	    )
+	    
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey> 
+	</insert>
+	
+	<!-- 选择插入 -->		
+	<insert id="insertSelective" parameterType="com.insight.wisehealth.vte.persistence.TbVteAssessmentDictRole" >
+		    insert into tb_vte_assessment_dict_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="assessmentDictRoleId != null"> assessment_dict_role_id,</if>
+	  		<if test="roleId != null"> role_id,</if>
+	  		<if test="assessmentDictId != null"> assessment_dict_id,</if>
+	  		<if test="isEnable != null"> is_enable,</if>
+	  		<if test="createBy != null"> create_by,</if>
+	  		<if test="createDt != null"> create_dt,</if>
+	  		<if test="updateBy != null"> update_by,</if>
+			<if test="updateDt != null"> update_dt,</if>
+		      )
+		</trim>
+		    values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  		<if test="assessmentDictRoleId != null"> #{assessmentDictRoleId},</if>
+	  		<if test="roleId != null"> #{roleId},</if>
+	  		<if test="assessmentDictId != null"> #{assessmentDictId},</if>
+	  		<if test="isEnable != null"> #{isEnable},</if>
+	  		<if test="createBy != null"> #{createBy},</if>
+	  		<if test="createDt != null"> #{createDt},</if>
+	  		<if test="updateBy != null"> #{updateBy},</if>
+			<if test="updateDt != null"> #{updateDt},</if>
+		      )
+		</trim>
+		
+	    <selectKey resultType="int"> 
+				<![CDATA[ 
+				SELECT LAST_INSERT_ID() 
+				]]> 
+		</selectKey>		
+		
+		
+	</insert>
+	
+	
+	<!-- 根据主键选择性更新 -->	
+	<update id="updateByPrimaryKeySelective" parameterType="com.insight.wisehealth.vte.persistence.TbVteAssessmentDictRole" >
+		    update tb_vte_assessment_dict_role
+		 <trim prefix="set" suffixOverrides=",">
+				<if test="roleId != null and roleId != ''">  role_id = #{roleId},</if>
+				<if test="assessmentDictId != null and assessmentDictId != ''">  assessment_dict_id = #{assessmentDictId},</if>
+				<if test="isEnable != null and isEnable != ''">  is_enable = #{isEnable},</if>
+				<if test="createBy != null and createBy != ''">  create_by = #{createBy},</if>
+				<if test="createDt != null and createDt != ''">  create_dt = #{createDt},</if>
+				<if test="updateBy != null and updateBy != ''">  update_by = #{updateBy},</if>
+				<if test="updateDt != null and updateDt != ''">  update_dt = #{updateDt},</if>
+		 </trim>
+		    where assessment_dict_role_id = #{assessmentDictRoleId}
+	</update>
+	
+	<!-- 根据主键更新 -->	
+	<update id="updateByPrimaryKey" parameterType="com.insight.wisehealth.vte.persistence.TbVteAssessmentDictRole" >
+		    update tb_vte_assessment_dict_role
+		    set 
+		        role_id = #{roleId},
+		        assessment_dict_id = #{assessmentDictId},
+		        is_enable = #{isEnable},
+		        create_by = #{createBy},
+		        create_dt = #{createDt},
+		        update_by = #{updateBy},
+				update_dt = #{updateDt}
+		    where assessment_dict_role_id = #{assessmentDictRoleId}
+	</update>
+	<!-- 根据Form传过来Map更新对应字段值 -->
+	<update id="updateByFormMap" parameterType="map" >
+	    update tb_vte_assessment_dict_role
+	    <trim prefix="set" suffixOverrides=",">
+			<if test="_parameter.containsKey('roleId')">
+	   				<if test="roleId != null and roleId != ''">   role_id = #{roleId},</if>
+	   				<if test="roleId == null or roleId == ''">  role_id = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('assessmentDictId')">
+	   				<if test="assessmentDictId != null and assessmentDictId != ''">   assessment_dict_id = #{assessmentDictId},</if>
+	   				<if test="assessmentDictId == null or assessmentDictId == ''">  assessment_dict_id = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('isEnable')">
+	   				<if test="isEnable != null and isEnable != ''">   is_enable = #{isEnable},</if>
+	   				<if test="isEnable == null or isEnable == ''">  is_enable = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createBy')">
+	   				<if test="createBy != null and createBy != ''">   create_by = #{createBy},</if>
+	   				<if test="createBy == null or createBy == ''">  create_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('createDt')">
+	   				<if test="createDt != null and createDt != ''">   create_dt = #{createDt},</if>
+	   				<if test="createDt == null or createDt == ''">  create_dt = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateBy')">
+	   				<if test="updateBy != null and updateBy != ''">   update_by = #{updateBy},</if>
+	   				<if test="updateBy == null or updateBy == ''">  update_by = null,</if>
+	   		</if>
+			<if test="_parameter.containsKey('updateDt')">
+	   				<if test="updateDt != null and updateDt != ''">   update_dt = #{updateDt},</if>
+	   				<if test="updateDt == null or updateDt == ''">  update_dt = null,</if>
+	   		</if>
+		</trim>
+	    where assessment_dict_role_id = #{assessmentDictRoleId}
+	</update>
+	<!-- 默认分页 -->
+	<select id="queryAllVteAssessmentDictRole" resultType="com.insight.wisehealth.vte.persistence.TbVteAssessmentDictRole" parameterType="map">
+	   	select 
+			        assessment_dict_role_id  assessmentDictRoleId,
+			        role_id  roleId,
+			        assessment_dict_id  assessmentDictId,
+			        is_enable  isEnable,
+			        create_by  createBy,
+			        create_dt  createDt,
+			        update_by  updateBy,
+					update_dt   updateDt
+	       from tb_vte_assessment_dict_role t
+	       where 
+	       IFNULL(t.is_enable,'0') = 1
+	  		<if test="assessmentDictRoleId != null and assessmentDictRoleId != ''"> 
+	       		and t.assessment_dict_role_id  =  #{assessmentDictRoleId}
+	       	</if>
+	  		<if test="roleId != null and roleId != ''"> 
+	       		and t.role_id  =  #{roleId}
+	       	</if>
+	  		<if test="assessmentDictId != null and assessmentDictId != ''"> 
+	       		and t.assessment_dict_id  =  #{assessmentDictId}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+		<if test="pageSort != null and pageSort != ''">
+			order by $pageSort$ 
+	     </if>
+			limit #{start},#{limit}
+	</select>
+  
+	<select id="countAllVteAssessmentDictRole" resultType="int" parameterType="map">
+		select  count(*)  from tb_vte_assessment_dict_role t
+			where 
+				IFNULL(t.is_enable,'0') = 1
+	  		<if test="assessmentDictRoleId != null and assessmentDictRoleId != ''"> 
+	       		and t.assessment_dict_role_id  =  #{assessmentDictRoleId}
+	       	</if>
+	  		<if test="roleId != null and roleId != ''"> 
+	       		and t.role_id  =  #{roleId}
+	       	</if>
+	  		<if test="assessmentDictId != null and assessmentDictId != ''"> 
+	       		and t.assessment_dict_id  =  #{assessmentDictId}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+
+	<!-- 默认不分页 -->
+	<select id="queryAllVteAssessmentDictRoleNP" resultType="com.insight.wisehealth.vte.persistence.TbVteAssessmentDictRole" parameterType="map">
+	   	select 
+		        assessment_dict_role_id  assessmentDictRoleId,
+		        role_id  roleId,
+		        assessment_dict_id  assessmentDictId,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_vte_assessment_dict_role t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="assessmentDictRoleId != null and assessmentDictRoleId != ''"> 
+	       		and t.assessment_dict_role_id  =  #{assessmentDictRoleId}
+	       	</if>
+	  		<if test="roleId != null and roleId != ''"> 
+	       		and t.role_id  =  #{roleId}
+	       	</if>
+	  		<if test="assessmentDictId != null and assessmentDictId != ''"> 
+	       		and t.assessment_dict_id  =  #{assessmentDictId}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	</select>
+	
+	<!-- 默认不分页 -->
+	<select id="queryVteAssessmentDictRoleInfo" resultType="com.insight.wisehealth.vte.persistence.TbVteAssessmentDictRole" parameterType="map">
+	   	select 
+		        assessment_dict_role_id  assessmentDictRoleId,
+		        role_id  roleId,
+		        assessment_dict_id  assessmentDictId,
+		        is_enable  isEnable,
+		        create_by  createBy,
+		        create_dt  createDt,
+		        update_by  updateBy,
+				update_dt   updateDt
+		from tb_vte_assessment_dict_role t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="assessmentDictRoleId != null and assessmentDictRoleId != ''"> 
+	       		and t.assessment_dict_role_id  =  #{assessmentDictRoleId}
+	       	</if>
+	  		<if test="roleId != null and roleId != ''"> 
+	       		and t.role_id  =  #{roleId}
+	       	</if>
+	  		<if test="assessmentDictId != null and assessmentDictId != ''"> 
+	       		and t.assessment_dict_id  =  #{assessmentDictId}
+	       	</if>
+	  		<if test="isEnable != null and isEnable != ''"> 
+	       		and t.is_enable  =  #{isEnable}
+	       	</if>
+	  		<if test="createBy != null and createBy != ''"> 
+	       		and t.create_by  =  #{createBy}
+	       	</if>
+	  		<if test="createDt != null and createDt != ''"> 
+	       		and t.create_dt  =  #{createDt}
+	       	</if>
+	  		<if test="updateBy != null and updateBy != ''"> 
+	       		and t.update_by  =  #{updateBy}
+	       	</if>
+			<if test="updateDt != null and updateDt != ''"> 
+	       		and t.update_dt  =  #{updateDt}
+	       	</if>
+	    limit 0,1
+	</select>
+	
+	<!-- 其他接口 -->	
+	<select id="queryAssessmentDicByRoleId" resultType="java.lang.Integer" parameterType="map">
+	   	select 
+		        assessment_dict_id  assessmentDictId
+		from tb_vte_assessment_dict_role t
+		where 
+		IFNULL(t.is_enable,'0') = 1
+	  		<if test="roleId != null and roleId != ''"> 
+	       		and t.role_id  =  #{roleId}
+	       	</if>
+	</select>
+	
+</mapper>
