@@ -769,8 +769,8 @@
 			AND tvaa.assessment_type_is_last = 1
 			AND tvaa.assessment_type = #{assessmentType}
 			AND tvphi.patient_department=#{patientDepartment}
-			AND ((tvaa.assessment_item = #{assessmentItem1} and (tvaa.assessment_result = #{assessmentResult1} or tvaa.assessment_result = #{assessmentResult2})) or
-				(tvaa.assessment_item = #{assessmentItem2} and tvaa.assessment_result = #{assessmentResult2}))
+			AND ((tvaa.assessment_item = #{assessmentItem1} and (tvaa.assessment_result = #{assessmentResult1} or tvaa.assessment_result = #{assessmentResult2} or tvaa.assessment_result = #{assessmentResult3})) or
+				(tvaa.assessment_item = #{assessmentItem2} and (tvaa.assessment_result = #{assessmentResult2} or tvaa.assessment_result = #{assessmentResult3})))
 			<!-- 最近一个月 -->
 			<if test="patientLastRisk != null and patientLastRisk != '' and patientLastRisk==1 "> 
 	       		and DATE_SUB(CURDATE(), INTERVAL 1 MONTH) <![CDATA[<=]]> date(tvphi.patient_last_risk_date)
@@ -902,6 +902,68 @@
 			</if>
 	       	GROUP BY tvphi.patient_department ORDER BY count desc
 	</select>
+
+	<!-- 查询各科室低中高危检测患者数 -->
+	<select id="queryLowMediumHighRiskPatientsDeptCount" resultType="com.insight.wisehealth.vte.pojo.MediumHighRiskPatientsCountPojo" parameterType="map">
+		SELECT
+			count(*) count,
+			tvphi.patient_department patientDepartment
+		FROM
+			(
+				SELECT
+					phi.*
+				FROM
+			(
+			SELECT
+				patient_hospit_id,
+				patient_code,
+				patient_last_risk_date,
+				patient_out_hospital,
+				patient_department,
+				is_enable
+			FROM
+				tb_vte_patient_hospit_info
+			WHERE
+				IFNULL(is_enable, '0') = 1
+			ORDER BY
+				patient_in_hospital DESC
+			) phi
+			GROUP BY
+				phi.patient_code
+			) tvphi
+		LEFT JOIN tb_vte_assessment tvaa ON tvphi.patient_hospit_id = tvaa.patient_hospit_id
+		<if test="departmentCode !=null and departmentCode !='' ">
+			LEFT JOIN tb_vte_department tvd on tvphi.patient_department=tvd.department_name
+		</if>
+		where 1=1 and IFNULL(tvphi.is_enable, '0') = 1 and IFNULL(tvaa.is_enable, '0') = 1
+		AND tvaa.assessment_type_is_last = 1
+		AND tvaa.assessment_type = #{assessmentType}
+		AND ((tvaa.assessment_item = #{assessmentItem1} and (tvaa.assessment_result = #{assessmentResult1} or tvaa.assessment_result = #{assessmentResult2} or tvaa.assessment_result = #{assessmentResult3})) or
+		(tvaa.assessment_item = #{assessmentItem2} and (tvaa.assessment_result = #{assessmentResult2} or tvaa.assessment_result = #{assessmentResult3})))
+		<!-- 最近一个月 -->
+		<if test="patientLastRisk != null and patientLastRisk != '' and patientLastRisk==1 ">
+			and DATE_SUB(CURDATE(), INTERVAL 1 MONTH) <![CDATA[<=]]> date(tvphi.patient_last_risk_date)
+		</if>
+		<!-- 最近三个月 -->
+		<if test="patientLastRisk != null and patientLastRisk != '' and patientLastRisk==2">
+			and DATE_SUB(CURDATE(), INTERVAL 3 MONTH) <![CDATA[<=]]> date(tvphi.patient_last_risk_date)
+		</if>
+		<if test="patientOutHospital != null and patientOutHospital != '' and patientOutHospital==2 "> <!-- 出院患者 -->
+			and tvphi.patient_out_hospital is not null
+		</if>
+		<if test="patientOutHospital != null and patientOutHospital != '' and patientOutHospital==1 "> <!-- 在院患者 -->
+			and tvphi.patient_out_hospital is null
+		</if>
+		<if test="patientDepartment != null and patientDepartment != ''">
+			AND tvphi.patient_department=#{patientDepartment}
+		</if>
+		<if test="departmentCode !=null and departmentCode !='' ">
+			and IFNULL(tvd.is_enable, '0') = 1
+			and tvd.department_code=#{departmentCode}
+		</if>
+		GROUP BY tvphi.patient_department ORDER BY count desc
+	</select>
+
 	<!-- 查询最新出血风险评估和预防禁忌评估id -->
 	<select id="queryLatestBleedingRiskVteAssessment" resultType="int" parameterType="map">
 	   SELECT

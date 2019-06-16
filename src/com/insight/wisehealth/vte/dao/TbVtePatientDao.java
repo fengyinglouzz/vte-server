@@ -54,6 +54,8 @@ public interface TbVtePatientDao {
 
 	List queryMediumHighRiskPatientsDeptCount(Map map);
 
+	List queryLowMediumHighRiskPatientsDeptCount(Map map);
+
 	List queryPatientVteAssessmentDictList(String assessmentId);
 	
 	

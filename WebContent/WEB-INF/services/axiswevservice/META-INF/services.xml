@@ -34,7 +34,10 @@
 		<operation name="singleSignOn" mep="http://www.w3.org/ns/wsdl/in-out">
 			<messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
 		</operation>
-		
+
+		<operation name="batchSynUserInfo" mep="http://www.w3.org/ns/wsdl/in-out">
+			<messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+		</operation>
 		
 		
 		<operation name="ssoUrl" mep="http://www.w3.org/ns/wsdl/in-out">
