@@ -102,7 +102,7 @@ public class VteBatchUserServiceImpl implements VteBatchUserService{
 			TbSystemOrg tbSystemOrg =	(TbSystemOrg)systemOrgMapper.querySystemOrgInfo(orgMap);
 			if(null == tbSystemOrg){
 				tbSystemOrg = new TbSystemOrg();
-				String modelFatherCode = "" ;
+				String modelFatherCode = "001" ;
 				String modelCode = gainModelCode(modelFatherCode);
 				if(StringUtils.isEmpty(tbSystemOrg.getOrgType())){
 					tbSystemOrg.setOrgType("department");
