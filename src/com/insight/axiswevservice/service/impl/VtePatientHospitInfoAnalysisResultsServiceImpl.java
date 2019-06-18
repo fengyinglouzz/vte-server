@@ -34,7 +34,7 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 	@Autowired
 	TbVteDepartmentDao vteDepartmentMapper;
 	/**
-	 * »¼ÕßÆÀ¹ÀÐÅÏ¢Êä³ö
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½
 	 * @param map
 	 * @return 
 	 * @return
@@ -42,7 +42,7 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 	 */
 	@Override
 	public List<MediumHighRiskPatientsAnalysisResultsPojo> batchPrintCheck(Map map) {
-		//¸÷¿ÆÊÒ»¼ÕßÊý
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½
 		map.put("assessmentType", ConstantsDict.ASSESSMENT_TYPE_VTE1);
 		map.put("assessmentItem1", ConstantsDict.ASSESSMENT_ITEM_VTE1);
 		map.put("assessmentItem2", ConstantsDict.ASSESSMENT_ITEM_VTE2);
@@ -58,7 +58,7 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 		dictCodeFieldMap.put("assessment_result", "assessmentResult");
 		MediumHighRiskPatientsAnalysisResultsPojo mediumHighRiskPatientsAnalysisResults=null;
 		List<MediumHighRiskPatientsAnalysisResultsPojo> listR=new ArrayList();
-		//»¼ÕßÐÅÏ¢
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 		for(int n=0;n<listDc.size();n++){
 			mediumHighRiskPatientsAnalysisResults=new MediumHighRiskPatientsAnalysisResultsPojo();
 			map.put("patientDepartment", listDc.get(n).getPatientDepartment());
@@ -82,6 +82,7 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 					mediumHighRiskPatientsSubset.setCaprinAssessmentStage(mapC.get("assessmentStageExplain")!=null?mapC.get("assessmentStageExplain").toString():null);
 					mediumHighRiskPatientsSubset.setCaprinAssessmentGrade(mapC.get("assessmentResultExplain")!=null?mapC.get("assessmentResultExplain").toString():null);
 					mediumHighRiskPatientsSubset.setCaprinAssessmentSdata(mapC.get("assessmentSelectData")!=null?mapC.get("assessmentSelectData").toString():null);
+					mediumHighRiskPatientsSubset.setCaprinAssessmentScore(mapC.get("assessmentScore")!=null?mapC.get("assessmentScore").toString():null);
 				}
 				mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE2);
 				Map mapP=vteAssessmentMapper.queryVteAssessmentAnalysisResults(mapA);
@@ -140,7 +141,7 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 	}
 	
 	/**
-    * ÖÊ¿Ø·ÖÎöÊä³ö
+    * ï¿½Ê¿Ø·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @return 
     */
 	@Override
@@ -149,76 +150,76 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 		map.put("dateE", map.get("endDate"));
 		map.put("date", "1");
 		map.put("dateType", 3);
-		//»¼²¡ÈËÊý
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		List<Map> mapNumberPatientList=vtePatientHospitInfoMapper.queryNumberPatient(map);
-		//VTE·¢²¡ÈËÊý
+		//VTEï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		map.put("doctorAdviceResult1", ConstantsDict.DOCTOR_ADVICE_RESULT1);
 		map.put("doctorAdviceResult2", ConstantsDict.DOCTOR_ADVICE_RESULT2);
 		List<Map> mapOnsetOfNumberPatientList=vtePatientHospitInfoMapper.queryOnsetOfNumberPatient(map);
-		//Íê³ÉVTE·çÏÕÆÀ¹À»¼ÕßÈËÊý
+		//ï¿½ï¿½ï¿½VTEï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		map.put("assessmentItem1", ConstantsDict.ASSESSMENT_ITEM_VTE1);
 		map.put("assessmentItem2", ConstantsDict.ASSESSMENT_ITEM_VTE2);
 		List<Map> mapVteRiskAssessmentPatientList=vtePatientHospitInfoMapper.queryVteRiskAssessmentPatient(map);
-		//³öÑª·çÏÕÆÀ¹ÀÈËÊý
+		//ï¿½ï¿½Ñªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		map.put("assessmentItem1", ConstantsDict.ASSESSMENT_ITEM_VTE3);
 		map.put("assessmentItem2", ConstantsDict.ASSESSMENT_ITEM_VTE4);
 		List<Map> mapBleedingRiskAssessmentPatientList=vtePatientHospitInfoMapper.queryVteRiskAssessmentPatient(map);
-		//CapriniÖÐÎ£ÈËÊý
+		//Capriniï¿½ï¿½Î£ï¿½ï¿½ï¿½ï¿½
 		map.put("assessmentType", ConstantsDict.ASSESSMENT_TYPE_VTE1);
 		map.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE1);
 		map.put("assessmentResult", ConstantsDict.ASSESSMENT_RESULT_VTE2);
 		List<Map> capriniMiddleRiskList=vtePatientHospitInfoMapper.queryCapriniPaduaRiskList(map);
-		//Caprini¸ßÎ£ÈËÊý
+		//Capriniï¿½ï¿½Î£ï¿½ï¿½ï¿½ï¿½
 		map.put("assessmentResult", ConstantsDict.ASSESSMENT_RESULT_VTE3);
 		List<Map> capriniHighRiskList=vtePatientHospitInfoMapper.queryCapriniPaduaRiskList(map);
-		//Padua¸ßÎ£ÈËÊý
+		//Paduaï¿½ï¿½Î£ï¿½ï¿½ï¿½ï¿½
 		map.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE2);
 		List<Map> paduaHighRiskList=vtePatientHospitInfoMapper.queryCapriniPaduaRiskList(map);
-		//£¨ÖÐ¸ßÎ£»¼ÕßÊý£©×î½üÒ»´ÎVTE·çÏÕÆÀ¹ÀÎªCapriniÆÀ·ÖÇÒ½á¹ûÎªÖÐÎ£»ò¸ßÎ£µÄ²¡°¸ºÅÊý+×î½üÒ»´ÎVTE·çÏÕÆÀ¹ÀÎªPaduaÆÀ·ÖÇÒ½á¹ûÎª¸ßÎ£µÄ²¡°¸ºÅÊý£¨¼ÆËãÔ¤·À´ëÊ©ÂÊ£¬·çÏÕÆÀ¹ÀÂÊ£©
+		//ï¿½ï¿½ï¿½Ð¸ï¿½Î£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½VTEï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªCapriniï¿½ï¿½ï¿½ï¿½ï¿½Ò½ï¿½ï¿½Îªï¿½ï¿½Î£ï¿½ï¿½ï¿½Î£ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½+ï¿½ï¿½ï¿½Ò»ï¿½ï¿½VTEï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªPaduaï¿½ï¿½ï¿½ï¿½ï¿½Ò½ï¿½ï¿½Îªï¿½ï¿½Î£ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¤ï¿½ï¿½ï¿½ï¿½Ê©ï¿½Ê£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê£ï¿½
 		map.put("assessmentItem1", ConstantsDict.ASSESSMENT_ITEM_VTE1);
 		map.put("assessmentItem2", ConstantsDict.ASSESSMENT_ITEM_VTE2);
 		map.put("assessmentResult1", ConstantsDict.ASSESSMENT_RESULT_VTE2);
 		map.put("assessmentResult2", ConstantsDict.ASSESSMENT_RESULT_VTE3);
 		List<Map> middleHighRiskList=vtePatientHospitInfoMapper.queryCapriniPaduaRiskSumList(map);
-		//¸÷²¿ÃÅÒ©ÎïÔ¤·ÀÈËÊý
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò©ï¿½ï¿½Ô¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		map.put("doctorAdviceRisk", ConstantsDict.DOCTOR_ADVICE_RISK2);
 		List<Map> medicinePreventiveNumber=vtePatientHospitInfoMapper.queryPreventiveNumberList(map);
-		//¸÷²¿ÃÅ»úÐµÔ¤·ÀÈËÊý
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Å»ï¿½ÐµÔ¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		map.put("doctorAdviceRisk", ConstantsDict.DOCTOR_ADVICE_RISK3);
 		List<Map> mechanicalPreventiveNumber=vtePatientHospitInfoMapper.queryPreventiveNumberList(map);
-		//ÈëÔº24Ð¡Ê±ÄÚÍê³ÉVTE·çÏÕÆÀ¹À²¡°¸ºÅÊý
+		//ï¿½ï¿½Ôº24Ð¡Ê±ï¿½ï¿½ï¿½ï¿½ï¿½VTEï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		map.put("createDtOneDay", "1");
 		List<Map> mapOneDayVteRiskAssessmentPatientList=vtePatientHospitInfoMapper.queryVteRiskAssessmentPatient(map);
-		//³öÑª·çÏÕÆÀ¹ÀÈËÊý
+		//ï¿½ï¿½Ñªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		map.put("assessmentItem1", ConstantsDict.ASSESSMENT_ITEM_VTE3);
 		map.put("assessmentItem2", ConstantsDict.ASSESSMENT_ITEM_VTE4);
 		map.put("createDtOneDay", "");
 		List<Map> mapBleedingList=vtePatientHospitInfoMapper.queryVteRiskAssessmentPatient(map);
-		//ÈëÔº24ÄÚÍê³É³öÑª·çÏÕÆÀ¹ÀÈËÊý
+		//ï¿½ï¿½Ôº24ï¿½ï¿½ï¿½ï¿½É³ï¿½Ñªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		map.put("createDtOneDay", "1");
 		List<Map> mapOneDayBleedingList=vtePatientHospitInfoMapper.queryVteRiskAssessmentPatient(map);
-		//×î½üÒ»´Î³öÑª·çÏÕÆÀ¹ÀÎª Íâ¿Æ³öÑª·çÏÕÆÀ¹ÀÇÒ½á¹ûÎª ÓÐ µÄ²¡°¸ºÅÊý+×î½üÒ»´Î³öÑª·çÏÕÆÀ¹ÀÎª ÄÚ¿Æ³öÑª·çÏÕÆÀ¹ÀÇÒ½á¹ûÎª ÓÐ µÄ²¡°¸ºÅÊý
+		//ï¿½ï¿½ï¿½Ò»ï¿½Î³ï¿½Ñªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª ï¿½ï¿½Æ³ï¿½Ñªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò½ï¿½ï¿½Îª ï¿½ï¿½ ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½+ï¿½ï¿½ï¿½Ò»ï¿½Î³ï¿½Ñªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª ï¿½Ú¿Æ³ï¿½Ñªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò½ï¿½ï¿½Îª ï¿½ï¿½ ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		map.put("assessmentType", ConstantsDict.ASSESSMENT_TYPE_VTE2);
 		map.put("assessmentResult", ConstantsDict.ASSESSMENT_RESULT_VTE4);
 		List<Map> mapRecentlyBleedingList=vtePatientHospitInfoMapper.queryRecentlyBleedingRiskSumList(map);
-		//Íâ¿Æ³öÑª·çÏÕ¸ßÎ£ÈËÊý
+		//ï¿½ï¿½Æ³ï¿½Ñªï¿½ï¿½ï¿½Õ¸ï¿½Î£ï¿½ï¿½ï¿½ï¿½
 		map.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE3);
 		List<Map> surgeryBleedingRiskList=vtePatientHospitInfoMapper.queryRecentlyBleedingRiskList(map);
-		//ÄÚ¿Æ³öÑª·çÏÕ¸ßÎ£ÈËÊý
+		//ï¿½Ú¿Æ³ï¿½Ñªï¿½ï¿½ï¿½Õ¸ï¿½Î£ï¿½ï¿½ï¿½ï¿½
 		map.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE4);
 		List<Map> medicineBleedingRiskList=vtePatientHospitInfoMapper.queryRecentlyBleedingRiskList(map);
-		//È·ÕïDVT»¼ÕßÈËÊý
+		//È·ï¿½ï¿½DVTï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		map.put("doctorAdviceResult", ConstantsDict.DOCTOR_ADVICE_RESULT2);
 		List<Map> listDvt=vtePatientHospitInfoMapper.queryPrevalenceAssessment(map);
-		//È·ÕïPTE»¼ÕßÈËÊý
+		//È·ï¿½ï¿½PTEï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		map.put("doctorAdviceResult", ConstantsDict.DOCTOR_ADVICE_RESULT1);
 		List<Map> listPte=vtePatientHospitInfoMapper.queryPrevalenceAssessment(map);
-		//È·ÕïDVT+PTE»¼ÕßÈËÊý
+		//È·ï¿½ï¿½DVT+PTEï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		map.put("doctorAdviceResult1", ConstantsDict.DOCTOR_ADVICE_RESULT1);
 		map.put("doctorAdviceResult2", ConstantsDict.DOCTOR_ADVICE_RESULT2);
 		map.put("doctorAdviceResult", "");
 		List<Map> listVte=vtePatientHospitInfoMapper.queryPrevalenceAssessment(map);
-		//²éÑ¯ËùÓÐ¿ÆÊÒ
+		//ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ð¿ï¿½ï¿½ï¿½
 		List<TbVteDepartment> listD=vteDepartmentMapper.queryAllVteDepartmentNP(map);
 		BatchPrintStatisticsDataPojo batchPrintStatisticsData=null;
 		DecimalFormat df = new DecimalFormat("0.00");
@@ -274,7 +275,7 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 					break;
 				}
 			}
-			//×î½üÒ»´ÎVTE·çÏÕÆÀ¹ÀÎªCapriniÆÀ·ÖÇÒ½á¹ûÎªÖÐÎ£»ò¸ßÎ£µÄ²¡°¸ºÅÊý+×î½üÒ»´ÎVTE·çÏÕÆÀ¹ÀÎªPaduaÆÀ·ÖÇÒ½á¹ûÎª¸ßÎ£µÄ²¡°¸ºÅÊý
+			//ï¿½ï¿½ï¿½Ò»ï¿½ï¿½VTEï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªCapriniï¿½ï¿½ï¿½ï¿½ï¿½Ò½ï¿½ï¿½Îªï¿½ï¿½Î£ï¿½ï¿½ï¿½Î£ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½+ï¿½ï¿½ï¿½Ò»ï¿½ï¿½VTEï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªPaduaï¿½ï¿½ï¿½ï¿½ï¿½Ò½ï¿½ï¿½Îªï¿½ï¿½Î£ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			Double countRisk=0.00;
 			for(int n=0;n<middleHighRiskList.size();n++){
 				if(departmentName.equals(middleHighRiskList.get(n).get("patientDepartment"))){

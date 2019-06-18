@@ -18,6 +18,7 @@ public class MediumHighRiskPatientsSubsetPojo implements Serializable{
 	private java.lang.String caprinAssessmentStage;
 	private java.lang.String caprinAssessmentGrade;
 	private java.lang.String caprinAssessmentSdata;
+	private java.lang.String caprinAssessmentScore;
 	private java.lang.String paduaAssessmentUser;
 	private java.lang.String paduaAssessmentTime;
 	private java.lang.String paduaAssessmentStage;
@@ -39,6 +40,13 @@ public class MediumHighRiskPatientsSubsetPojo implements Serializable{
 	private java.lang.String machineAssessmentTime;
 	private java.lang.String machineAssessmentResult;
 	private java.lang.String machineAssessmentSdata;
+	public java.lang.String getCaprinAssessmentScore() {
+		return caprinAssessmentScore;
+	}
+	public void setCaprinAssessmentScore(java.lang.String caprinAssessmentScore) {
+		this.caprinAssessmentScore = caprinAssessmentScore;
+	}
+	
 	public java.lang.String getPatientCode() {
 		return patientCode;
 	}
