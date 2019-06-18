@@ -921,6 +921,7 @@
 	        va.assessment_type  assessmentType,
 	        va.assessment_item  assessmentItem,
 	        va.assessment_result  assessmentResult,
+	        va.assessment_score assessmentScore,
 	        (
 				SELECT
 					group_concat(tvad.assessment_dict_name) assessmentDictName
