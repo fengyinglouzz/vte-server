@@ -85,10 +85,10 @@ public class VteDepartmentController  {
 				if(!StringUtils.isEmpty(departmentCode)){
 					Map repeatMap=new HashMap();
 					repeatMap.put("departmentCode", departmentCode); 
-					 TbVteDepartment queryVteDepartmentInfo = vteDepartmentService.queryVteDepartmentInfo(repeatMap);
-					if(queryVteDepartmentInfo!=null){
-						return R.error("科室编码已存在");
-					}
+//					 TbVteDepartment queryVteDepartmentInfo = vteDepartmentService.queryVteDepartmentInfo(repeatMap);
+//					if(queryVteDepartmentInfo!=null){
+//						return R.error("科室编码已存在");
+//					}
 				}
 			}
 			saveVteDepartment = vteDepartmentService.saveVteDepartment(map);
