@@ -383,7 +383,7 @@ public class VTEService {
 			}
 			String patientNativePlace = (String)jsonObject.get("patientNativePlace");
 			if(StringUtil.isEmpty(patientPhoneNumber)){
-				jsonObject.accumulate("patientNativePlace", jsonObject.get("patientNativelace"));
+				jsonObject.accumulate("patientNativePlace", jsonObject.get("patientNativePlace"));
 			}
 		}
 	}
