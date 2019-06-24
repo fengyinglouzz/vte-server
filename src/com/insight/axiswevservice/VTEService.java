@@ -379,7 +379,7 @@ public class VTEService {
 		if(jsonObject!=null){
 			String patientPhoneNumber = (String)jsonObject.get("patientPhoneNumber");
 			if(StringUtil.isEmpty(patientPhoneNumber)){
-				jsonObject.accumulate("patientPhoneNumber", jsonObject.get("patienthoneNumber"));
+				jsonObject.accumulate("patientPhoneNumber", jsonObject.get("patientPhoneNumber"));
 			}
 			String patientNativePlace = (String)jsonObject.get("patientNativePlace");
 			if(StringUtil.isEmpty(patientPhoneNumber)){
