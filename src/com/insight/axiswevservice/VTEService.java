@@ -377,10 +377,10 @@ public class VTEService {
 	
 	private void dealApierrorWord(JSONObject jsonObject){
 		if(jsonObject!=null){
-//			String patientPhoneNumber = (String)jsonObject.get("patientPhoneNumber");
-//			if(StringUtil.isEmpty(patientPhoneNumber)){
-//				jsonObject.accumulate("patientPhoneNumber", jsonObject.get("patientPhoneNumber"));
-//			}
+			String patientPhoneNumber = (String)jsonObject.get("patientPhoneNumber");
+			if(StringUtil.isEmpty(patientPhoneNumber)){
+				jsonObject.accumulate("patientPhoneNumber", jsonObject.get("patienthoneNumber"));
+			}
 //			String patientNativePlace = (String)jsonObject.get("patientNativePlace");
 //			if(StringUtil.isEmpty(patientPhoneNumber)){
 //				jsonObject.accumulate("patientNativePlace", jsonObject.get("patientNativePlace"));
