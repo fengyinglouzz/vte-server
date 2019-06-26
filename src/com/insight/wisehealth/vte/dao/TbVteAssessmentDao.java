@@ -80,5 +80,7 @@ public interface TbVteAssessmentDao {
 	void saveTbVteAssessment(TbVteAssessment assessment);
 	
 	void saveVteAssessmentAfterInsert(Map map);
+
+	Map queryLruVteAssessmentAnalysisResults(Map mapA);
 	
 }

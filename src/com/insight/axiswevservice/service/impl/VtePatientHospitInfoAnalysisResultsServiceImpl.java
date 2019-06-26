@@ -22,6 +22,7 @@ import com.insight.wisehealth.vte.pojo.BatchPrintStatisticsDataPojo;
 import com.insight.wisehealth.vte.pojo.MediumHighRiskPatientsAnalysisResultsPojo;
 import com.insight.wisehealth.vte.pojo.MediumHighRiskPatientsCountPojo;
 import com.insight.wisehealth.vte.pojo.MediumHighRiskPatientsSubsetPojo;
+import com.insight.wisehealth.vte.pojo.OneLruAssessmentResultPojo;
 
 @Service
 public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatientHospitInfoAnalysisResultsService{
@@ -138,6 +139,79 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 			listR.add(mediumHighRiskPatientsAnalysisResults);
 		}
 		return listR;
+	}
+	
+	/**
+	 * @author zzy
+	 */
+	@Override
+	public OneLruAssessmentResultPojo batchPrintSingle(Map map) {
+		OneLruAssessmentResultPojo oneLruAssessmentResultPojo = new OneLruAssessmentResultPojo();
+		oneLruAssessmentResultPojo.setPatientCode(map.get("patientCode").toString());
+		Map mapA = new HashMap();
+		Map dictCodeFieldMap=new HashMap();
+		dictCodeFieldMap.put("assessment_stage", "assessmentStage");
+		dictCodeFieldMap.put("assessment_result", "assessmentResult");
+		mapA.put("patientCode", map.get("patientCode"));
+		mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE1);
+		Map mapC=vteAssessmentMapper.queryLruVteAssessmentAnalysisResults(mapA);
+		if(mapC!=null){
+			CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapC, dictCodeFieldMap);
+			oneLruAssessmentResultPojo.setCaprinAssessmentUser(mapC.get("userName")!=null?mapC.get("userName").toString():null);
+			oneLruAssessmentResultPojo.setCaprinAssessmentTime(mapC.get("createDt").toString());
+			oneLruAssessmentResultPojo.setCaprinAssessmentStage(mapC.get("assessmentStageExplain")!=null?mapC.get("assessmentStageExplain").toString():null);
+			oneLruAssessmentResultPojo.setCaprinAssessmentGrade(mapC.get("assessmentResultExplain")!=null?mapC.get("assessmentResultExplain").toString():null);
+			oneLruAssessmentResultPojo.setCaprinAssessmentSdata(mapC.get("assessmentSelectData")!=null?mapC.get("assessmentSelectData").toString():null);
+			oneLruAssessmentResultPojo.setCaprinAssessmentScore(mapC.get("assessmentScore")!=null?mapC.get("assessmentScore").toString():null);
+		}
+		mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE2);
+		Map mapP=vteAssessmentMapper.queryLruVteAssessmentAnalysisResults(mapA);
+		if(mapP!=null){
+			CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapP, dictCodeFieldMap);
+			oneLruAssessmentResultPojo.setPaduaAssessmentUser(mapP.get("userName")!=null?mapP.get("userName").toString():null);
+			oneLruAssessmentResultPojo.setPaduaAssessmentTime(mapP.get("createDt").toString());
+			oneLruAssessmentResultPojo.setPaduaAssessmentStage(mapP.get("assessmentStageExplain")!=null?mapP.get("assessmentStageExplain").toString():null);
+			oneLruAssessmentResultPojo.setPaduaAssessmentGrade(mapP.get("assessmentResultExplain")!=null?mapP.get("assessmentResultExplain").toString():null);
+			oneLruAssessmentResultPojo.setPaduaAssessmentSdata(mapP.get("assessmentSelectData")!=null?mapP.get("assessmentSelectData").toString():null);
+			oneLruAssessmentResultPojo.setPaduaAssessmentScore(mapP.get("assessmentScore")!=null?mapP.get("assessmentScore").toString():null);
+		}
+		mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE3);
+		Map mapW=vteAssessmentMapper.queryLruVteAssessmentAnalysisResults(mapA);
+		if(mapW!=null){
+			CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapW, dictCodeFieldMap);
+			oneLruAssessmentResultPojo.setSurgicalHemorrhageAssessmentUser(mapW.get("userName")!=null?mapW.get("userName").toString():null);
+			oneLruAssessmentResultPojo.setSurgicalHemorrhageAssessmentTime(mapW.get("createDt").toString());
+			oneLruAssessmentResultPojo.setSurgicalHemorrhageAssessmentResult(mapW.get("assessmentResultExplain")!=null?mapW.get("assessmentResultExplain").toString():null);
+			oneLruAssessmentResultPojo.setSurgicalHemorrhageAssessmentSdata(mapW.get("assessmentSelectData")!=null?mapW.get("assessmentSelectData").toString():null);
+		}
+		mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE4);
+		Map mapN=vteAssessmentMapper.queryLruVteAssessmentAnalysisResults(mapA);
+		if(mapN!=null){
+			CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapN, dictCodeFieldMap);
+			oneLruAssessmentResultPojo.setMedicalBleedAssessmentUser(mapN.get("userName")!=null?mapN.get("userName").toString():null);
+			oneLruAssessmentResultPojo.setMedicalBleedAssessmentTime(mapN.get("createDt").toString());
+			oneLruAssessmentResultPojo.setMedicalBleedAssessmentResult(mapN.get("assessmentResultExplain")!=null?mapN.get("assessmentResultExplain").toString():null);
+			oneLruAssessmentResultPojo.setMedicalBleedAssessmentSdata(mapN.get("assessmentSelectData")!=null?mapN.get("assessmentSelectData").toString():null);
+		}
+		mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE5);
+		Map mapY=vteAssessmentMapper.queryLruVteAssessmentAnalysisResults(mapA);
+		if(mapY!=null){
+			CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapY, dictCodeFieldMap);
+			oneLruAssessmentResultPojo.setDrugAssessmentUser(mapY.get("userName")!=null?mapY.get("userName").toString():null);
+			oneLruAssessmentResultPojo.setDrugAssessmentTime(mapY.get("createDt").toString());
+			oneLruAssessmentResultPojo.setDrugAssessmentResult(mapY.get("assessmentResultExplain")!=null?mapY.get("assessmentResultExplain").toString():null);
+			oneLruAssessmentResultPojo.setDrugAssessmentSdata(mapY.get("assessmentSelectData")!=null?mapY.get("assessmentSelectData").toString():null);
+		}
+		mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE6);
+		Map mapJ=vteAssessmentMapper.queryLruVteAssessmentAnalysisResults(mapA);
+		if(mapJ!=null){
+			CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapJ, dictCodeFieldMap);
+			oneLruAssessmentResultPojo.setMachineAssessmentUser(mapJ.get("userName")!=null?mapJ.get("userName").toString():null);
+			oneLruAssessmentResultPojo.setMachineAssessmentTime(mapJ.get("createDt").toString());
+			oneLruAssessmentResultPojo.setMachineAssessmentResult(mapJ.get("assessmentResultExplain")!=null?mapJ.get("assessmentResultExplain").toString():null);
+			oneLruAssessmentResultPojo.setMachineAssessmentSdata(mapJ.get("assessmentSelectData")!=null?mapJ.get("assessmentSelectData").toString():null);
+		}
+		return oneLruAssessmentResultPojo;
 	}
 	
 	/**

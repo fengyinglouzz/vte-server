@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.insight.wisehealth.vte.pojo.BatchPrintStatisticsDataPojo;
 import com.insight.wisehealth.vte.pojo.MediumHighRiskPatientsAnalysisResultsPojo;
+import com.insight.wisehealth.vte.pojo.OneLruAssessmentResultPojo;
 @Service
 public interface VtePatientHospitInfoAnalysisResultsService {
 	/**
@@ -25,5 +26,12 @@ public interface VtePatientHospitInfoAnalysisResultsService {
 	 * @return 
     */
 	public List<BatchPrintStatisticsDataPojo> batchPrintStatisticsData(Map map) ;
+
+	/**
+	 * 患者最近评估结果
+	 * @param map
+	 * @return
+	 */
+	public OneLruAssessmentResultPojo batchPrintSingle(Map map);
 	
 }

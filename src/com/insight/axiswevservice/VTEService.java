@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.insight.axiswevservice.ReturnPojo.BatchPrintCheckReturnPojo;
+import com.insight.axiswevservice.ReturnPojo.BatchPrintSingleReturnPojo;
 import com.insight.axiswevservice.ReturnPojo.BatchPrintStatisticsDataReturnPojo;
 import com.insight.axiswevservice.ReturnPojo.PublicKeyInfo;
 import com.insight.axiswevservice.ReturnPojo.SSOReturnPojo;
@@ -43,6 +44,7 @@ import com.insight.core.util.RSAAlgorithm;
 import com.insight.core.util.StringUtil;
 import com.insight.wisehealth.vte.pojo.BatchPrintStatisticsDataPojo;
 import com.insight.wisehealth.vte.pojo.MediumHighRiskPatientsAnalysisResultsPojo;
+import com.insight.wisehealth.vte.pojo.OneLruAssessmentResultPojo;
 
 
 
@@ -251,6 +253,30 @@ public class VTEService {
 			returnPojo.setStatus("1");
 		}catch(Exception e){
 			returnPojo.setData(returnList);
+			returnPojo.setMessage("数据传送失败！");
+			returnPojo.setStatus("2");
+		}
+		return returnPojo;
+	}
+	/**
+	 * 患者评估信息输出
+	 * @param customerPublicKeyCode
+	 * @param isInHospital
+	 * @return
+	 */
+	public BatchPrintSingleReturnPojo  batchPrintSingle(String patientCode){
+		BatchPrintSingleReturnPojo returnPojo = new BatchPrintSingleReturnPojo();
+		try{
+			Map map = new HashMap();
+			map.put("patientCode", patientCode);
+			OneLruAssessmentResultPojo oneLruAssessmentResultPojo = vtePatientHospitInfoAnalysisResultsService.batchPrintSingle(map);
+			JSONObject json = JSONObject.fromObject(oneLruAssessmentResultPojo);
+			String strJson = json.toString();
+			returnPojo.setData(strJson);
+			returnPojo.setMessage("数据传输成功！");
+			returnPojo.setStatus("1");
+		}catch(Exception e){
+			returnPojo.setData("");
 			returnPojo.setMessage("数据传送失败！");
 			returnPojo.setStatus("2");
 		}

@@ -941,6 +941,33 @@
        	ORDER BY va.create_dt desc LIMIT 0,1
 	</select>
 	
+		<!-- 患者最近评估信息输出接口 -->
+	<select id="queryLruVteAssessmentAnalysisResults" resultType="java.util.HashMap" parameterType="map">
+	   SELECT
+	        va.assessment_stage  assessmentStage,
+	        va.assessment_type  assessmentType,
+	        va.assessment_item  assessmentItem,
+	        va.assessment_result  assessmentResult,
+	        va.assessment_score assessmentScore,
+	        (
+				SELECT
+					group_concat(tvad.assessment_dict_name) assessmentDictName
+				FROM
+					tb_vte_assessment_dict tvad
+				WHERE
+					 FIND_IN_SET (tvad.assessment_dict_id,va.assessment_select_data)>0
+			) assessmentSelectData,
+	        su.user_name  userName,
+	        va.create_dt  createDt
+		FROM
+			tb_vte_assessment va left join tb_system_user su on va.create_by=su.user_account
+		WHERE
+			IFNULL(va.is_enable, '0') = 1
+			and va.patient_code = #{patientCode}
+       		AND va.assessment_item = #{assessmentItem}
+       	ORDER BY va.create_dt desc LIMIT 0,1
+	</select>
+	
 	
 	<!-- 插入 -->	
 	<insert id="saveTbVteAssessment" parameterType="com.insight.wisehealth.vte.persistence.TbVteAssessment" >
