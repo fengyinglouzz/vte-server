@@ -935,7 +935,7 @@
 		FROM
 			tb_vte_assessment va left join tb_system_user su on va.create_by=su.user_account
 		WHERE
-			IFNULL(va.is_enable, '0') = 1 and IFNULL(su.is_enable, '0') = 1 
+			IFNULL(va.is_enable, '0') = 1
 			and va.patient_hospit_id =#{patientHospitId}
        		AND va.assessment_item = #{assessmentItem}
        	ORDER BY va.create_dt desc LIMIT 0,1
