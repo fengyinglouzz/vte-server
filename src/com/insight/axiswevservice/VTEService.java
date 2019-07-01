@@ -1,7 +1,10 @@
 package com.insight.axiswevservice;
 
 import java.security.interfaces.RSAPublicKey;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,6 +107,21 @@ public class VTEService {
 					JSONObject jsonObject=JSONObject.fromObject(data);
 					dealApierrorWord(jsonObject);
 					VteBatchPatientPojo painfo=(VteBatchPatientPojo)JSONObject.toBean(jsonObject, VteBatchPatientPojo.class);
+					DateFormat  formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					if(jsonObject.get("patientInHospital") != null) {
+						String dateIn =  jsonObject.get("patientInHospital").toString().replace("T", " ");
+						Date inHospital = formatter.parse(dateIn);
+						painfo.setPatientInHospital(inHospital);
+					} else {
+						painfo.setPatientInHospital(null);
+					}
+					if(jsonObject.get("patientOutHospital") != null) {
+						String dateOut =  jsonObject.get("patientOutHospital").toString().replace("T", " ");
+						Date outHospital = formatter.parse(dateOut);
+						painfo.setPatientOutHospital(outHospital);
+					} else {
+						painfo.setPatientOutHospital(null);
+					}
 					//将该对象数据存放到vtePatientHospitInfoList中
 					vtePatientHospitInfoList.add(painfo);
 				}
@@ -388,6 +406,24 @@ public class VTEService {
 			JSONObject jsonObject=JSONObject.fromObject(batchSynAssessmentPojoData);
 			dealApierrorWord(jsonObject);
 			SingleSignOnAndHospitInfo signOnAndHospitInfo=(SingleSignOnAndHospitInfo)JSONObject.toBean(jsonObject, SingleSignOnAndHospitInfo.class);
+			if(jsonObject.get("patientInHospital") != null) { 
+				DateFormat  formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String date =  jsonObject.get("patientInHospital").toString().replace("T", " ");
+				Date inHospital = formatter.parse(date);
+				signOnAndHospitInfo.setPatientInHospital(inHospital);
+			} else {
+				signOnAndHospitInfo.setPatientInHospital(null);
+			}
+			if(jsonObject.get("patientOutHospital") != null) { 
+				DateFormat  formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String date =  jsonObject.get("patientOutHospital").toString().replace("T", " ");
+				Date outHospital = formatter.parse(date);
+				signOnAndHospitInfo.setPatientOutHospital(outHospital);
+			} else {
+				signOnAndHospitInfo.setPatientOutHospital(null);
+			}
+			
+
 			SynReturnUrlPojo batchSynAssessmentUrl = vteSingleSignOnService.singleSignOn(signOnAndHospitInfo);
 			returnPojo.setMessage("数据传输成功！");
 			returnPojo.setNextVisitUrl( batchSynAssessmentUrl.getNextVisitUrl());

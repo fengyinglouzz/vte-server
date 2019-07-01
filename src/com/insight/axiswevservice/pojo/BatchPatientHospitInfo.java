@@ -35,12 +35,12 @@ public class BatchPatientHospitInfo  implements Serializable {
 	/**
 	 *  患者数据入院时间（时间）
 	 */
-	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
 	private java.util.Date patientInHospital;
 	/**
 	 *  患者数据出院时间（时间）
 	 */
-	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
 	private java.util.Date patientOutHospital;
 	/**
 	 *  患者数据病案号（文）
