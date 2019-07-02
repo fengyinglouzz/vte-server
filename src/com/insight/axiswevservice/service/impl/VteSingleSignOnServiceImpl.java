@@ -301,6 +301,7 @@ public class VteSingleSignOnServiceImpl implements VteSingleSignOnService{
 			int num = vteDepartmentMapper.countAllVteDepartment(departmentMap);
 			if(num==0){
 				TbVteDepartment tbVteDepartment=new TbVteDepartment();
+				tbVteDepartment.setDepartmentQualitycontrol(1);
 				tbVteDepartment.setDepartmentCode(modelCode);
 				tbVteDepartment.setDepartmentName(department);
 				vteDepartmentMapper.insert(tbVteDepartment);
