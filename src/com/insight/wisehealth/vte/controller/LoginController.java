@@ -61,6 +61,7 @@ public class LoginController  {
 			  //根据用户名获取用户信息
 			TbSystemUser user = systemUserService.querySystemUserInfo(searchMap);
 			String uPass =MD5Encrypt.encode(userPassword); 
+			//  || userPassword.equals(user.getUserCode()) )
 			if(user!=null&&uPass.equals(user.getUserPassword())){
 				LoginUserPojo loginUserPojo = new LoginUserPojo();
 				loginUserPojo.setUserAccount(user.getUserAccount());

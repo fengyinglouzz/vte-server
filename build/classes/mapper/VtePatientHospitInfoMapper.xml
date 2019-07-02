@@ -859,8 +859,7 @@
 		from tb_vte_patient_hospit_info t 
 		where 
 		IFNULL(t.is_enable,'0') = 1
-		and IFNULL(d.is_enable,'0') = 1
-	  		t.patient_department =  #{patientDepartment}
+		and t.patient_department =  #{patientDepartment}
 	    limit 0,1
 	</select>
 	
