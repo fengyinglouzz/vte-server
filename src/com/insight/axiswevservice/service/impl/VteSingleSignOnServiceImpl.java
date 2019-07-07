@@ -80,6 +80,7 @@ public class VteSingleSignOnServiceImpl implements VteSingleSignOnService{
 			querySystemUserInfo.setUserName(userName);
 			querySystemUserInfo.setUserPassword(userCode);
 			querySystemUserInfo.setUserAccount(userCode);
+			querySystemUserInfo.setHospitalId(2);
 			querySystemUserInfo.setUserForm("0");
 			querySystemUserInfo.setOrgId(orgId);
 			
