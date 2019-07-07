@@ -60,6 +60,7 @@ public class VteBatchUserServiceImpl implements VteBatchUserService{
 				querySystemUserInfo.setUserName(userName);
 				querySystemUserInfo.setUserCode(userCode);
 				querySystemUserInfo.setUserPassword(userCode);
+				querySystemUserInfo.setHospitalId(2);
 				querySystemUserInfo.setUserAccount(userCode);
 				querySystemUserInfo.setUserForm("0");
 				querySystemUserInfo.setOrgId(orgId);
