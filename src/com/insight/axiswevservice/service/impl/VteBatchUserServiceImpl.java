@@ -65,8 +65,9 @@ public class VteBatchUserServiceImpl implements VteBatchUserService{
 				querySystemUserInfo.setUserForm("0");
 				querySystemUserInfo.setOrgId(orgId);
 				
-				int userId = systemUserMapper.insert(querySystemUserInfo);
-				querySystemUserInfo.setUserId(userId);
+				systemUserMapper.insert(querySystemUserInfo);
+				int userId = querySystemUserInfo.getUserId();
+				querySystemUserInfo.setUserId(querySystemUserInfo.getUserId());
 				
 				//查询角色，配置权限
 				
