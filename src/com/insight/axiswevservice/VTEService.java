@@ -108,14 +108,14 @@ public class VTEService {
 					dealApierrorWord(jsonObject);
 					VteBatchPatientPojo painfo=(VteBatchPatientPojo)JSONObject.toBean(jsonObject, VteBatchPatientPojo.class);
 					DateFormat  formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-					if(jsonObject.get("patientInHospital") != null) {
+					if(jsonObject.get("patientInHospital") != null && !jsonObject.get("patientInHospital").equals(null) && !jsonObject.get("patientInHospital").equals("")) {
 						String dateIn =  jsonObject.get("patientInHospital").toString().replace("T", " ");
 						Date inHospital = formatter.parse(dateIn);
 						painfo.setPatientInHospital(inHospital);
 					} else {
 						painfo.setPatientInHospital(null);
 					}
-					if(jsonObject.get("patientOutHospital") != null) {
+					if(jsonObject.get("patientOutHospital") != null && !jsonObject.get("patientOutHospital").equals(null) && !jsonObject.get("patientOutHospital").equals("")) {
 						String dateOut =  jsonObject.get("patientOutHospital").toString().replace("T", " ");
 						Date outHospital = formatter.parse(dateOut);
 						painfo.setPatientOutHospital(outHospital);
@@ -406,7 +406,7 @@ public class VTEService {
 			JSONObject jsonObject=JSONObject.fromObject(batchSynAssessmentPojoData);
 			dealApierrorWord(jsonObject);
 			SingleSignOnAndHospitInfo signOnAndHospitInfo=(SingleSignOnAndHospitInfo)JSONObject.toBean(jsonObject, SingleSignOnAndHospitInfo.class);
-			if(jsonObject.get("patientInHospital") != null) { 
+			if(jsonObject.get("patientInHospital") != null && !jsonObject.get("patientInHospital").equals(null) && !jsonObject.get("patientInHospital").equals("")) { 
 				DateFormat  formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String date =  jsonObject.get("patientInHospital").toString().replace("T", " ");
 				Date inHospital = formatter.parse(date);
@@ -414,7 +414,7 @@ public class VTEService {
 			} else {
 				signOnAndHospitInfo.setPatientInHospital(null);
 			}
-			if(jsonObject.get("patientOutHospital") != null) { 
+			if(jsonObject.get("patientOutHospital") != null && !jsonObject.get("patientOutHospital").equals(null) && !jsonObject.get("patientOutHospital").equals("")) { 
 				DateFormat  formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String date =  jsonObject.get("patientOutHospital").toString().replace("T", " ");
 				Date outHospital = formatter.parse(date);
@@ -447,7 +447,6 @@ public class VTEService {
 //			if(StringUtil.isEmpty(patientPhoneNumber)){
 //				jsonObject.accumulate("patientNativePlace", jsonObject.get("patientNativePlace"));
 //			}
-			System.out.print("传进来的不是空");
 		}
 	}
 	
