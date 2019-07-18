@@ -191,7 +191,7 @@ public class VteSingleSignOnServiceImpl implements VteSingleSignOnService{
 			vtePatientHospitInfoMapper.updateByPrimaryKeySelective(patientHospitInfo);
 		}else {
 			patientHospitInfo.setPatientFrom("1");
-			patientHospitInfo.setPatientIsRisk("1");
+			patientHospitInfo.setPatientIsRisk("2");
 			vtePatientHospitInfoMapper.saveTbVtePatientHospitInfo(patientHospitInfo);
 			
 		    patientHospitId = patientHospitInfo.getPatientHospitId();
