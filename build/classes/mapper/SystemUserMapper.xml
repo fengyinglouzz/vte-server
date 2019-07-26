@@ -84,7 +84,7 @@
 				#{updateDt}
 	    )
 	    
-	    <selectKey resultType="int"> 
+	    <selectKey resultType="int" keyProperty="userId"> 
 				<![CDATA[ 
 				SELECT LAST_INSERT_ID() 
 				]]> 

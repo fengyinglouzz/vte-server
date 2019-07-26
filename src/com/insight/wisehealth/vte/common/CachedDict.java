@@ -202,26 +202,11 @@ public class CachedDict {
 	 * @param dictCodeFieldMap 字典替换Map：key为dictCode,value为list中Map的key名，页面Model中应有该属性名+Explain
 	 * @throws Exception 
 	 */
-	public static void dictDataValueToDictDataName(Integer orgId, String dictInternational,
+	public static void dictDataValueToDictDataName(Map dictMap,
 			Map tempMap, Map<String, String> dictCodeFieldMap)  {
 		//orgId=1;//标准字典org
 		try{
-			Cache  ehCache = SpringMvcContext.getBean(Cache.class); 
-			SystemDictService systemDictService = SpringMvcContext.getBean(SystemDictService.class); 
-		    if(tempMap!=null&&!tempMap.isEmpty()){
-				String key = new StringBuffer(orgId.toString()).append(dictInternational).toString();
-				Element  element = ehCache.get(key);
-				Map dictMap;
-				if(element==null){
-					Map searchMap = new HashMap();
-					searchMap.put("orgId", orgId);
-					searchMap.put("dictInternational", dictInternational);
-					dictMap = systemDictService.queryLocalDictData(searchMap);
-				    element=new Element(orgId+dictInternational, dictMap); 
-				    ehCache.put(element);
-				}else{
-					dictMap = (Map) element.getObjectValue();
-				}
+		    if(tempMap != null && !tempMap.isEmpty()){
 				Set<String> dictCodeSet = dictCodeFieldMap.keySet();
 				for (String dictCode : dictCodeSet) {
 					String dictCodeName = StringUtil.tableNameToLowerFirst(dictCode);

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.insight.axiswevservice.service.VtePatientHospitInfoAnalysisResultsService;
 import com.insight.core.config.ExportConfig;
+import com.insight.core.config.SpringMvcContext;
 import com.insight.wisehealth.vte.common.CachedDict;
 import com.insight.wisehealth.vte.common.ConstantsDict;
 import com.insight.wisehealth.vte.dao.TbVteAssessmentDao;
@@ -23,6 +24,10 @@ import com.insight.wisehealth.vte.pojo.MediumHighRiskPatientsAnalysisResultsPojo
 import com.insight.wisehealth.vte.pojo.MediumHighRiskPatientsCountPojo;
 import com.insight.wisehealth.vte.pojo.MediumHighRiskPatientsSubsetPojo;
 import com.insight.wisehealth.vte.pojo.OneLruAssessmentResultPojo;
+import com.insight.wisehealth.vte.service.SystemDictService;
+
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.Element;
 
 @Service
 public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatientHospitInfoAnalysisResultsService{
@@ -43,6 +48,7 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 	 */
 	@Override
 	public List<MediumHighRiskPatientsAnalysisResultsPojo> batchPrintCheck(Map map) {
+		System.out.println("开始测试");
 		//�����һ�����
 		map.put("assessmentType", ConstantsDict.ASSESSMENT_TYPE_VTE1);
 		map.put("assessmentItem1", ConstantsDict.ASSESSMENT_ITEM_VTE1);
@@ -53,14 +59,40 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 		map.put("patientLastRiskDate", 1);
 		map.put("patientOutHospital", map.get("isInHospital"));
 		map.put("patientLastRisk", ExportConfig.patientLastRisk);
+		System.out.println(System.currentTimeMillis());
 		List<MediumHighRiskPatientsCountPojo> listDc=vtePatientMapper.queryLowMediumHighRiskPatientsDeptCount(map);
 		Map dictCodeFieldMap=new HashMap();
 		dictCodeFieldMap.put("assessment_stage", "assessmentStage");
 		dictCodeFieldMap.put("assessment_result", "assessmentResult");
 		MediumHighRiskPatientsAnalysisResultsPojo mediumHighRiskPatientsAnalysisResults=null;
 		List<MediumHighRiskPatientsAnalysisResultsPojo> listR=new ArrayList();
+		
+		// 处理constantdict 和 zhcn
+		Cache  ehCache = SpringMvcContext.getBean(Cache.class); 
+		SystemDictService systemDictService = SpringMvcContext.getBean(SystemDictService.class); 
+		String key = new StringBuffer(ConstantsDict.ORG_ID.toString()).append("zh_CN").toString();
+		Element  element = ehCache.get(key);
+		Map dictMap = null;
+		if(element==null){
+			Map searchMap = new HashMap();
+			searchMap.put("orgId", ConstantsDict.ORG_ID);
+			searchMap.put("dictInternational", "zh_CN");
+			try {
+				dictMap = systemDictService.queryLocalDictData(searchMap);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		    element=new Element(ConstantsDict.ORG_ID+"zh_CN", dictMap); 
+		    ehCache.put(element);
+		}else{
+			dictMap = (Map) element.getObjectValue();
+		}
+		System.out.println(System.currentTimeMillis());
+
 		//������Ϣ
 		for(int n=0;n<listDc.size();n++){
+			System.out.println("listDc" + System.currentTimeMillis());
+
 			mediumHighRiskPatientsAnalysisResults=new MediumHighRiskPatientsAnalysisResultsPojo();
 			map.put("patientDepartment", listDc.get(n).getPatientDepartment());
 			List<Map> list = vtePatientMapper.queryMediumHighRiskPatientsListNp(map);
@@ -69,6 +101,7 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 			Map mapA=new HashMap();
 			MediumHighRiskPatientsSubsetPojo mediumHighRiskPatientsSubset=null;
 			for(int i=0;i<list.size();i++){
+				System.out.println("list" + System.currentTimeMillis());
 				mediumHighRiskPatientsSubset=new MediumHighRiskPatientsSubsetPojo();
 				maplist=(Map) list.get(i);
 				mediumHighRiskPatientsSubset.setPatientCode(maplist.get("patientCode")!=null?maplist.get("patientCode").toString():null);
@@ -77,7 +110,7 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 				mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE1);
 				Map mapC=vteAssessmentMapper.queryVteAssessmentAnalysisResults(mapA);
 				if(mapC!=null){
-					CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapC, dictCodeFieldMap);
+					CachedDict.dictDataValueToDictDataName(dictMap,  mapC, dictCodeFieldMap);
 					mediumHighRiskPatientsSubset.setCaprinAssessmentUser(mapC.get("userName")!=null?mapC.get("userName").toString():null);
 					mediumHighRiskPatientsSubset.setCaprinAssessmentTime(mapC.get("createDt").toString());
 					mediumHighRiskPatientsSubset.setCaprinAssessmentStage(mapC.get("assessmentStageExplain")!=null?mapC.get("assessmentStageExplain").toString():null);
@@ -88,7 +121,7 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 				mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE2);
 				Map mapP=vteAssessmentMapper.queryVteAssessmentAnalysisResults(mapA);
 				if(mapP!=null){
-					CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapP, dictCodeFieldMap);
+					CachedDict.dictDataValueToDictDataName(dictMap,  mapP, dictCodeFieldMap);
 					mediumHighRiskPatientsSubset.setPaduaAssessmentUser(mapP.get("userName")!=null?mapP.get("userName").toString():null);
 					mediumHighRiskPatientsSubset.setPaduaAssessmentTime(mapP.get("createDt").toString());
 					mediumHighRiskPatientsSubset.setPaduaAssessmentStage(mapP.get("assessmentStageExplain")!=null?mapP.get("assessmentStageExplain").toString():null);
@@ -98,7 +131,7 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 				mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE3);
 				Map mapW=vteAssessmentMapper.queryVteAssessmentAnalysisResults(mapA);
 				if(mapW!=null){
-					CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapW, dictCodeFieldMap);
+					CachedDict.dictDataValueToDictDataName(dictMap,  mapW, dictCodeFieldMap);
 					mediumHighRiskPatientsSubset.setSurgicalHemorrhageAssessmentUser(mapW.get("userName")!=null?mapW.get("userName").toString():null);
 					mediumHighRiskPatientsSubset.setSurgicalHemorrhageAssessmentTime(mapW.get("createDt").toString());
 					mediumHighRiskPatientsSubset.setSurgicalHemorrhageAssessmentResult(mapW.get("assessmentResultExplain")!=null?mapW.get("assessmentResultExplain").toString():null);
@@ -107,7 +140,7 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 				mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE4);
 				Map mapN=vteAssessmentMapper.queryVteAssessmentAnalysisResults(mapA);
 				if(mapN!=null){
-					CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapN, dictCodeFieldMap);
+					CachedDict.dictDataValueToDictDataName(dictMap,  mapN, dictCodeFieldMap);
 					mediumHighRiskPatientsSubset.setMedicalBleedAssessmentUser(mapN.get("userName")!=null?mapN.get("userName").toString():null);
 					mediumHighRiskPatientsSubset.setMedicalBleedAssessmentTime(mapN.get("createDt").toString());
 					mediumHighRiskPatientsSubset.setMedicalBleedAssessmentResult(mapN.get("assessmentResultExplain")!=null?mapN.get("assessmentResultExplain").toString():null);
@@ -116,7 +149,7 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 				mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE5);
 				Map mapY=vteAssessmentMapper.queryVteAssessmentAnalysisResults(mapA);
 				if(mapY!=null){
-					CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapY, dictCodeFieldMap);
+					CachedDict.dictDataValueToDictDataName(dictMap,  mapY, dictCodeFieldMap);
 					mediumHighRiskPatientsSubset.setDrugAssessmentUser(mapY.get("userName")!=null?mapY.get("userName").toString():null);
 					mediumHighRiskPatientsSubset.setDrugAssessmentTime(mapY.get("createDt").toString());
 					mediumHighRiskPatientsSubset.setDrugAssessmentResult(mapY.get("assessmentResultExplain")!=null?mapY.get("assessmentResultExplain").toString():null);
@@ -125,7 +158,7 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 				mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE6);
 				Map mapJ=vteAssessmentMapper.queryVteAssessmentAnalysisResults(mapA);
 				if(mapJ!=null){
-					CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapJ, dictCodeFieldMap);
+					CachedDict.dictDataValueToDictDataName(dictMap,  mapJ, dictCodeFieldMap);
 					mediumHighRiskPatientsSubset.setMachineAssessmentUser(mapJ.get("userName")!=null?mapJ.get("userName").toString():null);
 					mediumHighRiskPatientsSubset.setMachineAssessmentTime(mapJ.get("createDt").toString());
 					mediumHighRiskPatientsSubset.setMachineAssessmentResult(mapJ.get("assessmentResultExplain")!=null?mapJ.get("assessmentResultExplain").toString():null);
@@ -138,6 +171,7 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 			mediumHighRiskPatientsAnalysisResults.setList(listM);
 			listR.add(mediumHighRiskPatientsAnalysisResults);
 		}
+		System.out.println("结束测试");
 		return listR;
 	}
 	
@@ -146,6 +180,28 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 	 */
 	@Override
 	public OneLruAssessmentResultPojo batchPrintSingle(Map map) {
+		
+		// 处理constantdict 和 zhcn
+		Cache  ehCache = SpringMvcContext.getBean(Cache.class); 
+		SystemDictService systemDictService = SpringMvcContext.getBean(SystemDictService.class); 
+		String key = new StringBuffer(ConstantsDict.ORG_ID.toString()).append("zh_CN").toString();
+		Element  element = ehCache.get(key);
+		Map dictMap = null;
+		if(element==null){
+			Map searchMap = new HashMap();
+			searchMap.put("orgId", ConstantsDict.ORG_ID);
+			searchMap.put("dictInternational", "zh_CN");
+			try {
+				dictMap = systemDictService.queryLocalDictData(searchMap);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		    element=new Element(ConstantsDict.ORG_ID+"zh_CN", dictMap); 
+		    ehCache.put(element);
+		}else{
+			dictMap = (Map) element.getObjectValue();
+		}
+		
 		OneLruAssessmentResultPojo oneLruAssessmentResultPojo = new OneLruAssessmentResultPojo();
 		oneLruAssessmentResultPojo.setPatientCode(map.get("patientCode").toString());
 		Map mapA = new HashMap();
@@ -156,7 +212,7 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 		mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE1);
 		Map mapC=vteAssessmentMapper.queryLruVteAssessmentAnalysisResults(mapA);
 		if(mapC!=null){
-			CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapC, dictCodeFieldMap);
+			CachedDict.dictDataValueToDictDataName(dictMap,  mapC, dictCodeFieldMap);
 			oneLruAssessmentResultPojo.setCaprinAssessmentUser(mapC.get("userName")!=null?mapC.get("userName").toString():null);
 			oneLruAssessmentResultPojo.setCaprinAssessmentTime(mapC.get("createDt").toString());
 			oneLruAssessmentResultPojo.setCaprinAssessmentStage(mapC.get("assessmentStageExplain")!=null?mapC.get("assessmentStageExplain").toString():null);
@@ -167,7 +223,7 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 		mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE2);
 		Map mapP=vteAssessmentMapper.queryLruVteAssessmentAnalysisResults(mapA);
 		if(mapP!=null){
-			CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapP, dictCodeFieldMap);
+			CachedDict.dictDataValueToDictDataName(dictMap,  mapP, dictCodeFieldMap);
 			oneLruAssessmentResultPojo.setPaduaAssessmentUser(mapP.get("userName")!=null?mapP.get("userName").toString():null);
 			oneLruAssessmentResultPojo.setPaduaAssessmentTime(mapP.get("createDt").toString());
 			oneLruAssessmentResultPojo.setPaduaAssessmentStage(mapP.get("assessmentStageExplain")!=null?mapP.get("assessmentStageExplain").toString():null);
@@ -178,7 +234,7 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 		mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE3);
 		Map mapW=vteAssessmentMapper.queryLruVteAssessmentAnalysisResults(mapA);
 		if(mapW!=null){
-			CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapW, dictCodeFieldMap);
+			CachedDict.dictDataValueToDictDataName(dictMap,  mapW, dictCodeFieldMap);
 			oneLruAssessmentResultPojo.setSurgicalHemorrhageAssessmentUser(mapW.get("userName")!=null?mapW.get("userName").toString():null);
 			oneLruAssessmentResultPojo.setSurgicalHemorrhageAssessmentTime(mapW.get("createDt").toString());
 			oneLruAssessmentResultPojo.setSurgicalHemorrhageAssessmentResult(mapW.get("assessmentResultExplain")!=null?mapW.get("assessmentResultExplain").toString():null);
@@ -187,7 +243,7 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 		mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE4);
 		Map mapN=vteAssessmentMapper.queryLruVteAssessmentAnalysisResults(mapA);
 		if(mapN!=null){
-			CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapN, dictCodeFieldMap);
+			CachedDict.dictDataValueToDictDataName(dictMap,  mapN, dictCodeFieldMap);
 			oneLruAssessmentResultPojo.setMedicalBleedAssessmentUser(mapN.get("userName")!=null?mapN.get("userName").toString():null);
 			oneLruAssessmentResultPojo.setMedicalBleedAssessmentTime(mapN.get("createDt").toString());
 			oneLruAssessmentResultPojo.setMedicalBleedAssessmentResult(mapN.get("assessmentResultExplain")!=null?mapN.get("assessmentResultExplain").toString():null);
@@ -196,7 +252,7 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 		mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE5);
 		Map mapY=vteAssessmentMapper.queryLruVteAssessmentAnalysisResults(mapA);
 		if(mapY!=null){
-			CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapY, dictCodeFieldMap);
+			CachedDict.dictDataValueToDictDataName(dictMap,  mapY, dictCodeFieldMap);
 			oneLruAssessmentResultPojo.setDrugAssessmentUser(mapY.get("userName")!=null?mapY.get("userName").toString():null);
 			oneLruAssessmentResultPojo.setDrugAssessmentTime(mapY.get("createDt").toString());
 			oneLruAssessmentResultPojo.setDrugAssessmentResult(mapY.get("assessmentResultExplain")!=null?mapY.get("assessmentResultExplain").toString():null);
@@ -205,7 +261,7 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 		mapA.put("assessmentItem", ConstantsDict.ASSESSMENT_ITEM_VTE6);
 		Map mapJ=vteAssessmentMapper.queryLruVteAssessmentAnalysisResults(mapA);
 		if(mapJ!=null){
-			CachedDict.dictDataValueToDictDataName(ConstantsDict.ORG_ID, "zh_CN",  mapJ, dictCodeFieldMap);
+			CachedDict.dictDataValueToDictDataName(dictMap,  mapJ, dictCodeFieldMap);
 			oneLruAssessmentResultPojo.setMachineAssessmentUser(mapJ.get("userName")!=null?mapJ.get("userName").toString():null);
 			oneLruAssessmentResultPojo.setMachineAssessmentTime(mapJ.get("createDt").toString());
 			oneLruAssessmentResultPojo.setMachineAssessmentResult(mapJ.get("assessmentResultExplain")!=null?mapJ.get("assessmentResultExplain").toString():null);
