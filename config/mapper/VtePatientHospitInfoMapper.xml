@@ -1218,9 +1218,9 @@
 				tvphi.patient_department patientDepartment
 			FROM
 				tb_vte_patient_hospit_info tvphi 
-			LEFT JOIN tb_vte_doctor_advice tvda on tvphi.patient_hospit_id = tvda.patient_hospit_id
-			where IFNULL(tvphi.is_enable, '0') = 1 and IFNULL(tvda.is_enable, '0') = 1
-			AND tvda.doctor_advice_is_last = 1
+			LEFT JOIN tb_vte_assessment tvaa on tvphi.patient_hospit_id = tvaa.patient_hospit_id
+			where IFNULL(tvphi.is_enable, '0') = 1 and IFNULL(tvaa.is_enable, '0') = 1
+			AND tvaa.assessment_type_is_last = 1 and tvaa.assessment_item_is_last
 		<if test="dateType=='1' or dateType==1 ">
        		<if test="date=='' or date==null">
        			and year(tvphi.patient_in_hospital)=year(date_sub(now(),interval 1 year))
@@ -1250,10 +1250,10 @@
        		</if>
        	</if>
 		<if test="doctorAdviceResult != null and doctorAdviceResult != ''">	
-			and tvda.doctor_advice_result=#{doctorAdviceResult}
+			and tvaa.assessment_type=#{doctorAdviceResult}
 		</if>
 		<if test="doctorAdviceResult1 != null and doctorAdviceResult1 != ''">	
-			and (tvda.doctor_advice_result=#{doctorAdviceResult1} or tvda.doctor_advice_result=#{doctorAdviceResult2})
+			and (tvaa.assessment_type=#{doctorAdviceResult1} or tvaa.assessment_type=#{doctorAdviceResult2})
 		</if>
 		<if test="patientDepartment != null and patientDepartment != ''">
 	       		and tvphi.patient_department=#{patientDepartment}

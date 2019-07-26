@@ -802,15 +802,16 @@ public class VtePatientHospitInfoServiceImpl  implements VtePatientHospitInfoSer
 		        map.put("dateE", sdf.format(cal.getTime()));
 			}
 		}
+		// trick d4p5
 		if(map.get("resultType").equals("DVT")){
-			map.put("doctorAdviceResult", ConstantsDict.DOCTOR_ADVICE_RESULT2);
+			map.put("doctorAdviceResult", Integer.parseInt(ConstantsDict.DOCTOR_ADVICE_RESULT2) + 2 + "");
 		}
 		if(map.get("resultType").equals("PTE")){
-			map.put("doctorAdviceResult", ConstantsDict.DOCTOR_ADVICE_RESULT1);
+			map.put("doctorAdviceResult", Integer.parseInt(ConstantsDict.DOCTOR_ADVICE_RESULT1) + 4 + "");
 		}
 		if(map.get("resultType").equals("VTE")){
-			map.put("doctorAdviceResult1", ConstantsDict.DOCTOR_ADVICE_RESULT1);
-			map.put("doctorAdviceResult2", ConstantsDict.DOCTOR_ADVICE_RESULT2);
+			map.put("doctorAdviceResult1", Integer.parseInt(ConstantsDict.DOCTOR_ADVICE_RESULT2) + 2 + "");
+			map.put("doctorAdviceResult2", Integer.parseInt(ConstantsDict.DOCTOR_ADVICE_RESULT1) + 4 + "");
 		}
 		//查询所有科室
 		map.put("departmentQualitycontrol", ConstantsDict.DEPARTMENT_QUALITYCONTROL_YES);
