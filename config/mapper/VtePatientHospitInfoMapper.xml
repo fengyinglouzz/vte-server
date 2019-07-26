@@ -1130,14 +1130,9 @@
 				tvphi.patient_department patientDepartment
 			FROM
 				tb_vte_patient_hospit_info tvphi 
-			LEFT JOIN tb_vte_assessment tvaa ON tvphi.patient_hospit_id = tvaa.patient_hospit_id
 			LEFT JOIN tb_vte_doctor_advice tvda on tvphi.patient_hospit_id = tvda.patient_hospit_id
-			where IFNULL(tvphi.is_enable, '0') = 1  and IFNULL(tvaa.is_enable, '0') = 1 and IFNULL(tvda.is_enable, '0') = 1
-			AND tvaa.assessment_type_is_last = 1
-			AND tvaa.assessment_type = #{assessmentType}
+			where IFNULL(tvphi.is_enable, '0') = 1 and IFNULL(tvda.is_enable, '0') = 1
 			AND tvda.doctor_advice_is_last = 1
-			AND ((tvaa.assessment_item = #{assessmentItem1} and (tvaa.assessment_result = #{assessmentResult1} or tvaa.assessment_result = #{assessmentResult2})) or
-				(tvaa.assessment_item = #{assessmentItem2} and tvaa.assessment_result = #{assessmentResult2}))
 		<if test="dateType=='1' or dateType==1 ">
        		<if test="date=='' or date==null">
        			and year(tvphi.patient_in_hospital)=year(date_sub(now(),interval 1 year))

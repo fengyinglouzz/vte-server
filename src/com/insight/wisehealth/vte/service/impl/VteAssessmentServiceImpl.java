@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.insight.wisehealth.vte.common.ConstantsDict;
 import com.insight.core.config.ExportConfig;
+import com.insight.core.config.SpringMvcContext;
 import com.insight.core.util.StringUtil;
 import com.insight.core.util.ToolUtil;
 import com.insight.wisehealth.vte.common.AssessmentDict;
@@ -30,10 +31,14 @@ import com.insight.wisehealth.vte.pojo.VteAssessmentStrategyPojo;
 import com.insight.wisehealth.vte.pojo.VteAssessmentTypePojo;
 import com.insight.wisehealth.vte.pojo.VtePatientAssessmentPojo;
 import com.insight.wisehealth.vte.pojo.VteRiskScoreCodePojo;
+import com.insight.wisehealth.vte.service.SystemDictService;
 import com.insight.wisehealth.vte.service.VteAssessmentService;
 import com.insight.wisehealth.vte.strategyUtil.PreventionStrategy;
 import com.insight.wisehealth.vte.strategyUtil.PreventionStrategyFactory;
 import com.mysql.fabric.xmlrpc.base.Data;
+
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.Element;
 
 
 /**
@@ -305,10 +310,32 @@ public class VteAssessmentServiceImpl  implements VteAssessmentService{
 		dictCodeFieldMap.put("assessment_result", "assessmentResult");
 		dictCodeFieldMap.put("doctor_advice_result", "doctorAdviceResult");
 		dictCodeFieldMap.put("doctor_advice_risk", "doctorAdviceRisk");
+		
+		// 处理constantdict 和 zhcn
+		Cache  ehCache = SpringMvcContext.getBean(Cache.class); 
+		SystemDictService systemDictService = SpringMvcContext.getBean(SystemDictService.class); 
+		String key = new StringBuffer(ConstantsDict.ORG_ID.toString()).append("zh_CN").toString();
+		Element  element = ehCache.get(key);
+		Map dictMap = null;
+		if(element==null){
+			Map searchMap = new HashMap();
+			searchMap.put("orgId", ConstantsDict.ORG_ID);
+			searchMap.put("dictInternational", "zh_CN");
+			try {
+				dictMap = systemDictService.queryLocalDictData(searchMap);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		    element=new Element(ConstantsDict.ORG_ID+"zh_CN", dictMap); 
+		    ehCache.put(element);
+		}else{
+			dictMap = (Map) element.getObjectValue();
+		}
+		
 		//字典翻译
 		for (Object object : list) {
 			Map resultMap  = (Map)object;
-			CachedDict.dictDataValueToDictDataName(1, "zh_CN", resultMap, dictCodeFieldMap);
+			CachedDict.dictDataValueToDictDataName(dictMap, resultMap, dictCodeFieldMap);
 			if(resultMap.get("modelName").equals("assessment")){
 				resultMap.put("resultExplain", resultMap.get("assessmentResultExplain"));
 			}else{

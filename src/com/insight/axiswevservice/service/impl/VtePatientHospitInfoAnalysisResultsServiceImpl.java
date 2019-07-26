@@ -48,7 +48,6 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 	 */
 	@Override
 	public List<MediumHighRiskPatientsAnalysisResultsPojo> batchPrintCheck(Map map) {
-		System.out.println("开始测试");
 		//�����һ�����
 		map.put("assessmentType", ConstantsDict.ASSESSMENT_TYPE_VTE1);
 		map.put("assessmentItem1", ConstantsDict.ASSESSMENT_ITEM_VTE1);
@@ -59,7 +58,6 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 		map.put("patientLastRiskDate", 1);
 		map.put("patientOutHospital", map.get("isInHospital"));
 		map.put("patientLastRisk", ExportConfig.patientLastRisk);
-		System.out.println(System.currentTimeMillis());
 		List<MediumHighRiskPatientsCountPojo> listDc=vtePatientMapper.queryLowMediumHighRiskPatientsDeptCount(map);
 		Map dictCodeFieldMap=new HashMap();
 		dictCodeFieldMap.put("assessment_stage", "assessmentStage");
@@ -87,11 +85,9 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 		}else{
 			dictMap = (Map) element.getObjectValue();
 		}
-		System.out.println(System.currentTimeMillis());
 
 		//������Ϣ
 		for(int n=0;n<listDc.size();n++){
-			System.out.println("listDc" + System.currentTimeMillis());
 
 			mediumHighRiskPatientsAnalysisResults=new MediumHighRiskPatientsAnalysisResultsPojo();
 			map.put("patientDepartment", listDc.get(n).getPatientDepartment());
@@ -101,7 +97,6 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 			Map mapA=new HashMap();
 			MediumHighRiskPatientsSubsetPojo mediumHighRiskPatientsSubset=null;
 			for(int i=0;i<list.size();i++){
-				System.out.println("list" + System.currentTimeMillis());
 				mediumHighRiskPatientsSubset=new MediumHighRiskPatientsSubsetPojo();
 				maplist=(Map) list.get(i);
 				mediumHighRiskPatientsSubset.setPatientCode(maplist.get("patientCode")!=null?maplist.get("patientCode").toString():null);
@@ -171,7 +166,6 @@ public class VtePatientHospitInfoAnalysisResultsServiceImpl implements VtePatien
 			mediumHighRiskPatientsAnalysisResults.setList(listM);
 			listR.add(mediumHighRiskPatientsAnalysisResults);
 		}
-		System.out.println("结束测试");
 		return listR;
 	}
 	
