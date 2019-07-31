@@ -118,21 +118,14 @@ public class VteAssessmentController  {
 			headList.add("项目");
 			headList.add("结果");
 			headList.add("分值");
-			String[] cols = { "createDt" , "assessmentStageExplain" ,"assessmentTypeExplain","assessmentItemExplain","resultExplain","assessmentScore"};
-			File filePath =outputExcelFile(list,excelStr,templateFilePath,headList, cols);
-			
-			
+			String[] cols = { "createDt", "assessmentStageExplain", "assessmentTypeExplain", "assessmentItemExplain", "resultExplain", "assessmentScore"};
+			File filePath =outputExcelFile(list, excelStr, templateFilePath, headList, cols);
 			StringBuffer url = request.getRequestURL(); 
 			String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append("/").toString(); 
-
-			
 			String canonicalPath = filePath.getAbsolutePath();
 			String oldStr = ExportConfig.templateFilePath;
 			resultMap.put("filePath", tempContextUrl + canonicalPath.substring(oldStr.length()-1, canonicalPath.length()));
-			
-			System.out.println("+++++++++++++++++++++");
-			System.out.println(tempContextUrl + tempContextUrl + canonicalPath.substring(oldStr.length()-1, canonicalPath.length()));
-			System.out.println("______________________");
+			System.out.println(tempContextUrl + canonicalPath.substring(oldStr.length()-1, canonicalPath.length()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

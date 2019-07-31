@@ -36,7 +36,7 @@ public class LoginInterceptors implements HandlerInterceptor {
             } else {
             	//查看是否有访问权限
             	boolean allowFlag = false;
-            	if(requestURL.toString().contains("systemDict/queryAllDict")){
+            	if(requestURL.toString().contains("systemDict/queryAllDict") || requestURL.toString().contains("exportAll")){
             		allowFlag =  true;
             	}else{
             		List<String> allowUrlList = loginUserPojo.getAllowUrlList();
