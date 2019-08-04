@@ -395,7 +395,9 @@ public class VTEService {
 	
 	}
 	public SynReturnUrlPojo singleSignOn(String batchSynAssessmentPojoData){
-		
+		Date dateForLog = new Date();
+		System.out.println("接口singlesignon 调用时间: " + dateForLog);
+		System.out.println("入参: " + batchSynAssessmentPojoData);
 		SynReturnUrlPojo returnPojo = new SynReturnUrlPojo();
 		try{
 			if(WebserviceConfig.isEncryption()){////是否需要数据解密
@@ -405,6 +407,7 @@ public class VTEService {
 			}
 			JSONObject jsonObject=JSONObject.fromObject(batchSynAssessmentPojoData);
 			dealApierrorWord(jsonObject);
+			System.out.println("转化为jsonObject: " + jsonObject);
 			SingleSignOnAndHospitInfo signOnAndHospitInfo=(SingleSignOnAndHospitInfo)JSONObject.toBean(jsonObject, SingleSignOnAndHospitInfo.class);
 			if(jsonObject.get("patientInHospital") != null && !jsonObject.get("patientInHospital").equals(null) && !jsonObject.get("patientInHospital").equals("")) { 
 				DateFormat  formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
