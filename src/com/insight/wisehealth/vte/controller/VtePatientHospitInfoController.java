@@ -154,7 +154,7 @@ public class VtePatientHospitInfoController {
 	 * zzy 导出所有质控
 	 */
 	@RequestMapping("/vtePatientHospitInfo/exportAll")
-	public R exportAll(@RequestParam(value = "jsonString", required = false) String jsonString) {
+	public R exportAll(@RequestParam(value = "jsonString", required = false) String jsonString, HttpServletRequest request) {
 		String excelStr = ".xlsx";
 		if (StringUtil.isEmpty(jsonString)) {
 			jsonString = "{}";
@@ -221,12 +221,12 @@ public class VtePatientHospitInfoController {
 				preventiveRatePatient, qualityRiskAssessment, bleedingQualityRiskAssessment, prevalenceAssessmentDP,
 				prevalenceAssessmentD, prevalenceAssessmentP);
 		File filePath = outputExcelFile(allForExportList, excelStr, templateFilePath, headList, cols);
-//		StringBuffer url = request.getRequestURL(); 
-//		String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append("/").toString(); 
-//		String canonicalPath = filePath.getAbsolutePath();
-//		String oldStr = ExportConfig.templateFilePath;
-//		resultMap.put("filePath", tempContextUrl + canonicalPath.substring(oldStr.length()-1, canonicalPath.length()));
-//		System.out.println(tempContextUrl + canonicalPath.substring(oldStr.length()-1, canonicalPath.length()));
+		StringBuffer url = request.getRequestURL(); 
+		String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append("/").toString(); 
+		String canonicalPath = filePath.getAbsolutePath();
+		String oldStr = ExportConfig.templateFilePath;
+		resultMap.put("filePath", tempContextUrl + canonicalPath.substring(oldStr.length()-1, canonicalPath.length()));
+		System.out.println(tempContextUrl + canonicalPath.substring(oldStr.length()-1, canonicalPath.length()));
 		return R.ok(resultMap);
 
 	}
