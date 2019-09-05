@@ -443,7 +443,7 @@ public class VTEService {
 	private void dealApierrorWord(JSONObject jsonObject){
 		if(jsonObject!=null){
 			String patientPhoneNumber = (String)jsonObject.get("patientPhoneNumber");
-			if(StringUtil.isEmpty(patientPhoneNumber)){
+			if(StringUtil.isEmpty(patientPhoneNumber)&&(patientPhoneNumber == "")){
 				jsonObject.accumulate("patientPhoneNumber", jsonObject.get("patienthoneNumber"));
 			}
 //			String patientNativePlace = (String)jsonObject.get("patientNativePlace");
