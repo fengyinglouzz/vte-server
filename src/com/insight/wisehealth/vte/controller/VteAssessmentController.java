@@ -2,9 +2,13 @@
 package com.insight.wisehealth.vte.controller;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,26 +18,40 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.insight.axiswevservice.ReturnPojo.BatchPrintSingleReturnPojo;
+import com.insight.axiswevservice.service.VtePatientHospitInfoAnalysisResultsService;
 import com.insight.core.config.ExportConfig;
 import com.insight.core.util.CSVUtils;
+import com.insight.core.util.DateUtil;
 import com.insight.core.util.JsonUtil;
 import com.insight.core.util.R;
 import com.insight.core.util.StringUtil;
-import com.insight.core.util.DateUtil;
 import com.insight.wisehealth.vte.loginpojo.LoginModelPojo;
 import com.insight.wisehealth.vte.loginpojo.LoginUserPojo;
 import com.insight.wisehealth.vte.persistence.TbVteAssessment;
 import com.insight.wisehealth.vte.persistencepojo.TbVteAssessmentPojo;
+import com.insight.wisehealth.vte.pojo.OneLruAssessmentResultPojo;
 import com.insight.wisehealth.vte.pojo.VteAssessmentAndListPojo;
 import com.insight.wisehealth.vte.pojo.VteAssessmentStrategyPojo;
 import com.insight.wisehealth.vte.pojo.VtePatientAssessmentPojo;
 import com.insight.wisehealth.vte.service.VteAssessmentService;
+
+import net.sf.json.JSONObject;
 
 /**
  * 
@@ -48,6 +66,8 @@ import com.insight.wisehealth.vte.service.VteAssessmentService;
 public class VteAssessmentController  {
 	@Autowired
 	private VteAssessmentService vteAssessmentService;
+	@Autowired
+	 VtePatientHospitInfoAnalysisResultsService vtePatientHospitInfoAnalysisResultsService;
 	/**
 	 * 列表查询
 	 * @param start
@@ -138,6 +158,7 @@ public class VteAssessmentController  {
 	 * @param patientHospitId
 	 * @return
 	 */
+   String PatientCode;
    @RequestMapping( value = "/vtePatientAssessment/queryPatientAssessment", method = RequestMethod.POST)
    public VtePatientAssessmentPojo queryPatientAssessment(@RequestParam(value="patientHospitId",required=true ) Integer patientHospitId,HttpSession httpSession) {
 	   
@@ -158,7 +179,7 @@ public class VteAssessmentController  {
 			e.printStackTrace();
 		}
 		
-		
+		PatientCode = patientAssessmentPojo.getPatientCode();
 	    return patientAssessmentPojo;
    }
    /**
@@ -240,28 +261,91 @@ public class VteAssessmentController  {
 	 * @param jsonString
 	 * @return
 	 */
-   @RequestMapping( value = "/vteAssessmentAdviceSave/saveVteAssessmentInfo", method = RequestMethod.POST)
-   public R saveVteAssessmentInfo(@RequestParam(value="jsonString",required=false) String  jsonString,HttpSession httpSession) {
-	    if(StringUtil.isEmpty(jsonString)){
-	    	jsonString = "{}";
-	    }
-	    LoginUserPojo loginUserPojo = (LoginUserPojo)httpSession.getAttribute("loginUserPojo");
-	   String userName =  loginUserPojo.getUserName();
-	    
-	    Map map = JsonUtil.getMapFromJson(jsonString);
-	    map.put("userName", userName);
-	    
-	    TbVteAssessment saveVteAssessment;
-		try {
-			saveVteAssessment = vteAssessmentService.saveVteAssessment(map);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	    return  R.ok();
+   @RequestMapping(value = "/vteAssessmentAdviceSave/saveVteAssessmentInfo", method = RequestMethod.POST)
+   public R saveVteAssessmentInfo(@RequestParam(value = "jsonString", required = false) String jsonString,
+     HttpSession httpSession) {
+    if (StringUtil.isEmpty(jsonString)) {
+     jsonString = "{}";
     }
-   
+    LoginUserPojo loginUserPojo = (LoginUserPojo) httpSession.getAttribute("loginUserPojo");
+    String userName = loginUserPojo.getUserName();
+
+    Map map = JsonUtil.getMapFromJson(jsonString);
+    System.out.println("json字符串是"+jsonString+"结束"+userName+"结束1");
+    map.put("userName", userName);
+
+    TbVteAssessment saveVteAssessment;
+    try {
+     saveVteAssessment = vteAssessmentService.saveVteAssessment(map);
+
+     String patientCode = saveVteAssessment.getPatientCode();
+     Map map1 = new HashMap();
+     map1.put("patientCode", patientCode);
+     OneLruAssessmentResultPojo oneLruAssessmentResultPojo = vtePatientHospitInfoAnalysisResultsService.batchPrintSingle(map1);
+     JSONObject json = JSONObject.fromObject(oneLruAssessmentResultPojo);
+     // 输入对方URL
+     String strJson=json.toString();
+     strJson=URLEncoder.encode(strJson,"utf-8");
+     String shanxiUrl = ExportConfig.shanxiUrl;
+     post(json, shanxiUrl);
+
+     
+    } catch (Exception e) {
+
+     e.printStackTrace();
+    }
+
+    return R.ok();
+   }
+      //用于传输到对方服务器
+   public static String post(JSONObject json, String URL) {
+
+    HttpClient client = HttpClientBuilder.create().build();
+    HttpPost post = new HttpPost(URL);
+    post.setHeader("Content-Type", "application/json");
+    post.addHeader("Authorization", "Basic YWRtaW46");
+    String result = "";
+
+    try {
+
+     StringEntity s = new StringEntity(json.toString(), "utf-8");
+     s.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+     post.setEntity(s);
+
+     // 发送请求
+     HttpResponse httpResponse = client.execute(post);
+
+     // 获取响应输入流
+     InputStream inStream = httpResponse.getEntity().getContent();
+     BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, "utf-8"));
+     StringBuilder strber = new StringBuilder();
+     String line = null;
+     while ((line = reader.readLine()) != null)
+      strber.append(line + "\n");
+     inStream.close();
+
+     result = strber.toString();
+     System.out.println(result);
+
+     if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+
+      System.out.println("请求服务器成功，做相应处理");
+
+     } else {
+
+      System.out.println("请求服务端失败");
+      int i=httpResponse.getStatusLine().getStatusCode();
+  System.out.println(i);
+     }
+
+    } catch (Exception e) {
+     System.out.println("请求异常");
+     throw new RuntimeException(e);
+    }
+
+    return result;
+   }
+
    /**
 	 * @param jsonString
 	 * @return

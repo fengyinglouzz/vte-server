@@ -14,6 +14,7 @@ public class ExportConfig {
 	public static String nextVisitUrl;
 	public static String orgParentCode;
 	public static String patientLastRisk;
+	public static String shanxiUrl;
 	
 	static{
 		ResourceBundle rb= ResourceBundle.getBundle("exportconfig");
@@ -25,6 +26,7 @@ public class ExportConfig {
 		nextVisitUrl = rb.getString("nextVisitUrl");
 		orgParentCode = rb.getString("orgParentCode");
 		patientLastRisk = rb.getString("patientLastRisk");
+		shanxiUrl = rb.getString("shanxiUrl");
 	}
 	
 }
